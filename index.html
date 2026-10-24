@@ -56,6 +56,17 @@ h2{font-size:clamp(24px,3.6vw,32px);font-weight:800}
 a{color:var(--accent)}
 button:focus-visible{outline:3px solid var(--note);outline-offset:2px}
 
+.hero{display:flex;flex-direction:column;gap:14px}
+.hero h1{margin-bottom:2px}
+.hero .lede{margin:0;max-width:60ch}
+.key{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.key li{display:flex;align-items:center;gap:8px;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:7px 12px;font-size:15px}
+.key i{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--ink);flex:0 0 auto}
+.key b{font-family:var(--f-display)}
+.key span{color:var(--muted)}
+.why-it{margin:0;font-size:15px;color:var(--muted);max-width:70ch}
+.why-it b{color:var(--ink)}
+@media (max-width:640px){.key{display:grid;grid-template-columns:1fr 1fr;gap:6px}.key li{font-size:13px;padding:6px 8px;flex-wrap:wrap;gap:2px 6px;align-items:center}.key span{flex-basis:100%;line-height:1.3}}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px}
 .chip{flex:0 0 auto;font:inherit;font-size:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 12px 4px 4px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .chip svg{width:28px;height:28px;border-radius:50%;background:var(--wall)}
@@ -142,7 +153,7 @@ button:focus-visible{outline:3px solid var(--note);outline-offset:2px}
 .topnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:2px solid var(--line);
   margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));margin-top:-24px;margin-bottom:24px}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--bg)}
-.topnav .in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:6px;padding-block:10px;overflow-x:auto;scrollbar-width:none;
+.topnav .in{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:6px;padding-block:10px;overflow-x:auto;scrollbar-width:none;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .topnav .in::-webkit-scrollbar{display:none}
 .topnav .brand{font-family:var(--f-display);font-weight:800;font-size:16px;white-space:nowrap;margin-right:8px;color:var(--ink);text-decoration:none}
@@ -286,13 +297,17 @@ html{scroll-behavior:smooth}
   </div>
 </nav>
 <div class="wrap">
-  <header>
+  <header class="hero">
     <p class="eyebrow">Harness engineering, en historieta</p>
     <h1>La casa del <em>Gran Harness</em></h1>
-    <p class="lede">Bienvenidos a la casa de GH. Arriba, en una lámpara del altillo, vive la Genia: representa al modelo. Piensa muy bien, pero no tiene cuerpo: no puede tocar nada. Lo único que puede hacer es leer las notitas que le acercan y dictar su respuesta, que aparece escrita en una notita nueva. Todo lo demás lo hacen los otros habitantes de la casa, cada uno con su rol. Esa casa con su equipo es el harness, y la Genia trabajando junto con la casa es el agente.</p>
-    <p class="lede" style="font-size:17px;margin-top:8px">Los pisos también cuentan algo. En el altillo está el modelo. En el taller, el harness en acción: todo lo que pasa mientras se resuelve una tarea. En la planta baja, el harness entre tareas: las evals que comparan versiones y la memoria que sobrevive de una tarea a otra. Y afuera de la casa estás vos, que hacés el pedido: no sos parte del agente.</p>
-    <p class="lede" style="font-size:17px;margin-top:8px"><b style="color:var(--ink)">¿Por qué importa?</b> Porque el mismo modelo rinde muy distinto según la casa que lo rodea. LangChain llevó su agente de programación del puesto 30 al top 5 de Terminal Bench 2.0 <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank" rel="noopener">cambiando solo el harness</a>, sin tocar el modelo.</p>
-    <p class="lede" style="font-size:16px;margin-top:8px">Leé cada viñeta de arriba hacia abajo: primero el Narrador, después la casa y por último lo que dicen los personajes.</p>
+    <p class="lede">La Genia representa al modelo: piensa muy bien, pero no puede tocar nada. Solo lee las notitas que le acercan y dicta su respuesta. Todo lo demás lo hacen los otros habitantes de la casa: eso es el harness. Y la Genia junto con la casa es el agente.</p>
+    <ul class="key" aria-label="Qué representa cada piso de la casa">
+      <li><i style="background:var(--wall)"></i><b>Altillo</b><span>el modelo</span></li>
+      <li><i style="background:var(--wall2)"></i><b>Taller</b><span>el harness en acción</span></li>
+      <li><i style="background:var(--wall3)"></i><b>Planta baja</b><span>el harness entre tareas</span></li>
+      <li><i style="background:var(--sky)"></i><b>Afuera</b><span>vos, que hacés el pedido</span></li>
+    </ul>
+    <p class="why-it"><b>¿Por qué importa?</b> LangChain pasó del puesto 30 al top 5 de Terminal Bench 2.0 <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank" rel="noopener">cambiando solo el harness</a>, sin tocar el modelo.</p>
   </header>
 
   <section class="story" id="historieta" aria-label="Historieta">
