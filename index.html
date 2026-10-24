@@ -7,11 +7,16 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="La casa del Gran Harness">
 <meta property="og:description" content="Una historieta interactiva para entender qué es un harness, basada en «Harness Engineering: explicado desde cero» de santi (@santtiagom_).">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://raw.githubusercontent.com/VioletaSaguier/historieta-gh/main/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/VioletaSaguier/historieta-gh/main/og.png">
 <meta name="twitter:creator" content="@purpleerainnnn">
 <title>La casa del Gran Harness</title>
 
 <meta name="description" content="La casa de GH: una historieta interactiva para entender qué es un harness, con los personajes que viven en la casa y un botón de me gusta que se construye paso a paso.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Cpath d=%27M6 30 L32 8 L58 30Z%27 fill=%27%23C2553F%27/%3E%3Crect x=%2712%27 y=%2730%27 width=%2740%27 height=%2728%27 fill=%27%23F7F4EC%27 stroke=%27%231B2336%27 stroke-width=%274%27/%3E%3Ccircle cx=%2732%27 cy=%2743%27 r=%278%27 fill=%27%238C6CF0%27/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@500&display=swap">
@@ -56,6 +61,7 @@ button:focus-visible{outline:3px solid var(--note);outline-offset:2px}
 .chip svg{width:28px;height:28px;border-radius:50%;background:var(--wall)}
 .chip.cur{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink)}
 .chip.bonus{border-style:dashed}
+.chip .tick{color:var(--ok);font-weight:700}
 .chip.locked{opacity:.45;cursor:default;padding-left:12px}
 
 .story{display:flex;flex-direction:column;gap:12px}
@@ -67,14 +73,14 @@ button:focus-visible{outline:3px solid var(--note);outline-offset:2px}
 .caption{background:#FFD866;color:#241A00;font-weight:700;font-size:clamp(16px,1.9vw,18px);line-height:1.45;padding:12px 16px;border-bottom:3px solid #1B2336;display:flex;gap:12px;align-items:flex-start}
 .caption b{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;flex:0 0 auto;font-weight:500;background:#1B2336;color:#FFD866;border-radius:6px;padding:4px 8px;margin-top:3px}
 #house{background:var(--sky);border-bottom:3px solid var(--ink);display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start}
-.floors{display:flex;flex-wrap:wrap;gap:6px 14px;padding:8px 12px;border-top:2px solid var(--ink);background:var(--surface);font-size:13px;color:var(--muted)}
+.floors{display:flex;flex-wrap:wrap;gap:4px 8px;padding:7px 10px;border-top:2px solid var(--ink);background:var(--surface);font-size:13px;color:var(--muted)}
 .floors>span{display:inline-flex;align-items:center;gap:6px;padding:2px 6px;border-radius:8px}
 .floors i{width:14px;height:14px;border-radius:4px;border:1.5px solid var(--ink);flex:0 0 auto}
 .floors b{color:var(--ink);font-family:var(--f-display)}
 .floors>span.on{background:#FFD866;color:#241A00}
 .floors>span.on b{color:#241A00}
 .floors .s{display:none}
-@media (max-width:640px){.floors{gap:4px;padding:6px 8px;font-size:12px;flex-wrap:nowrap;justify-content:space-between}.floors>span{gap:4px;padding:2px 4px;white-space:nowrap}.floors i{width:11px;height:11px}.floors .l{display:none}.floors .s{display:inline}.house .lab{display:none}}
+@media (max-width:640px){.floors{gap:4px 6px;padding:6px 8px;font-size:12px;flex-wrap:wrap;justify-content:center}.floors>span{gap:4px;padding:2px 4px;white-space:nowrap}.floors i{width:11px;height:11px}.floors .l{display:none}.floors .s{display:inline}.house .lab{display:none}}
 .house{display:block;width:100%;height:auto;max-height:52vh;background:var(--sky);margin-block:auto}
 .house .r1{fill:var(--wall)}.house .r2{fill:var(--wall2)}.house .r3{fill:var(--wall3)}
 .house .edge{fill:none;stroke:var(--ink);stroke-width:3;stroke-linejoin:round}
@@ -284,7 +290,8 @@ html{scroll-behavior:smooth}
     <p class="eyebrow">Harness engineering, en historieta</p>
     <h1>La casa del <em>Gran Harness</em></h1>
     <p class="lede">Bienvenidos a la casa de GH. Arriba, en una lámpara del altillo, vive la Genia: representa al modelo. Piensa muy bien, pero no tiene cuerpo: no puede tocar nada. Lo único que puede hacer es leer las notitas que le acercan y dictar su respuesta, que aparece escrita en una notita nueva. Todo lo demás lo hacen los otros habitantes de la casa, cada uno con su rol. Esa casa con su equipo es el harness, y la Genia trabajando junto con la casa es el agente.</p>
-    <p class="lede" style="font-size:17px;margin-top:8px">Los pisos también cuentan algo. En el altillo está el modelo. En el taller, el harness en acción: todo lo que pasa mientras se resuelve la tarea. Y en la planta baja, lo que queda afuera de esa interacción entre modelo y harness: vos, que hacés el pedido, las evals que comparan versiones y la memoria que sobrevive entre tareas.</p>
+    <p class="lede" style="font-size:17px;margin-top:8px">Los pisos también cuentan algo. En el altillo está el modelo. En el taller, el harness en acción: todo lo que pasa mientras se resuelve una tarea. En la planta baja, el harness entre tareas: las evals que comparan versiones y la memoria que sobrevive de una tarea a otra. Y afuera de la casa estás vos, que hacés el pedido: no sos parte del agente.</p>
+    <p class="lede" style="font-size:17px;margin-top:8px"><b style="color:var(--ink)">¿Por qué importa?</b> Porque el mismo modelo rinde muy distinto según la casa que lo rodea. LangChain llevó su agente de programación del puesto 30 al top 5 de Terminal Bench 2.0 <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank" rel="noopener">cambiando solo el harness</a>, sin tocar el modelo.</p>
     <p class="lede" style="font-size:16px;margin-top:8px">Leé cada viñeta de arriba hacia abajo: primero el Narrador, después la casa y por último lo que dicen los personajes.</p>
   </header>
 
@@ -312,7 +319,7 @@ html{scroll-behavior:smooth}
 
   <section class="sec" id="personajes" aria-labelledby="teamH">
     <h2 id="teamH">Personajes</h2>
-    <p>Los habitantes de la casa de GH. Cada uno representa una pieza del harness; la Genia es el modelo y vos sos quien hace los pedidos. Se van sumando a medida que avanzás en la historia.</p>
+    <p>Quién es quién en la casa de GH. La Genia es el modelo y los demás habitantes son las piezas del harness. Vos no vivís en la casa: sos la visita que hace los pedidos.</p>
     <div class="team" id="team"></div>
   </section>
 
@@ -353,6 +360,7 @@ html{scroll-behavior:smooth}
   <footer>
     <p><b>Inspiración:</b> esta historieta está basada en el artículo <a href="https://x.com/santtiagom_/article/2098782814837543075" target="_blank" rel="noopener">«Harness Engineering: explicado desde cero»</a> de santi (<a href="https://x.com/santtiagom_" target="_blank" rel="noopener">@santtiagom_</a>). El pedido de ejemplo, agregar un botón de me gusta a los posts, sale de ahí.</p>
     <p>Los personajes son metáforas, no componentes literales. La app, los nombres de archivo y los números de las evals son ejemplos ilustrativos. Los grafos no aparecen en el artículo: se suman al final como contexto extra.</p>
+    <p>Licencia <a href="https://creativecommons.org/licenses/by/4.0/deed.es" target="_blank" rel="noopener">CC BY 4.0</a>: podés usarlo, adaptarlo y compartirlo dando crédito.</p>
     <p class="made">Creado con <svg viewBox="0 0 24 24" role="img" aria-label="amor"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.5 1.1 5 3 1.5-1.9 3-3 5-3 3.4 0 5.6 3.4 4.3 6.8C19.5 15.9 12 20.5 12 20.5z" fill="currentColor"/></svg> por <a href="https://x.com/purpleerainnnn" target="_blank" rel="noopener">@purpleerainnnn</a></p>
   </footer>
 </div>
@@ -439,14 +447,14 @@ const CH=[
  {t:"La Caja de herramientas",intro:"caja",unlock:["caja"],app:"idea",b:[
   {a:"caja",sp:"a",ma:"happy",say:"¡Soy la Caja! Tengo herramientas: buscar código, leer archivos, editarlos y correr tests.",cap:"En el taller hay una caja de herramientas (tools). Cada una tiene nombre, descripción, los datos que necesita (parámetros) y un resultado."},
   {a:"mente",b:"caja",sp:"a",say:"No puedo agarrarlas… pero puedo dictar cuál quiero usar.",note:'buscar_codigo("post")',mono:1,cap:"La Genia no ejecuta nada: dicta qué herramienta quiere y con qué datos. En la API de Claude, ese pedido se llama tool_use."},
-  {a:"mente",b:"caja",sp:"b",ma:"neutral",mb:"happy",say:"¡Listo! Busqué en tus archivos reales y encontré tres.",note:"components/Post.tsx · components/PostList.tsx · hooks/useUserData.ts",mono:1,app:"found",cap:"El harness ejecuta la búsqueda en tus archivos y le devuelve el resultado: el tool_result."},
+  {a:"mente",b:"caja",sp:"b",ma:"neutral",mb:"happy",say:"¡Listo! Busqué en tus archivos reales y encontré tres. Y si algo sale mal, aviso con detalle, tipo: «no encontré ese texto, pero hay algo parecido en la línea 42».",note:"components/Post.tsx · components/PostList.tsx · hooks/useUserData.ts",mono:1,app:"found",cap:"El harness ejecuta la búsqueda y le devuelve el resultado (tool_result). Cómo se diseña una herramienta importa: un error preciso le evita a la Genia adivinar."},
   {a:"mente",b:"caja",sp:"a",ma:"confused",mb:"neutral",say:"¡Genial! Y ahora… ¿alguien me pregunta qué sigue?",re:"…",cap:"Un pedido, una respuesta, y se terminó. El botón todavía no existe."}],
   why:"La tarea necesita muchos pasos, y cada uno depende del anterior. ¿Quién vuelve a llamar a la Genia?"},
  {t:"El Mensajero de la escalera",intro:"mensajero",unlock:["mensajero"],app:"found",b:[
   {a:"mensajero",sp:"a",ma:"happy",say:"¡Soy el Mensajero! Subo al altillo y bajo al taller por la escalera, sin parar, hasta que la tarea esté terminada.",cap:"La Genia está arriba y las herramientas abajo. Desde ahora, todas las notitas entre pisos pasan por la escalera."},
   {a:"mente",b:"mensajero",sp:"a",say:"Ya vi los nombres. Ahora quiero abrir Post.tsx.",note:'leer_archivo("Post.tsx")',mono:1,cap:"Vuelta 2: la Genia elige el próximo paso según lo que vio en la vuelta anterior."},
   {a:"mensajero",b:"caja",sp:"a",say:"¡Pedido de arriba!",note:'leer_archivo("Post.tsx")',mono:1,re:"Acá tenés lo que hay adentro del archivo.",app:"reading",cap:"El Mensajero baja, la Caja abre el archivo y él vuelve a subir con el contenido."},
-  {a:"mensajero",b:"mente",sp:"a",mb:"think",say:"Esto salió. ¿Qué hacemos ahora?",note:"export function Post({ post }) { … }",mono:1,cap:"Preguntar, hacer, contar qué pasó y volver a preguntar: eso es el loop. Claude Code lo describe en tres fases: juntar contexto, actuar y verificar."},
+  {a:"mensajero",b:"mente",sp:"a",mb:"think",say:"Esto salió. ¿Qué hacemos ahora?",note:"export function Post({ post }) { … }",mono:1,cap:"Preguntar, hacer, contar qué pasó y volver a preguntar: eso es el loop (el patrón se conoce como ReAct). Claude Code lo describe en tres fases: juntar contexto, actuar y verificar."},
   {a:"mente",b:"mensajero",sp:"a",ma:"happy",mb:"happy",say:"¡Ahora avanzo un paso por vuelta! Juntos somos un agente.",re:"¡A seguir subiendo y bajando!",cap:"El modelo y el harness trabajando juntos en este ciclo, hacia un objetivo, forman un agente: agente = modelo + harness."}],
   why:"Entre vuelta y vuelta, la Genia se olvida de todo. ¿Cómo sabe lo que ya hizo?"},
  {t:"El Cuaderno",intro:"cuaderno",unlock:["cuaderno"],app:"reading",b:[
@@ -475,7 +483,7 @@ const CH=[
   {a:"inspectora",sp:"a",ma:"happy",say:"Ahora sí está terminado. Con pruebas.",cap:"Anthropic separa a quien construye (generator) de quien revisa (evaluator) porque los agentes tienden a aprobar su propio trabajo, aunque sea mediocre."}],
   why:"La casa ya puede hacer muchísimo sola. ¿Qué evita que borre o instale algo que no debía?"},
  {t:"El Portero",intro:"portero",unlock:["portero"],app:"approval",b:[
-  {a:"portero",sp:"a",ma:"neutral",say:"Soy el Portero. Cuido la puerta del altillo: ningún pedido baja a la Caja sin pasar por mí.",cap:"Volvamos al momento en que la Genia quiso editar Post.tsx. Entre ella y la Caja hay un sistema de permisos."},
+  {a:"portero",sp:"a",ma:"neutral",say:"Soy el Portero. Cuido la puerta del altillo: ningún pedido baja a la Caja sin pasar por mí.",cap:"Volvamos al momento en que la Genia quiso editar Post.tsx. Entre ella y la Caja hay un sistema de permisos (a estos límites también se les dice guardrails)."},
   {a:"mente",b:"portero",sp:"a",say:"Quiero editar Post.tsx.",note:'editar_archivo("Post.tsx", texto_viejo, texto_nuevo)',mono:1,cap:"La Genia pide una herramienta que cambia tu código."},
   {a:"portero",b:"vos",sp:"a",mb:"think",say:"¿La dejo editar Post.tsx?",cap:"En esta casa, leer y buscar pasan solos. Editar, instalar o tocar una base de datos: te pregunta primero."},
   {a:"portero",b:"vos",sp:"b",ma:"happy",mb:"happy",say:"Sí, dale.",app:"approved",cap:"Aprobás, y recién ahí el pedido baja a la Caja."},
@@ -547,10 +555,11 @@ const POS={mente:[470,FLOOR.alt,1],sub:[650,FLOOR.alt,.7],portero:[215,FLOOR.alt
   mensajero:[96,312,.7],
   caja:[265,FLOOR.tal,.78],cuaderno:[375,FLOOR.tal,.78],biblio:[485,FLOOR.tal,.78],arenero:[600,FLOOR.tal,.78],inspectora:[715,FLOOR.tal,.78],
   mcp:[320,274,.45],grafo:[430,274,.45],skills:[545,274,.45],
-  vos:[265,FLOOR.baj,.75],examinador:[485,FLOOR.baj,.75],memlarga:[680,FLOOR.baj,.75]};
+  vos:[842,FLOOR.baj+22,.72],examinador:[485,FLOOR.baj,.75],memlarga:[680,FLOOR.baj,.75]};
 const HEAD={vos:.22,mensajero:.23,biblio:.14,inspectora:.22,portero:.2,examinador:.19,mente:.06,caja:.17,cuaderno:.26,arenero:.33,camara:.32,skills:.16,mcp:.19,sub:.31,grafo:.28,memlarga:.41};
 const W=160*.5,H=180*.5;
-function floorOf(id){const y=POS[id][1];return y<=FLOOR.alt?"alt":y<=FLOOR.tal+2?"tal":"baj"}
+function floorOf(id){if(id==="vos")return"out";const y=POS[id][1];return y<=FLOOR.alt?"alt":y<=FLOOR.tal+2?"tal":"baj"}
+const DOOR=[772,FLOOR.baj-44];
 function anchor(id){const[x,y,s]=POS[id];return[x,y-H*s*.55]}
 function houseBase(){return `
 <polygon points="20,70 400,10 780,70" fill="#C2553F" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
@@ -558,21 +567,23 @@ function houseBase(){return `
 <rect x="30" y="70" width="740" height="${FLOOR.alt-70+6}" class="r1"/>
 <rect x="30" y="${FLOOR.alt+6}" width="740" height="${FLOOR.tal-FLOOR.alt}" class="r2"/>
 <rect x="30" y="${FLOOR.tal+6}" width="740" height="${FLOOR.baj-FLOOR.tal}" class="r3"/>
-<rect x="0" y="${FLOOR.baj+6}" width="800" height="40" class="grass"/>
+<rect x="0" y="${FLOOR.baj+6}" width="900" height="40" class="grass"/>
 <circle cx="560" cy="112" r="22" fill="var(--sky)" stroke="var(--ink)" stroke-width="2"/><path d="M538 112 H582 M560 90 V134" class="thin"/>
 <rect x="420" y="${FLOOR.alt}" width="120" height="8" rx="2" fill="#9C6F42"/>
 <rect x="440" y="196" width="90" height="56" rx="3" fill="#B98A5A" opacity=".5"/>
 <path d="M440 214 H530 M440 234 H530" stroke="#9C6F42" stroke-width="2"/>
-<rect x="320" y="${FLOOR.baj-92}" width="56" height="92" rx="4" fill="#8A5A2B" stroke="var(--ink)" stroke-width="2"/><circle cx="366" cy="${FLOOR.baj-46}" r="4" fill="#F2C94C"/>
+
 <path d="M30 ${FLOOR.alt+6} H770 M30 ${FLOOR.tal+6} H770" class="edge"/>
 <path d="M30 70 V${FLOOR.baj+6} H770 V70" class="edge"/>
 <path class="thin" d="M44 ${FLOOR.tal+6} h22 v-22 h22 v-22 h22 v-22 h22 v-22 h22 v-22 h22 v-22 h16 v-18"/>
 <path class="thin" d="M44 ${FLOOR.baj+6} h22 v-22 h22 v-22 h22 v-22 h22 v-22 h22 v-22 h22 v-22 h16 v-18"/>
 <rect x="40" y="${FLOOR.alt}" width="130" height="10" fill="var(--wall2)"/>
 <rect x="40" y="${FLOOR.tal}" width="130" height="10" fill="var(--wall3)"/>
+<rect x="758" y="${FLOOR.baj-90}" width="26" height="96" fill="var(--wall3)"/><rect x="784" y="${FLOOR.baj-90}" width="10" height="96" rx="2" fill="#8A5A2B" stroke="var(--ink)" stroke-width="2"/>
+<text class="lab" x="890" y="${FLOOR.alt+28}" text-anchor="end">Afuera</text>
 <text class="lab" x="760" y="94" text-anchor="end">Altillo · modelo</text>
 <text class="lab" x="760" y="${FLOOR.alt+28}" text-anchor="end">Taller · harness</text>
-<text class="lab" x="760" y="${FLOOR.tal+28}" text-anchor="end">Planta baja · afuera</text>`}
+<text class="lab" x="760" y="${FLOOR.tal+28}" text-anchor="end">Planta baja · entre tareas</text>`}
 function figure(id,mood,cls){const[x,y,s]=POS[id];const w=W*s*2,h=H*s*2;
   return `<g class="${cls}"><svg class="ch" x="${x-w/2}" y="${y-h}" width="${w}" height="${h}" viewBox="0 0 160 180">${DRAW[id](mood)}</svg></g>`}
 function pillGeo(id){const[x,y,s]=POS[id];const h=H*s*2;const t=short(id);const w=t.length*9+22;let top=y-h*(1-(HEAD[id]||.2))-30,cx=x;
@@ -593,13 +604,16 @@ function renderHouse(b,u){
     pills+=pillSVG(gL,false)}
   let route="";
   if(b.note&&listener){
+    const fl0=id=>floorOf(id)==="out"?"baj":floorOf(id);
+    const stairs=u.has("mensajero")&&speaker!=="mensajero"&&listener!=="mensajero";
     let pts=[anchor(speaker)];
-    const f1=floorOf(speaker),f2=floorOf(listener);
-    if(u.has("mensajero")&&speaker!=="mensajero"&&listener!=="mensajero"&&f1!==f2){pts.push([110,pts[0][1]]);pts.push([110,anchor(listener)[1]])}
+    if(speaker==="vos")pts.push(DOOR);
+    if(stairs&&fl0(speaker)!==fl0(listener)){const yS=speaker==="vos"?DOOR[1]:pts[0][1],yL=listener==="vos"?DOOR[1]:anchor(listener)[1];pts.push([110,yS],[110,yL])}
+    if(listener==="vos")pts.push(DOOR);
     pts.push(anchor(listener));
     const d="M"+pts.map(p=>p.join(" ")).join(" L");
     route=`<path class="route" d="${d}"/><g><rect x="-14" y="-17" width="28" height="34" rx="3" fill="#FFFDF6" stroke="#1B2336" stroke-width="2.5"/><path d="M-8 -7 H8 M-8 0 H8 M-8 7 H3" stroke="#F09A1E" stroke-width="2.5"/><animateMotion dur="2s" repeatCount="indefinite" path="${d}"/></g>`}
-  let vb="0 0 800 520";
+  let vb="0 0 900 520";
   if(narrow.matches){
     const xs=[],ys=[];
     act.forEach(id=>{const[x,y,s]=POS[id];const h=H*s*2;xs.push(x-75,x+75);ys.push(y-h-40,y+12)});
@@ -607,13 +621,13 @@ function renderHouse(b,u){
     let x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
     let w=Math.max(x1-x0,(y1-y0)*1.25,380),h=w/1.25;
     let cx=(x0+x1)/2,cy=(y0+y1)/2;
-    w=Math.min(w,800);h=Math.min(h,520);
-    let vx=Math.max(0,Math.min(800-w,cx-w/2)),vy=Math.max(0,Math.min(520-h,cy-h/2));
-    vb=w>=640?"0 0 800 520":`${Math.round(vx)} ${Math.round(vy)} ${Math.round(w)} ${Math.round(w/1.25)}`;
+    w=Math.min(w,900);h=Math.min(h,520);
+    let vx=Math.max(0,Math.min(900-w,cx-w/2)),vy=Math.max(0,Math.min(520-h,cy-h/2));
+    vb=w>=640?"0 0 900 520":`${Math.round(vx)} ${Math.round(vy)} ${Math.round(w)} ${Math.round(w/1.25)}`;
   }
   const fl=new Set(act.map(floorOf));
-  const legend=`<div class="floors" aria-label="Qué representa cada piso">${[["alt","r1","Altillo","el modelo","modelo"],["tal","r2","Taller","el harness en acción","harness"],["baj","r3","Planta baja","afuera de la tarea","afuera"]].map(([k,c,n,d,sd])=>`<span class="${fl.has(k)?"on":""}"><i style="background:var(--${c==="r1"?"wall":c==="r2"?"wall2":"wall3"})"></i><b>${n}</b> <span class="l">${d}</span><span class="s">${sd}</span></span>`).join("")}</div>`;
-  $("house").innerHTML=`<svg class="house" viewBox="${vb}" role="img" aria-label="Corte de la casa del Gran Harness: en el altillo, el modelo; en el taller, el harness en acción; en la planta baja, lo que queda afuera de la tarea; y la escalera a la izquierda.">${houseBase()}${figs}${route}${pills}</svg>`+legend}
+  const legend=`<div class="floors" aria-label="Qué representa cada piso">${[["alt","r1","Altillo","el modelo","modelo"],["tal","r2","Taller","el harness en acción","harness"],["baj","r3","Planta baja","el harness entre tareas","entre tareas"],["out","sky","Afuera","vos","vos"]].map(([k,c,n,d,sd])=>`<span class="${fl.has(k)?"on":""}"><i style="background:var(--${c==="r1"?"wall":c==="r2"?"wall2":c==="r3"?"wall3":"sky"})"></i><b>${n}</b> <span class="l">${d}</span><span class="s">${sd}</span></span>`).join("")}</div>`;
+  $("house").innerHTML=`<svg class="house" viewBox="${vb}" role="img" aria-label="Corte de la casa del Gran Harness: en el altillo, el modelo; en el taller, el harness en acción; en la planta baja, el harness entre tareas; afuera, vos; y la escalera a la izquierda.">${houseBase()}${figs}${route}${pills}</svg>`+legend}
 
 /* ---------- diálogo ---------- */
 function noteHTML(b,from,to){if(!b.note)return"";
@@ -670,9 +684,9 @@ function renderStrip(s){curApp=s;const[n,tone,txt]=APP[s];
   const lb=$("likeBtn");if(lb)lb.onclick=()=>{liked=!liked;renderStrip(curApp)}}
 
 /* ---------- historia ---------- */
-let ci=0,bi=0,maxC=0;
-try{const s=JSON.parse(localStorage.getItem("gsm2")||"null");if(s)maxC=Math.min(s.m|0,CH.length-1)}catch(e){}
-function save(){try{localStorage.setItem("gsm2",JSON.stringify({m:maxC}))}catch(e){}}
+let ci=0,bi=0,maxC=0,seen=new Set();
+try{const s=JSON.parse(localStorage.getItem("gsm3")||"null");if(s&&Array.isArray(s.seen))seen=new Set(s.seen.filter(n=>n>=0&&n<CH.length))}catch(e){}
+function save(){try{localStorage.setItem("gsm3",JSON.stringify({seen:[...seen]}))}catch(e){}}
 function unlocked(c){const u=new Set(["vos","mente"]);for(let i=0;i<=c;i++)CH[i].unlock.forEach(x=>u.add(x));return u}
 function appState(){const c=CH[ci];let s=c.app;for(let i=0;i<=bi;i++)if(c.b[i].app)s=c.b[i].app;return s}
 function render(){
@@ -685,20 +699,21 @@ function render(){
   $("whySlot").innerHTML=last&&c.why?`<div class="why"><b>${c.whyLabel?esc(c.whyLabel)+":":"Pero…"}</b> ${esc(c.why)}</div>`:"";
   $("dots").innerHTML=c.b.map((_,i)=>`<i class="${i<=bi?"on":""}"></i>`).join("");
   $("nextLbl").textContent=last?(ci<CH.length-1?"Siguiente capítulo":"Volver a empezar"):"Siguiente";
+  if(last&&!seen.has(ci)){seen.add(ci);save()}
   renderStrip(appState());renderChips();renderTeam();
 }
 function renderChips(){
-  $("chips").innerHTML=CH.map((c,i)=>i<=maxC?`<button class="chip${i===ci?" cur":""}${c.bonus?" bonus":""}" data-c="${i}">${charSVG(c.intro,"happy","")}${c.bonus?"Capítulo bonus: ":`Capítulo ${i+1}: `}${esc(c.t)}</button>`:`<span class="chip locked${c.bonus?" bonus":""}">${c.bonus?"Capítulo bonus":`Capítulo ${i+1}`}</span>`).join("");
+  $("chips").innerHTML=CH.map((c,i)=>`<button class="chip${i===ci?" cur":""}${c.bonus?" bonus":""}" data-c="${i}">${charSVG(c.intro,"happy","")}${c.bonus?"Capítulo bonus: ":`Capítulo ${i+1}: `}${esc(c.t)}${seen.has(i)&&i!==ci?'<span class="tick" aria-label="leído">✓</span>':""}</button>`).join("");
   $("chips").querySelectorAll("button").forEach(x=>x.onclick=()=>{ci=+x.dataset.c;bi=0;render()});
 }
 function renderTeam(){
-  const u=unlocked(maxC);
+  const u=new Set(Object.keys(ST));
   $("team").innerHTML=Object.keys(ST).map(id=>u.has(id)?`<div class="mate">${charSVG(id,"happy","")}<div><div class="rl">${ST[id][1]}</div><h3>${ST[id][0]}</h3><p>${DEF[id]}</p></div></div>`:`<div class="mate locked"><div class="q">?</div><div><div class="rl">Bloqueado</div><h3>???</h3><p>Aparece más adelante en la historia.</p></div></div>`).join("");
 }
 function toTop(){const p=document.querySelector(".chtitle");if(!p||!p.getBoundingClientRect)return;const r=p.getBoundingClientRect();if(r.top<60||r.top>innerHeight*.4){const y=scrollY+r.top-70;scrollTo({top:y,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}}
 function next(){const c=CH[ci];
   if(bi<c.b.length-1)bi++;
-  else if(ci<CH.length-1){ci++;bi=0;maxC=Math.max(maxC,ci);save()}
+  else if(ci<CH.length-1){ci++;bi=0}
   else{ci=0;bi=0}
   render();toTop()}
 function back(){if(bi>0)bi--;else if(ci>0){ci--;bi=CH[ci].b.length-1}render();toTop()}

@@ -4,11 +4,13 @@ Una historieta interactiva para entender qué es un **harness** y cómo un model
 
 Bienvenidos a la casa de GH. En una lámpara del altillo vive la Genia, que representa al modelo: piensa muy bien, pero no tiene cuerpo: no puede tocar nada. Solo puede leer las notitas que le acercan y dictar su respuesta, que aparece escrita en una notita nueva. Los demás habitantes de la casa (la Caja, el Mensajero, el Cuaderno, la Bibliotecaria, el Patio cercado, la Inspectora, el Portero, la Cámara y la Examinadora) representan las piezas del harness. La Genia junto con la casa forman el agente. Mientras avanza la historia, se construye un botón de me gusta en una app de ejemplo.
 
-Los pisos de la casa también tienen significado: en el **altillo** está el modelo; en el **taller**, el harness en acción; y en la **planta baja**, lo que queda afuera de la interacción entre modelo y harness (la usuaria que hace el pedido, las evals y la memoria de largo plazo).
+Los pisos de la casa también tienen significado: en el **altillo** está el modelo; en el **taller**, el harness en acción (lo que pasa mientras se resuelve una tarea); en la **planta baja**, el harness entre tareas (las evals y la memoria de largo plazo). **Afuera** de la casa está la usuaria que hace el pedido: no es parte del agente.
+
+**¿Por qué importa?** Porque el mismo modelo rinde muy distinto según el harness que lo rodea: LangChain llevó su agente del puesto 30 al top 5 de Terminal Bench 2.0 [cambiando solo el harness](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering).
 
 ## Secciones
 
-- **Historieta:** 10 capítulos más un capítulo bonus, viñeta por viñeta.
+- **Historieta:** 10 capítulos más un capítulo bonus, viñeta por viñeta. Podés saltar a cualquier capítulo.
 - **Personajes:** quién es quién y qué pieza del harness representa.
 - **Sacá una pieza:** una prueba de ablación. Quitá un personaje y mirá qué deja de funcionar.
 - **Test de conocimiento:** 16 preguntas con explicación y fuente oficial.
@@ -23,6 +25,10 @@ Los personajes son metáforas, no componentes literales. La app, los nombres de 
 ## Validación
 
 Cada concepto está chequeado contra el artículo original y contra documentación oficial. La lista completa de fuentes está en la sección **Fuentes** de la página.
+
+## Licencia
+
+Esta obra está bajo licencia [Creative Commons Atribución 4.0 Internacional (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/deed.es): podés copiarla, adaptarla y compartirla, también con fines comerciales, siempre que des crédito a [@purpleerainnnn](https://x.com/purpleerainnnn) e indiques si hiciste cambios. El artículo que la inspira es obra de santi (@santtiagom_) y no está cubierto por esta licencia.
 
 ## Cómo correrlo
 
