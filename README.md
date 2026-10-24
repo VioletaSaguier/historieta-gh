@@ -4,6 +4,8 @@ Una historieta interactiva para entender qué es un **harness** y cómo un model
 
 Bienvenidos a la casa de GH. En una lámpara del altillo vive la Genia, que representa al modelo: piensa muy bien, pero no tiene cuerpo: no puede tocar nada. Solo puede leer las notitas que le acercan y dictar su respuesta, que aparece escrita en una notita nueva. Los demás habitantes de la casa (la Caja, el Mensajero, el Cuaderno, la Bibliotecaria, el Patio cercado, la Inspectora, el Portero, la Cámara y la Examinadora) representan las piezas del harness. La Genia junto con la casa forman el agente. Mientras avanza la historia, se construye un botón de me gusta en una app de ejemplo.
 
+Los pisos de la casa también tienen significado: en el **altillo** está el modelo; en el **taller**, el harness en acción; y en la **planta baja**, lo que queda afuera de la interacción entre modelo y harness (la usuaria que hace el pedido, las evals y la memoria de largo plazo).
+
 ## Secciones
 
 - **Historieta:** 10 capítulos más un capítulo bonus, viñeta por viñeta.

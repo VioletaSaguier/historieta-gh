@@ -66,8 +66,16 @@ button:focus-visible{outline:3px solid var(--note);outline-offset:2px}
 .panel{border:3px solid var(--ink);border-radius:20px;overflow:hidden;overflow:clip;background:var(--surface)}
 .caption{background:#FFD866;color:#241A00;font-weight:700;font-size:clamp(16px,1.9vw,18px);line-height:1.45;padding:12px 16px;border-bottom:3px solid #1B2336;display:flex;gap:12px;align-items:flex-start}
 .caption b{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;flex:0 0 auto;font-weight:500;background:#1B2336;color:#FFD866;border-radius:6px;padding:4px 8px;margin-top:3px}
-#house{background:var(--sky);border-bottom:3px solid var(--ink);display:flex;align-items:center;justify-content:center}
-.house{display:block;width:100%;height:auto;max-height:52vh;background:var(--sky)}
+#house{background:var(--sky);border-bottom:3px solid var(--ink);display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start}
+.floors{display:flex;flex-wrap:wrap;gap:6px 14px;padding:8px 12px;border-top:2px solid var(--ink);background:var(--surface);font-size:13px;color:var(--muted)}
+.floors>span{display:inline-flex;align-items:center;gap:6px;padding:2px 6px;border-radius:8px}
+.floors i{width:14px;height:14px;border-radius:4px;border:1.5px solid var(--ink);flex:0 0 auto}
+.floors b{color:var(--ink);font-family:var(--f-display)}
+.floors>span.on{background:#FFD866;color:#241A00}
+.floors>span.on b{color:#241A00}
+.floors .s{display:none}
+@media (max-width:640px){.floors{gap:4px;padding:6px 8px;font-size:12px;flex-wrap:nowrap;justify-content:space-between}.floors>span{gap:4px;padding:2px 4px;white-space:nowrap}.floors i{width:11px;height:11px}.floors .l{display:none}.floors .s{display:inline}.house .lab{display:none}}
+.house{display:block;width:100%;height:auto;max-height:52vh;background:var(--sky);margin-block:auto}
 .house .r1{fill:var(--wall)}.house .r2{fill:var(--wall2)}.house .r3{fill:var(--wall3)}
 .house .edge{fill:none;stroke:var(--ink);stroke-width:3;stroke-linejoin:round}
 .house .thin{fill:none;stroke:var(--ink);stroke-width:2}
@@ -276,6 +284,7 @@ html{scroll-behavior:smooth}
     <p class="eyebrow">Harness engineering, en historieta</p>
     <h1>La casa del <em>Gran Harness</em></h1>
     <p class="lede">Bienvenidos a la casa de GH. Arriba, en una lámpara del altillo, vive la Genia: representa al modelo. Piensa muy bien, pero no tiene cuerpo: no puede tocar nada. Lo único que puede hacer es leer las notitas que le acercan y dictar su respuesta, que aparece escrita en una notita nueva. Todo lo demás lo hacen los otros habitantes de la casa, cada uno con su rol. Esa casa con su equipo es el harness, y la Genia trabajando junto con la casa es el agente.</p>
+    <p class="lede" style="font-size:17px;margin-top:8px">Los pisos también cuentan algo. En el altillo está el modelo. En el taller, el harness en acción: todo lo que pasa mientras se resuelve la tarea. Y en la planta baja, lo que queda afuera de esa interacción entre modelo y harness: vos, que hacés el pedido, las evals que comparan versiones y la memoria que sobrevive entre tareas.</p>
     <p class="lede" style="font-size:16px;margin-top:8px">Leé cada viñeta de arriba hacia abajo: primero el Narrador, después la casa y por último lo que dicen los personajes.</p>
   </header>
 
@@ -534,7 +543,7 @@ const short=id=>ST[id][0].replace(/^(El|La|Las) /,"");
 /* ---------- la casa ---------- */
 const FLOOR={alt:176,tal:330,baj:480};
 /* [x, y de los pies, escala] */
-const POS={mente:[470,FLOOR.alt,1],sub:[650,FLOOR.alt,.7],portero:[215,FLOOR.alt,.7],camara:[745,150,.45],
+const POS={mente:[470,FLOOR.alt,1],sub:[650,FLOOR.alt,.7],portero:[215,FLOOR.alt,.7],camara:[178,262,.45],
   mensajero:[96,312,.7],
   caja:[265,FLOOR.tal,.78],cuaderno:[375,FLOOR.tal,.78],biblio:[485,FLOOR.tal,.78],arenero:[600,FLOOR.tal,.78],inspectora:[715,FLOOR.tal,.78],
   mcp:[320,274,.45],grafo:[430,274,.45],skills:[545,274,.45],
@@ -561,9 +570,9 @@ function houseBase(){return `
 <path class="thin" d="M44 ${FLOOR.baj+6} h22 v-22 h22 v-22 h22 v-22 h22 v-22 h22 v-22 h22 v-22 h16 v-18"/>
 <rect x="40" y="${FLOOR.alt}" width="130" height="10" fill="var(--wall2)"/>
 <rect x="40" y="${FLOOR.tal}" width="130" height="10" fill="var(--wall3)"/>
-<text class="lab" x="760" y="94" text-anchor="end">Altillo</text>
-<text class="lab" x="760" y="${FLOOR.alt+28}" text-anchor="end">Taller</text>
-<text class="lab" x="760" y="${FLOOR.tal+28}" text-anchor="end">Planta baja</text>`}
+<text class="lab" x="760" y="94" text-anchor="end">Altillo · modelo</text>
+<text class="lab" x="760" y="${FLOOR.alt+28}" text-anchor="end">Taller · harness</text>
+<text class="lab" x="760" y="${FLOOR.tal+28}" text-anchor="end">Planta baja · afuera</text>`}
 function figure(id,mood,cls){const[x,y,s]=POS[id];const w=W*s*2,h=H*s*2;
   return `<g class="${cls}"><svg class="ch" x="${x-w/2}" y="${y-h}" width="${w}" height="${h}" viewBox="0 0 160 180">${DRAW[id](mood)}</svg></g>`}
 function pillGeo(id){const[x,y,s]=POS[id];const h=H*s*2;const t=short(id);const w=t.length*9+22;let top=y-h*(1-(HEAD[id]||.2))-30,cx=x;
@@ -602,7 +611,9 @@ function renderHouse(b,u){
     let vx=Math.max(0,Math.min(800-w,cx-w/2)),vy=Math.max(0,Math.min(520-h,cy-h/2));
     vb=w>=640?"0 0 800 520":`${Math.round(vx)} ${Math.round(vy)} ${Math.round(w)} ${Math.round(w/1.25)}`;
   }
-  $("house").innerHTML=`<svg class="house" viewBox="${vb}" role="img" aria-label="Corte de la casa del Gran Harness: la Genia en el altillo, el taller en el medio, la planta baja abajo y la escalera a la izquierda.">${houseBase()}${figs}${route}${pills}</svg>`}
+  const fl=new Set(act.map(floorOf));
+  const legend=`<div class="floors" aria-label="Qué representa cada piso">${[["alt","r1","Altillo","el modelo","modelo"],["tal","r2","Taller","el harness en acción","harness"],["baj","r3","Planta baja","afuera de la tarea","afuera"]].map(([k,c,n,d,sd])=>`<span class="${fl.has(k)?"on":""}"><i style="background:var(--${c==="r1"?"wall":c==="r2"?"wall2":"wall3"})"></i><b>${n}</b> <span class="l">${d}</span><span class="s">${sd}</span></span>`).join("")}</div>`;
+  $("house").innerHTML=`<svg class="house" viewBox="${vb}" role="img" aria-label="Corte de la casa del Gran Harness: en el altillo, el modelo; en el taller, el harness en acción; en la planta baja, lo que queda afuera de la tarea; y la escalera a la izquierda.">${houseBase()}${figs}${route}${pills}</svg>`+legend}
 
 /* ---------- diálogo ---------- */
 function noteHTML(b,from,to){if(!b.note)return"";
@@ -666,8 +677,9 @@ function unlocked(c){const u=new Set(["vos","mente"]);for(let i=0;i<=c;i++)CH[i]
 function appState(){const c=CH[ci];let s=c.app;for(let i=0;i<=bi;i++)if(c.b[i].app)s=c.b[i].app;return s}
 function render(){
   const c=CH[ci],b=c.b[bi],last=bi===c.b.length-1;
-  $("chTitle").textContent=c.t;
-  const MAIN=CH.filter(x=>!x.bonus).length;$("chNum").textContent=`${c.bonus?"Capítulo bonus":`Capítulo ${ci+1} de ${MAIN}`} · viñeta ${bi+1} de ${c.b.length}`;
+  const MAINC=CH.filter(x=>!x.bonus).length;
+  $("chTitle").textContent=c.bonus?`Capítulo bonus: ${c.t}`:`Capítulo ${ci+1}: ${c.t}`;
+  const MAIN=CH.filter(x=>!x.bonus).length;$("chNum").textContent=`${c.bonus?"Extra":`De ${MAIN} capítulos`} · viñeta ${bi+1} de ${c.b.length}`;
   $("cap").textContent=b.cap;
   renderHouse(b,unlocked(ci));renderTalks(b);
   $("whySlot").innerHTML=last&&c.why?`<div class="why"><b>${c.whyLabel?esc(c.whyLabel)+":":"Pero…"}</b> ${esc(c.why)}</div>`:"";
@@ -676,7 +688,7 @@ function render(){
   renderStrip(appState());renderChips();renderTeam();
 }
 function renderChips(){
-  $("chips").innerHTML=CH.map((c,i)=>i<=maxC?`<button class="chip${i===ci?" cur":""}${c.bonus?" bonus":""}" data-c="${i}">${charSVG(c.intro,"happy","")}${c.bonus?"Bonus: ":""}${esc(c.t)}</button>`:`<span class="chip locked${c.bonus?" bonus":""}">${c.bonus?"Capítulo bonus":`Capítulo ${i+1}`}</span>`).join("");
+  $("chips").innerHTML=CH.map((c,i)=>i<=maxC?`<button class="chip${i===ci?" cur":""}${c.bonus?" bonus":""}" data-c="${i}">${charSVG(c.intro,"happy","")}${c.bonus?"Capítulo bonus: ":`Capítulo ${i+1}: `}${esc(c.t)}</button>`:`<span class="chip locked${c.bonus?" bonus":""}">${c.bonus?"Capítulo bonus":`Capítulo ${i+1}`}</span>`).join("");
   $("chips").querySelectorAll("button").forEach(x=>x.onclick=()=>{ci=+x.dataset.c;bi=0;render()});
 }
 function renderTeam(){
