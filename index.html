@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EDF1EE">
+<meta property="og:type" content="website">
+<meta property="og:title" content="La casa del Gran Harness">
+<meta property="og:description" content="Una historieta interactiva para entender qué es un harness, basada en «Harness Engineering: explicado desde cero» de santi (@santtiagom_).">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@purpleerainnnn">
+<title>La casa del Gran Harness</title>
+
+<meta name="description" content="La casa de GH: una historieta interactiva para entender qué es un harness, con los personajes que viven en la casa y un botón de me gusta que se construye paso a paso.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: una sola columna de lectura. Viñeta = recuadro del Narrador → la casa (escenario) → globos de diálogo → navegación. Debajo, una tira chica con el progreso del botón. */
+:root{
+  --bg:#EDF1EE;--surface:#FFFFFF;--ink:#1B2336;--muted:#596477;--line:#C6CFCA;
+  --wall:#F7F4EC;--wall2:#ECE5D3;--wall3:#E2D8C0;--sky:#DCEBF2;--grass:#9CC48A;
+  --note:#F09A1E;--note-soft:#FFF3DE;
+  --accent:#6A4BD8;--ok:#1F7A3A;--ok-soft:#E3F3E7;--bad:#B3261E;--bad-soft:#FBE4E2;--warn:#8A5A00;--warn-soft:#FFF0CC;
+  --heart:#E0245E;
+  --f-display:"Bricolage Grotesque",ui-rounded,"Trebuchet MS",sans-serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-hand:"Bricolage Grotesque",ui-rounded,"Trebuchet MS",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11161F;--surface:#1A2130;--ink:#E9EDF3;--muted:#9EAABB;--line:#2D3749;
+  --wall:#2A3243;--wall2:#323B4E;--wall3:#3A4459;--sky:#16202E;--grass:#2F4A2A;
+  --note:#FFB648;--note-soft:#3A2B14;--accent:#AB97FF;--ok:#6FD48D;--ok-soft:#173523;--bad:#FF8A80;--bad-soft:#3D1D1B;--warn:#FFD27A;--warn-soft:#3A2C0E;--heart:#FF5A8A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11161F;--surface:#1A2130;--ink:#E9EDF3;--muted:#9EAABB;--line:#2D3749;
+  --wall:#2A3243;--wall2:#323B4E;--wall3:#3A4459;--sky:#16202E;--grass:#2F4A2A;
+  --note:#FFB648;--note-soft:#3A2B14;--accent:#AB97FF;--ok:#6FD48D;--ok-soft:#173523;--bad:#FF8A80;--bad-soft:#3D1D1B;--warn:#FFD27A;--warn-soft:#3A2C0E;--heart:#FF5A8A;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 0}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.08}
+h1{font-size:clamp(32px,6vw,54px);font-weight:800;letter-spacing:-.02em}
+h1 em{font-style:normal;color:var(--accent)}
+h2{font-size:clamp(24px,3.6vw,32px);font-weight:800}
+.lede{max-width:62ch;font-size:18px;color:var(--muted);margin:12px 0 0}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.sec{display:flex;flex-direction:column;gap:14px}
+.sec>p{margin:0;color:var(--muted);max-width:62ch}
+a{color:var(--accent)}
+button:focus-visible{outline:3px solid var(--note);outline-offset:2px}
+
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px}
+.chip{flex:0 0 auto;font:inherit;font-size:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 12px 4px 4px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip svg{width:28px;height:28px;border-radius:50%;background:var(--wall)}
+.chip.cur{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink)}
+.chip.bonus{border-style:dashed}
+.chip.locked{opacity:.45;cursor:default;padding-left:12px}
+
+.story{display:flex;flex-direction:column;gap:12px}
+.chtitle{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.chtitle h2{font-size:clamp(22px,3.4vw,30px)}
+.chtitle span{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+
+.panel{border:3px solid var(--ink);border-radius:20px;overflow:hidden;overflow:clip;background:var(--surface)}
+.caption{background:#FFD866;color:#241A00;font-weight:700;font-size:clamp(16px,1.9vw,18px);line-height:1.45;padding:12px 16px;border-bottom:3px solid #1B2336;display:flex;gap:12px;align-items:flex-start}
+.caption b{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;flex:0 0 auto;font-weight:500;background:#1B2336;color:#FFD866;border-radius:6px;padding:4px 8px;margin-top:3px}
+#house{background:var(--sky);border-bottom:3px solid var(--ink);display:flex;align-items:center;justify-content:center}
+.house{display:block;width:100%;height:auto;max-height:52vh;background:var(--sky)}
+.house .r1{fill:var(--wall)}.house .r2{fill:var(--wall2)}.house .r3{fill:var(--wall3)}
+.house .edge{fill:none;stroke:var(--ink);stroke-width:3;stroke-linejoin:round}
+.house .thin{fill:none;stroke:var(--ink);stroke-width:2}
+.house .lab{font-family:var(--f-mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;fill:var(--ink);opacity:.6}
+.house .grass{fill:var(--grass)}
+.house .dim{opacity:.28;transition:opacity .3s}
+.house .act{animation:bob 1s ease-in-out infinite;transform-box:fill-box;transform-origin:bottom}
+.house .pill rect{fill:var(--surface);stroke:var(--ink);stroke-width:2}
+.house .pill.sp rect{fill:#FFD866;stroke:#1B2336}
+.house .pill text{font-family:var(--f-display);font-weight:700;font-size:16px;fill:var(--ink)}
+.house .pill.sp text{fill:#241A00}
+.house .route{fill:none;stroke:var(--note);stroke-width:5;stroke-dasharray:12 9;stroke-linecap:round;stroke-linejoin:round;animation:dash 1s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-21}}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.ch .talk{transform-box:fill-box;transform-origin:center;animation:talk .28s ease-in-out infinite alternate}
+@keyframes talk{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
+
+.talks{background:var(--wall);padding:14px;display:flex;flex-direction:column;gap:10px}
+.say{display:flex;gap:10px;align-items:flex-start;max-width:640px}
+.say.re{align-self:flex-end;flex-direction:row-reverse}
+.say .av{width:58px;height:64px;flex:0 0 auto;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:2px}
+.say .av svg{width:100%;height:100%}
+.bub{position:relative;background:#FFFFFF;color:#1B2336;border:2.5px solid #1B2336;border-radius:18px;padding:10px 14px;min-width:0;display:flex;flex-direction:column;gap:6px;animation:popin .3s ease}
+.say.re .bub{border-style:dashed}
+.bub::before{content:"";position:absolute;top:16px;left:-11px;border:8px solid transparent;border-right:11px solid #1B2336;border-left:0}
+.bub::after{content:"";position:absolute;top:18px;left:-6px;border:6px solid transparent;border-right:8px solid #FFFFFF;border-left:0}
+.say.re .bub::before{left:auto;right:-11px;border-right:0;border-left:11px solid #1B2336}
+.say.re .bub::after{left:auto;right:-6px;border-right:0;border-left:8px solid #FFFFFF}
+.who{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#596477}
+.who b{font-family:var(--f-display);font-size:14px;letter-spacing:0;text-transform:none;color:#1B2336}
+.line{font-family:var(--f-hand);font-weight:600;font-size:clamp(17px,1.9vw,19px);line-height:1.3;letter-spacing:-.005em}
+.note{background:#FFF3DE;border:2px solid #F09A1E;border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:2px}
+.note .nh{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;color:#7A4A00}
+.note .nh b{font-weight:500;color:#1B2336}
+.note .nt{font-family:var(--f-hand);font-weight:500;font-size:17px;line-height:1.35;color:#1B2336;overflow-wrap:anywhere}
+.note .nt.mono{font-family:var(--f-mono);font-size:14px}
+@keyframes popin{from{transform:translateY(6px);opacity:0}to{transform:none;opacity:1}}
+.why{margin:0 16px 0;background:var(--surface);border:2px dashed var(--bad);border-radius:14px;padding:10px 14px}
+.why b{color:var(--bad)}
+.nav{display:flex;gap:10px;align-items:center;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--wall);position:sticky;bottom:0;z-index:5;border-top:2px solid var(--line)}
+@media (min-width:980px){
+  .panel{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);grid-template-rows:auto 1fr auto auto}
+  #house{grid-column:1;grid-row:1 / 5;border-bottom:0;border-right:3px solid var(--ink)}
+  .house{max-height:78vh}
+  .caption{grid-column:2;grid-row:1}
+  .talks{grid-column:2;grid-row:2;align-content:start}
+  #whySlot{grid-column:2;grid-row:3}
+  .nav{grid-column:2;grid-row:4}
+  .say{max-width:none}
+}
+.dots{display:flex;gap:5px;flex:1;justify-content:center;flex-wrap:nowrap;min-width:0}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--ink)}
+.btn{font:inherit;font-weight:700;border-radius:12px;padding:11px 18px;cursor:pointer;border:2px solid var(--ink);display:inline-flex;align-items:center;gap:6px;background:var(--surface);color:var(--ink)}
+.btn.pri{background:var(--ink);color:var(--bg)}
+.hint{font-size:13px;color:var(--muted);text-align:center;margin:0}
+
+.topnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:2px solid var(--line);
+  margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));margin-top:-24px;margin-bottom:24px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--bg)}
+.topnav .in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:6px;padding-block:10px;overflow-x:auto;scrollbar-width:none;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.topnav .in::-webkit-scrollbar{display:none}
+.topnav .brand{font-family:var(--f-display);font-weight:800;font-size:16px;white-space:nowrap;margin-right:8px;color:var(--ink);text-decoration:none}
+.topnav .brand span{color:var(--accent)}
+.topnav a.lnk{flex:0 0 auto;font-size:14px;font-weight:700;color:var(--ink);text-decoration:none;border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;white-space:nowrap}
+.topnav a.lnk:hover,.topnav a.lnk.on{border-color:var(--ink)}
+section[id]{scroll-margin-top:72px}
+
+.mission{display:flex;gap:12px;align-items:center;background:var(--surface);border:3px solid var(--ink);border-radius:18px;padding:12px 16px}
+.mission .ic{width:52px;height:52px;flex:0 0 auto;border-radius:14px;background:#FFE3EC;display:grid;place-items:center;color:#E0245E}
+.mission .ic svg{width:30px;height:30px}
+.mission .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.mission .t{font-family:var(--f-hand);font-weight:700;font-size:clamp(19px,3vw,24px);line-height:1.2}
+.mission .s{font-size:14px;color:var(--muted)}
+
+.appcard{background:var(--surface);border:3px solid var(--ink);border-radius:20px;overflow:hidden}
+.appcard .hd{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;border-bottom:2px solid var(--line);flex-wrap:wrap}
+.appcard .hd h3{font-size:clamp(18px,2.6vw,22px)}
+.appcard .bd{display:grid;gap:16px;padding:16px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:720px){.appcard .bd{grid-template-columns:minmax(0,1fr) minmax(0,320px);align-items:start}}
+.steps{display:flex;gap:4px}
+.step{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;align-items:center;font-size:12px;color:var(--muted);text-align:center}
+.step i{display:block;width:100%;height:8px;border-radius:99px;background:var(--line)}
+.step.done i{background:var(--ok)}
+.step.cur i{background:var(--note)}
+.step.bad i{background:var(--bad)}
+.step.cur,.step.bad{color:var(--ink);font-weight:700}
+.status{font-size:17px;line-height:1.45;margin:12px 0 0}
+.detail{margin-top:10px;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.files{display:flex;flex-wrap:wrap;gap:6px}
+.file{font-family:var(--f-mono);font-size:13px;border:1.5px solid var(--line);border-radius:6px;padding:3px 8px;background:var(--wall)}
+.file.hot{border-color:var(--note);background:var(--note-soft)}
+.checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.checks li{display:flex;gap:8px;align-items:center}
+.box{width:20px;height:20px;border-radius:5px;border:2px solid var(--line);display:grid;place-items:center;font-size:13px;flex:0 0 auto}
+.box.y{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.diff{font-family:var(--f-mono);font-size:13px;background:var(--wall);border-radius:8px;padding:10px;overflow-x:auto;white-space:pre;margin:0}
+.diff .add{color:var(--ok)}
+.err{font-family:var(--f-mono);font-size:13px;background:var(--bad-soft);color:var(--bad);border-radius:8px;padding:8px 10px}
+.phone{background:var(--wall);border:2px solid var(--line);border-radius:22px;padding:10px}
+.phone .pbar{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:11px;color:var(--muted);padding:2px 6px 8px;text-transform:uppercase;letter-spacing:.06em}
+.post{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px;display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px}
+.post .ava{width:44px;height:44px;border-radius:50%;background:#7FB7A4;color:#10302A;display:grid;place-items:center;font-weight:700;font-size:18px}
+.post .meta{font-size:14px;color:var(--muted)}
+.post .meta b{color:var(--ink)}
+.post p{margin:4px 0 10px;font-size:16px}
+.post .acts{display:flex;gap:20px;align-items:center;color:var(--muted);font-size:15px}
+.post .acts>span{display:inline-flex;align-items:center;gap:5px}
+.post svg{width:22px;height:22px}
+.like{font:inherit;display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:var(--muted);padding:6px 10px;border-radius:10px;font-size:15px;min-height:40px}
+button.like{cursor:pointer;border:2px solid var(--line)}
+button.like:hover{border-color:var(--heart)}
+.like.new{outline:2.5px dashed var(--note);outline-offset:2px}
+.like.on{color:var(--heart);border-color:var(--heart)}
+.ghost{font-size:13px;color:var(--muted);border:1.5px dashed var(--line);border-radius:8px;padding:4px 8px}
+.newtag{font-family:var(--f-mono);font-size:11px;color:var(--warn);background:var(--warn-soft);border-radius:6px;padding:2px 6px;margin-left:4px}
+
+.team{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.mate{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:12px;display:flex;gap:10px;align-items:flex-start;min-width:0}
+.mate svg{width:64px;height:72px;flex:0 0 auto;background:var(--wall);border-radius:12px}
+.mate h3{margin:0;font-size:16px;line-height:1.15}
+.mate .rl{font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--accent)}
+.mate p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+.mate.locked{border-style:dashed;opacity:.5}
+.mate.locked .q{width:64px;height:72px;border-radius:12px;background:var(--wall);display:grid;place-items:center;font-family:var(--f-display);font-size:28px;color:var(--muted)}
+
+.lab{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:760px){.lab{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.picks{display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}
+.pick{font:inherit;font-size:14px;display:inline-flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:4px 12px 4px 4px;cursor:pointer}
+.pick svg{width:34px;height:38px;background:var(--wall);border-radius:8px}
+.pick.sel{border-color:var(--bad);color:var(--bad)}
+.pick.sel span{text-decoration:line-through}
+.broken{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:flex;gap:12px;align-items:center;min-height:150px}
+.broken svg{width:96px;height:108px;flex:0 0 auto}
+.broken .bub{flex:1}
+.broken .bub::before,.broken .bub::after{display:none}
+
+.quiz{background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.qq{font-family:var(--f-hand);font-weight:700;font-size:clamp(19px,2.6vw,22px);line-height:1.3;margin:0}
+.opts{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.opt{font:inherit;font-size:16px;display:flex;align-items:center;gap:12px;border:2px solid var(--line);background:var(--wall);color:var(--ink);border-radius:14px;padding:12px 14px;cursor:pointer;text-align:left}
+.opt .k{flex:0 0 auto;width:28px;height:28px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--f-mono);font-size:13px}
+.opt.right{border-color:var(--ok);box-shadow:0 0 0 2px var(--ok)}
+.opt.wrong{border-color:var(--bad);box-shadow:0 0 0 2px var(--bad)}
+.qhead{display:flex;gap:12px;align-items:center}
+.qhead svg{width:64px;height:72px;flex:0 0 auto;background:var(--wall);border-radius:12px}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.exp{background:var(--wall);border-radius:12px;padding:12px 14px;margin:0}
+.exp b.ok{color:var(--ok)}
+.exp b.no{color:var(--bad)}
+.exp .src{font-size:13px;color:var(--muted)}
+.srcs{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.srcs a{display:block;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;text-decoration:none;color:var(--ink)}
+.srcs a:hover{border-color:var(--ink)}
+.srcs b{display:block;font-family:var(--f-display);font-size:16px}
+.srcs span{font-size:14px;color:var(--muted)}
+.srcs i{font-style:normal;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.fb{margin:0}
+.score{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+footer{border-top:2px solid var(--line);padding:20px 0 40px;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:10px}
+footer p{margin:0;max-width:72ch}
+footer b{color:var(--ink)}
+.made{font-size:15px;color:var(--ink);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.made svg{width:18px;height:18px;color:#8B5CF6}
+.made a{font-weight:700}
+@media (max-width:640px){
+  .caption{flex-direction:column;gap:6px;padding:12px 14px}
+  .talks{padding:12px;gap:10px}
+  .say .av{width:44px;height:50px;border-radius:12px}
+  .bub{padding:9px 12px}
+  .btn{padding:12px 16px;min-height:48px}
+  .btn.pri{flex:0 0 auto}
+  .hint{display:none}
+  .mission{padding:10px 12px}
+  .mission .ic{width:42px;height:42px}
+  .panel{border-radius:16px}
+  .house .pill text{font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){.house .act,.house .route,.ch .talk,.bub{animation:none}}
+
+html,body{margin:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+
+<nav class="topnav" aria-label="Secciones">
+  <div class="in">
+    <a class="brand" href="#historieta">La casa de <span>GH</span></a>
+    <a class="lnk" href="#historieta">Historieta</a>
+    <a class="lnk" href="#personajes">Personajes</a>
+    <a class="lnk" href="#stress">Sacá una pieza</a>
+    <a class="lnk" href="#test">Test de conocimiento</a>
+    <a class="lnk" href="#fuentes">Fuentes</a>
+  </div>
+</nav>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Harness engineering, en historieta</p>
+    <h1>La casa del <em>Gran Harness</em></h1>
+    <p class="lede">Bienvenidos a la casa de GH. Arriba, en una lámpara del altillo, vive la Genia: representa al modelo. Piensa muy bien, pero no tiene cuerpo, así que solo puede leer una notita y escribir otra. Todo lo demás lo hacen los otros habitantes de la casa, cada uno con su rol. Esa casa con su equipo es el harness, y la Genia trabajando junto con la casa es el agente.</p>
+    <p class="lede" style="font-size:16px;margin-top:8px">Leé cada viñeta de arriba hacia abajo: primero el Narrador, después la casa y por último lo que dicen los personajes.</p>
+  </header>
+
+  <section class="story" id="historieta" aria-label="Historieta">
+    <div class="mission">
+      <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.5 1.1 5 3 1.5-1.9 3-3 5-3 3.4 0 5.6 3.4 4.3 6.8C19.5 15.9 12 20.5 12 20.5z" fill="currentColor"/></svg></div>
+      <div><div class="k">La misión de toda la historia</div><div class="t">«Agregá un botón de me gusta a los posts»</div><div class="s">Lo que vos (usuaria) le pedís al agente: la Genia (modelo) junto con toda la casa (harness). Abajo de la historieta ves cómo va quedando.</div></div>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="chtitle"><h2 id="chTitle"></h2><span id="chNum"></span></div>
+    <div class="panel">
+      <div class="caption"><b>Narrador</b><span id="cap"></span></div>
+      <div id="house"></div>
+      <div class="talks" id="talks"></div>
+      <div id="whySlot" style="background:var(--wall);padding-bottom:4px"></div>
+      <div class="nav">
+        <button class="btn" id="back" aria-label="Viñeta anterior"><span aria-hidden="true">←</span></button>
+        <div class="dots" id="dots"></div>
+        <button class="btn pri" id="next"><span id="nextLbl">Siguiente</span><span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+    <p class="hint">También podés avanzar con las flechas del teclado.</p>
+    <div class="appcard" id="strip"></div>
+  </section>
+
+  <section class="sec" id="personajes" aria-labelledby="teamH">
+    <h2 id="teamH">Personajes</h2>
+    <p>Los habitantes de la casa de GH. Cada uno representa una pieza del harness; la Genia es el modelo y vos sos quien hace los pedidos. Se van sumando a medida que avanzás en la historia.</p>
+    <div class="team" id="team"></div>
+  </section>
+
+  <section class="sec" id="stress" aria-labelledby="labH">
+    <h2 id="labH">Sacá una pieza</h2>
+    <p><b style="color:var(--ink)">Prueba de ablación.</b> En machine learning se llama ablación a quitar un componente de un sistema para medir cuánto aporta. Acá lo hacemos con la casa: mandá a un personaje de vacaciones y mirá qué deja de funcionar sin esa pieza.</p>
+    <div class="lab"><div class="picks" id="picks"></div><div class="broken" id="broken"></div></div>
+  </section>
+
+  <section class="sec" id="test" aria-labelledby="quizH">
+    <h2 id="quizH">Testeá tu conocimiento</h2>
+    <p>Dieciséis preguntas con respuestas que suenan razonables: la idea es separar el concepto de las confusiones más comunes. Después de cada una te explico por qué y te dejo la fuente oficial.</p>
+    <div class="quiz" id="quiz"></div>
+  </section>
+
+  <section class="sec" id="fuentes" aria-labelledby="srcH">
+    <h2 id="srcH">Fuentes</h2>
+    <p>Cada concepto de la historia está chequeado contra el artículo original y contra documentación oficial. Si querés profundizar, empezá por acá.</p>
+    <div class="srcs">
+      <a href="https://code.claude.com/docs/en/glossary" target="_blank" rel="noopener"><i>Claude Code</i><b>Glosario de Claude Code</b><span>Define harness, loop, contexto, compaction, permisos, sandbox, skills y subagentes.</span></a>
+      <a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" rel="noopener"><i>Claude Code</i><b>Cómo funciona Claude Code</b><span>El loop en tres fases (juntar contexto, actuar, verificar) y por qué Claude Code es el harness.</span></a>
+      <a href="https://platform.claude.com/docs/en/build-with-claude/tool-use/overview" target="_blank" rel="noopener"><i>Claude API</i><b>Tool use con Claude</b><span>El modelo pide una herramienta (tool_use) y tu aplicación la ejecuta y devuelve el resultado.</span></a>
+      <a href="https://platform.claude.com/docs/en/build-with-claude/working-with-messages" target="_blank" rel="noopener"><i>Claude API</i><b>Usar la Messages API</b><span>La API no guarda estado: en cada llamada se manda la conversación completa.</span></a>
+      <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener"><i>Anthropic</i><b>Context engineering para agentes</b><span>Contexto finito, progressive disclosure, compaction, notas y subagentes.</span></a>
+      <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents" target="_blank" rel="noopener"><i>Anthropic</i><b>Harnesses para agentes de larga duración</b><span>Archivos de progreso y commits para que cada sesión sepa por dónde seguir.</span></a>
+      <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" target="_blank" rel="noopener"><i>Anthropic</i><b>Diseño de harness para apps largas</b><span>Planner, generator y evaluator, y por qué conviene un evaluador aparte.</span></a>
+      <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" target="_blank" rel="noopener"><i>Anthropic</i><b>Evals para agentes</b><span>Tareas, intentos, calificadores, evals de regresión y trazas.</span></a>
+      <a href="https://code.claude.com/docs/en/permissions" target="_blank" rel="noopener"><i>Claude Code</i><b>Permisos</b><span>Reglas deny, ask y allow, y qué acciones piden aprobación.</span></a>
+      <a href="https://code.claude.com/docs/en/sandboxing" target="_blank" rel="noopener"><i>Claude Code</i><b>Sandboxing</b><span>Límites de archivos y red, y sus limitaciones.</span></a>
+      <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener"><i>Claude Code</i><b>Skills</b><span>Qué es una skill y cómo se carga por partes.</span></a>
+      <a href="https://learn.chatgpt.com/docs/sandboxing" target="_blank" rel="noopener"><i>Codex</i><b>Sandboxing en Codex</b><span>Modos de solo lectura, escritura en el proyecto y acceso total.</span></a>
+      <a href="https://modelcontextprotocol.io/docs/getting-started/intro" target="_blank" rel="noopener"><i>MCP</i><b>Qué es Model Context Protocol</b><span>El estándar abierto para conectar IA con sistemas externos.</span></a>
+      <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank" rel="noopener"><i>LangChain</i><b>Mejorar agentes con harness engineering</b><span>De Top 30 a Top 5 en Terminal Bench 2.0 cambiando solo el harness.</span></a>
+      <a href="https://docs.langchain.com/oss/javascript/langgraph/graph-api" target="_blank" rel="noopener"><i>LangGraph</i><b>Graph API de LangGraph</b><span>Grafos de agentes: nodos, aristas, estado y ciclos.</span></a>
+    </div>
+  </section>
+
+  <footer>
+    <p><b>Inspiración:</b> esta historieta está basada en el artículo <a href="https://x.com/santtiagom_/article/2098782814837543075" target="_blank" rel="noopener">«Harness Engineering: explicado desde cero»</a> de santi (<a href="https://x.com/santtiagom_" target="_blank" rel="noopener">@santtiagom_</a>). El pedido de ejemplo, agregar un botón de me gusta a los posts, sale de ahí.</p>
+    <p>Los personajes son metáforas, no componentes literales. La app, los nombres de archivo y los números de las evals son ejemplos ilustrativos. Los grafos no aparecen en el artículo: se suman al final como contexto extra.</p>
+    <p class="made">Creado con <svg viewBox="0 0 24 24" role="img" aria-label="amor"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.5 1.1 5 3 1.5-1.9 3-3 5-3 3.4 0 5.6 3.4 4.3 6.8C19.5 15.9 12 20.5 12 20.5z" fill="currentColor"/></svg> por <a href="https://x.com/purpleerainnnn" target="_blank" rel="noopener">@purpleerainnnn</a></p>
+  </footer>
+</div>
+
+<script>
+const INK="#1E2230";
+function face(x,y,m,c,s){c=c||INK;s=s||1;const e=10*s,r=3.6*s;let o="";
+  const ey=m==="think"?y-3*s:y,er=m==="surprised"?r*1.3:r;
+  o+=`<circle cx="${x-e}" cy="${ey}" r="${er}" fill="${c}"/><circle cx="${x+e}" cy="${ey}" r="${er}" fill="${c}"/>`;
+  if(m!=="surprised"&&m!=="think")o+=`<circle cx="${x-e+1.2*s}" cy="${ey-1.2*s}" r="${1.1*s}" fill="#fff"/><circle cx="${x+e+1.2*s}" cy="${ey-1.2*s}" r="${1.1*s}" fill="#fff"/>`;
+  const by=y-9*s,sw=2.6*s;
+  if(m==="worried")o+=`<path d="M${x-e-5*s} ${by} L${x-e+5*s} ${by-4*s} M${x+e+5*s} ${by} L${x+e-5*s} ${by-4*s}" stroke="${c}" stroke-width="${sw}" stroke-linecap="round"/>`;
+  if(m==="surprised")o+=`<path d="M${x-e-5*s} ${by-4*s} Q${x-e} ${by-8*s} ${x-e+5*s} ${by-4*s} M${x+e-5*s} ${by-4*s} Q${x+e} ${by-8*s} ${x+e+5*s} ${by-4*s}" stroke="${c}" stroke-width="${sw}" fill="none" stroke-linecap="round"/>`;
+  if(m==="confused")o+=`<path d="M${x+e-5*s} ${by-5*s} L${x+e+5*s} ${by-2*s}" stroke="${c}" stroke-width="${sw}" stroke-linecap="round"/>`;
+  const my=y+13*s,M={
+    talk:`<ellipse class="talk" cx="${x}" cy="${my}" rx="${6*s}" ry="${5*s}" fill="${c}"/>`,
+    happy:`<path d="M${x-9*s} ${my-2*s} Q${x} ${my+8*s} ${x+9*s} ${my-2*s}" stroke="${c}" stroke-width="${sw}" fill="none" stroke-linecap="round"/>`,
+    neutral:`<path d="M${x-6*s} ${my} L${x+6*s} ${my}" stroke="${c}" stroke-width="${sw}" stroke-linecap="round"/>`,
+    worried:`<path d="M${x-8*s} ${my+4*s} Q${x} ${my-4*s} ${x+8*s} ${my+4*s}" stroke="${c}" stroke-width="${sw}" fill="none" stroke-linecap="round"/>`,
+    surprised:`<ellipse cx="${x}" cy="${my+1*s}" rx="${4.5*s}" ry="${6*s}" fill="${c}"/>`,
+    confused:`<path d="M${x-8*s} ${my} q${4*s} ${-4*s} ${8*s} 0 t${8*s} 0" stroke="${c}" stroke-width="${sw}" fill="none" stroke-linecap="round"/>`,
+    think:`<circle cx="${x+3*s}" cy="${my}" r="${2.6*s}" fill="${c}"/>`};
+  o+=M[m]||M.neutral;
+  if(m==="happy")o+=`<circle cx="${x-e-6*s}" cy="${y+6*s}" r="${3.5*s}" fill="#F28B82" opacity=".55"/><circle cx="${x+e+6*s}" cy="${y+6*s}" r="${3.5*s}" fill="#F28B82" opacity=".55"/>`;
+  return o}
+const lashes=(x,y,s)=>{s=s||1;return `<path d="M${x-15*s} ${y-4*s} l${-4*s} ${-3*s} M${x+15*s} ${y-4*s} l${4*s} ${-3*s}" stroke="${INK}" stroke-width="2" stroke-linecap="round"/>`};
+const person=(skin,shirt,hairBack,hairFront,extraBack,extraFront,m,fem)=>`${hairBack||""}${extraBack||""}<path d="M44 176 Q44 116 80 112 Q116 116 116 176Z" fill="${shirt}"/><circle cx="80" cy="78" r="32" fill="${skin}"/>${hairFront||""}${face(80,82,m)}${fem?lashes(80,82):""}${extraFront||""}`;
+const lamp=(x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M-44 0 Q-40 -20 0 -22 Q40 -20 46 -6 L74 -22 Q80 -24 78 -16 L54 6 Q40 14 0 14 Q-40 14 -44 0Z" fill="#E2B33C"/><path d="M-44 0 Q-62 -6 -58 -20 Q-52 -30 -40 -14" fill="none" stroke="#C99A26" stroke-width="6" stroke-linecap="round"/><ellipse cx="0" cy="-22" rx="16" ry="5" fill="#C99A26"/><circle cx="0" cy="-30" r="5" fill="#C99A26"/><rect x="-26" y="12" width="52" height="8" rx="3" fill="#C99A26"/></g>`;
+
+const DRAW={
+  vos:m=>person("#F3C9A1","#2E8B7A",`<path d="M46 78 Q42 40 80 40 Q118 40 114 78 L120 150 Q100 158 94 140 L94 104 L66 104 L66 140 Q60 158 40 150Z" fill="#4A2E22"/>`,`<path d="M48 80 Q46 42 80 44 Q114 42 112 80 Q104 58 86 58 Q74 66 56 62 Q50 68 48 80Z" fill="#4A2E22"/>`,"",`<rect x="56" y="146" width="48" height="26" rx="4" fill="#9AA6B8"/><rect x="60" y="150" width="40" height="18" rx="2" fill="#DCE7F5"/>`,m,1),
+  mente:m=>`${lamp(78,162,1)}<path class="smoke" d="M120 146 Q142 120 112 116 Q84 112 96 132 Q72 140 64 128" fill="none" stroke="#B8A6FF" stroke-width="12" stroke-linecap="round" opacity=".85"/><path d="M56 132 Q52 108 60 98 L100 98 Q108 108 104 132 Q80 142 56 132Z" fill="#7C5CF0"/><path d="M60 98 Q80 108 100 98" fill="none" stroke="#F2C94C" stroke-width="3"/><path d="M46 62 Q44 26 80 24 Q116 26 114 62 Q122 92 108 104 Q112 80 100 60 L60 60 Q48 80 52 104 Q38 92 46 62Z" fill="#3B2A72"/><circle cx="80" cy="66" r="28" fill="#C9B8FF"/><path d="M52 62 Q54 34 80 34 Q106 34 108 62 Q96 46 80 48 Q64 46 52 62Z" fill="#3B2A72"/><circle cx="80" cy="20" r="11" fill="#3B2A72"/><rect x="74" y="28" width="12" height="6" rx="2" fill="#F2C94C"/><circle cx="52" cy="78" r="3.5" fill="#F2C94C"/><circle cx="108" cy="78" r="3.5" fill="#F2C94C"/>${face(80,68,m,INK,.95)}${lashes(80,68,.95)}<path d="M128 40 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 l7 -3Z M26 92 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 l5 -2Z" fill="#F2C94C"/>`,
+  caja:m=>`<g transform="rotate(18 108 64)"><rect x="104" y="40" width="9" height="44" rx="3" fill="#A0A9B5"/><circle cx="108.5" cy="40" r="9" fill="#A0A9B5"/></g><path d="M60 80 V62 H100 V80" stroke="#59606B" stroke-width="7" fill="none" stroke-linejoin="round"/><rect x="28" y="86" width="104" height="80" rx="10" fill="#D9483B"/><rect x="24" y="78" width="112" height="18" rx="6" fill="#B83A2F"/><rect x="72" y="88" width="16" height="10" rx="2" fill="#F2C94C"/>${face(80,124,m)}`,
+  mensajero:m=>person("#C68A5E","#F08A24","",`<path d="M48 70 Q50 42 80 42 Q110 42 112 70Z" fill="#F08A24"/><rect x="98" y="63" width="30" height="8" rx="3" fill="#C9661A"/>`,"",`<path d="M56 118 L112 172" stroke="#7A4A1C" stroke-width="6"/><rect x="98" y="148" width="28" height="22" rx="4" fill="#8A5A2B"/><rect x="104" y="140" width="16" height="12" rx="1" fill="#FFFDF6" stroke="#1B2336" stroke-width="1.5"/>`,m,0),
+  cuaderno:m=>`<rect x="40" y="46" width="86" height="122" rx="8" fill="#2F7FD8"/><rect x="118" y="52" width="10" height="110" rx="2" fill="#F5F1E6"/>${[64,86,108,130,152].map(y=>`<circle cx="40" cy="${y}" r="6" fill="none" stroke="#59606B" stroke-width="3"/>`).join("")}<rect x="58" y="60" width="52" height="14" rx="3" fill="#FFFDF6"/>${face(83,110,m,"#FFFFFF")}`,
+  biblio:m=>person("#C98B5E","#3E9B5C","",`<circle cx="80" cy="40" r="14" fill="#4A2E1E"/><path d="M48 80 Q46 44 80 46 Q114 44 112 80 Q108 60 80 58 Q54 60 48 80Z" fill="#4A2E1E"/>`,"",`<circle cx="70" cy="82" r="10" fill="none" stroke="#1B2336" stroke-width="2.2"/><circle cx="90" cy="82" r="10" fill="none" stroke="#1B2336" stroke-width="2.2"/><rect x="52" y="140" width="56" height="10" rx="2" fill="#D9483B"/><rect x="56" y="150" width="50" height="10" rx="2" fill="#F2C94C"/><rect x="50" y="160" width="58" height="10" rx="2" fill="#2F7FD8"/>`,m,1),
+  arenero:m=>`<ellipse cx="80" cy="168" rx="70" ry="12" fill="#F1D08A"/>${[24,48,72,96,120].map(x=>`<path d="M${x} 166 V72 L${x+8} 60 L${x+16} 72 V166Z" fill="#C89B5B"/>`).join("")}<rect x="20" y="92" width="122" height="10" rx="2" fill="#A97C40"/><rect x="20" y="140" width="122" height="10" rx="2" fill="#A97C40"/><rect x="44" y="98" width="72" height="48" rx="8" fill="#F1D08A" stroke="#A97C40" stroke-width="2"/>${face(80,116,m)}`,
+  inspectora:m=>person("#F0C29A","#E9B32A",`<path d="M46 80 Q42 40 80 42 Q118 40 114 80 L116 124 Q104 128 100 118 L60 118 Q56 128 44 124Z" fill="#9C4A2A"/>`,`<path d="M48 82 Q44 42 80 44 Q116 42 112 82 Q112 60 96 56 Q80 66 60 58 Q50 64 48 82Z" fill="#9C4A2A"/>`,`<rect x="22" y="118" width="34" height="46" rx="4" fill="#8B5E3C"/><rect x="27" y="126" width="24" height="34" fill="#FFFDF6"/><path d="M31 134 l3 3 l6 -6 M31 146 l3 3 l6 -6" stroke="#1F7A3A" stroke-width="2" fill="none"/>`,`<circle cx="124" cy="116" r="15" fill="#DCEBFF" fill-opacity=".5" stroke="#4A5160" stroke-width="5"/><path d="M134 128 L146 146" stroke="#4A5160" stroke-width="7" stroke-linecap="round"/>`,m,1),
+  portero:m=>person("#D9A27A","#24467D","",`<path d="M50 74 Q52 58 80 58 Q108 58 110 74 Q100 66 80 66 Q60 66 50 74Z" fill="#2B1B14"/><rect x="47" y="70" width="6" height="14" rx="2" fill="#2B1B14"/><rect x="107" y="70" width="6" height="14" rx="2" fill="#2B1B14"/><rect x="50" y="36" width="60" height="24" rx="5" fill="#1F3A68"/><rect x="44" y="56" width="72" height="8" rx="3" fill="#152B4F"/><circle cx="80" cy="48" r="5" fill="#F2C94C"/>`,"",`<path d="M66 108 Q80 116 94 108" stroke="#2B1B14" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55"/><circle cx="80" cy="134" r="3" fill="#F2C94C"/><circle cx="80" cy="150" r="3" fill="#F2C94C"/><circle cx="124" cy="140" r="9" fill="none" stroke="#F2C94C" stroke-width="5"/><path d="M124 149 V170 M124 160 H131 M124 166 H130" stroke="#F2C94C" stroke-width="5"/>`,m,0),
+  camara:m=>`<rect x="56" y="58" width="34" height="18" rx="4" fill="#2C313D"/><rect x="26" y="70" width="108" height="82" rx="14" fill="#3B4252"/><circle cx="80" cy="110" r="32" fill="#8FA1BF"/><circle cx="80" cy="110" r="26" fill="#1E222B"/>${face(80,106,m,"#FFFFFF",.9)}<circle cx="118" cy="84" r="6" fill="#E5484D"/><rect x="66" y="152" width="28" height="16" fill="#59606B"/><path d="M60 176 L80 166 L100 176" stroke="#59606B" stroke-width="5" fill="none"/>`,
+  examinador:m=>person("#EBC09B","#8E3B46",`<path d="M46 74 Q44 52 80 52 Q116 52 114 74 L118 140 Q104 146 98 132 L62 132 Q56 146 42 140Z" fill="#5A3A2A"/>`,`<path d="M50 76 Q50 54 80 54 Q110 54 110 76 Q98 62 80 64 Q62 62 50 76Z" fill="#5A3A2A"/><polygon points="44,48 80,34 116,48 80,62" fill="#222832"/><path d="M110 50 V66" stroke="#F2C94C" stroke-width="3"/><circle cx="110" cy="68" r="4" fill="#F2C94C"/>`,"",`<rect x="100" y="132" width="34" height="40" rx="3" fill="#FFFDF6" stroke="#1B2336" stroke-width="2"/><path d="M106 144 H128 M106 152 H122 M106 160 H126" stroke="#9AA6B8" stroke-width="2"/>`,m,1),
+  skills:m=>`<circle cx="62" cy="58" r="15" fill="#FFFFFF" stroke="#C6CFCA" stroke-width="2"/><circle cx="80" cy="50" r="17" fill="#FFFFFF" stroke="#C6CFCA" stroke-width="2"/><circle cx="98" cy="58" r="15" fill="#FFFFFF" stroke="#C6CFCA" stroke-width="2"/><rect x="60" y="58" width="40" height="22" fill="#FFFFFF"/><rect x="34" y="80" width="92" height="86" rx="6" fill="#C0569A"/><rect x="118" y="86" width="8" height="76" fill="#F5F1E6"/>${face(78,122,m,"#FFFFFF")}`,
+  mcp:m=>`<rect x="58" y="34" width="9" height="32" rx="2" fill="#A0A9B5"/><rect x="93" y="34" width="9" height="32" rx="2" fill="#A0A9B5"/><rect x="42" y="62" width="76" height="86" rx="18" fill="#F2C94C"/><path d="M80 148 Q80 176 120 172" stroke="#4A5160" stroke-width="7" fill="none" stroke-linecap="round"/>${face(80,104,m)}`,
+  sub:m=>`${lamp(46,168,.55)}${lamp(116,168,.6)}<path d="M56 154 Q40 140 46 128" fill="none" stroke="#B8A6FF" stroke-width="8" stroke-linecap="round"/><path d="M128 152 Q142 138 118 124" fill="none" stroke="#B8A6FF" stroke-width="9" stroke-linecap="round"/><circle cx="46" cy="104" r="24" fill="#C9B8FF"/><path d="M24 104 Q24 78 46 78 Q68 78 68 104 Q60 90 46 90 Q32 90 24 104Z" fill="#3B2A72"/><circle cx="116" cy="96" r="26" fill="#C9B8FF"/><path d="M92 96 Q92 68 116 68 Q140 68 140 96 Q130 82 116 82 Q102 82 92 96Z" fill="#3B2A72"/>${face(46,106,m,INK,.7)}${face(116,98,m,INK,.75)}`,
+  grafo:m=>`<rect x="26" y="50" width="108" height="118" rx="8" fill="#2D5F9E"/><path d="M26 74 H134 M26 98 H134 M26 122 H134 M26 146 H134 M50 50 V168 M74 50 V168 M98 50 V168 M122 50 V168" stroke="#FFFFFF" stroke-opacity=".15"/><path d="M48 70 L80 70 L112 70 M112 70 Q124 86 80 86 Q50 86 48 76" stroke="#FFFFFF" stroke-width="2.5" fill="none"/><circle cx="48" cy="70" r="6" fill="#F2C94C"/><circle cx="80" cy="70" r="6" fill="#F2C94C"/><circle cx="112" cy="70" r="6" fill="#F2C94C"/>${face(80,128,m,"#FFFFFF")}`,
+  memlarga:m=>`<rect x="34" y="86" width="92" height="80" rx="6" fill="#B98A5A"/><rect x="28" y="74" width="104" height="20" rx="5" fill="#9C6F42"/><rect x="62" y="100" width="36" height="12" rx="2" fill="#FFFDF6"/>${face(80,136,m)}`
+};
+
+const ST={
+  vos:["Vos","usuaria"],mente:["La Genia","modelo"],caja:["La Caja","tools"],mensajero:["El Mensajero","loop"],
+  cuaderno:["El Cuaderno","memoria"],biblio:["La Bibliotecaria","contexto"],arenero:["El Patio cercado","sandbox"],
+  inspectora:["La Inspectora","verificación"],portero:["El Portero","permisos"],camara:["La Cámara","observabilidad"],
+  examinador:["La Examinadora","evals"],skills:["El Recetario","skills"],mcp:["El Enchufe","MCP"],sub:["Las otras genias","subagentes"],
+  grafo:["El Plano","grafo"],memlarga:["El Archivo","memoria de largo plazo"]
+};
+const DEF={
+  vos:"Le pedís la tarea al agente y aprobás lo delicado.",
+  mente:"Recibe texto y devuelve texto. Piensa y decide qué hacer, pero no ejecuta nada ni recuerda nada entre una llamada y otra.",
+  caja:"Las herramientas que el harness le ofrece: buscar, leer, editar, correr tests. La Genia pide; el harness ejecuta.",
+  mensajero:"Llama a la Genia una y otra vez y le cuenta qué pasó en la vuelta anterior. Genia + casa dando vueltas = un agente.",
+  cuaderno:"Guarda afuera de la Genia lo que va pasando y se lo vuelve a pasar en cada vuelta.",
+  biblio:"Elige qué ve la Genia en cada llamada: un mapa primero, y solo los archivos que hacen falta.",
+  arenero:"Un entorno con límites: dónde se puede escribir y a qué sitios de internet se puede conectar. Reduce el daño de un error, pero no es una garantía total.",
+  inspectora:"Compara el resultado con los criterios de aceptación y busca evidencia real antes de dar algo por terminado.",
+  portero:"Decide qué herramientas existen, cuáles corren solas y cuáles te consultan. Pone techos a los reintentos.",
+  camara:"Registra cada paso: qué vio la Genia, qué pidió y qué volvió. Así encontrás dónde falló.",
+  examinador:"Corre siempre el mismo conjunto de tareas antes y después de un cambio, para saber si mejoró de verdad.",
+  skills:"Instrucciones empaquetadas para un tipo de tarea. Al empezar, el modelo solo ve su nombre y descripción; el contenido completo se carga cuando hace falta.",
+  mcp:"Una forma estándar de conectar al agente con herramientas y fuentes externas, como GitHub o una base de datos.",
+  sub:"Otras ejecuciones con su propio contexto y objetivo. Hacen una parte del trabajo y le devuelven un resumen al agente principal.",
+  grafo:"Un mapa de pasos (nodos) y conexiones (aristas) que define qué va después de qué. No está en el artículo.",
+  memlarga:"Información que se reutiliza entre tareas: decisiones, preferencias, errores recurrentes."
+};
+function charSVG(id,m,cls){return `<svg class="${cls||"ch"}" viewBox="0 0 160 180" role="img" aria-label="${ST[id][0]}"><ellipse cx="80" cy="176" rx="52" ry="6" fill="#000" opacity=".12"/>${DRAW[id](m||"happy")}</svg>`}
+
+/* Historia. Cada viñeta: a/b personajes, sp quién habla, say lo que dice, re reacción del otro, note la notita literal, cap el Narrador. */
+const CH=[
+ {t:"Una genia sin manos",intro:"mente",unlock:[],app:"idea",b:[
+  {a:"mente",sp:"a",ma:"happy",say:"¡Hola! Tengo todas las ideas del mundo, pero no tengo cuerpo. Lo único que puedo hacer es leer una notita y escribir otra.",cap:"Bienvenidos a la casa del Gran Harness. Ella es la Genia y representa al modelo: es puro pensamiento, sin manos, y vive en una lámpara del altillo."},
+  {a:"vos",b:"mente",sp:"a",say:"¡Tengo un pedido para vos!",note:"Agregá un botón de me gusta a los posts.",cap:"Vos llegás a la puerta. No sos parte del harness: sos quien hace el pedido, y a la Genia le llega como texto."},
+  {a:"vos",b:"mente",sp:"b",ma:"neutral",say:"¡Fácil! Te escribo cómo se hace.",note:"Habría que agregar un botón en el componente del post.",cap:"La Genia entiende perfecto y contesta con otra notita."},
+  {a:"vos",b:"mente",sp:"a",ma:"confused",mb:"worried",say:"¿Y? ¿Ya está el botón?",re:"Eh… no. No tengo manos. Solo te escribí cómo se haría.",cap:"Tu proyecto quedó igual. Sin herramientas, el modelo solo puede responder con texto."}],
+  why:"Si la Genia solo escribe notitas, ¿quién hace las cosas de verdad?"},
+ {t:"La Caja de herramientas",intro:"caja",unlock:["caja"],app:"idea",b:[
+  {a:"caja",sp:"a",ma:"happy",say:"¡Soy la Caja! Tengo herramientas: buscar código, leer archivos, editarlos y correr tests.",cap:"En el taller hay una caja de herramientas (tools). Cada una tiene nombre, descripción, los datos que necesita (parámetros) y un resultado."},
+  {a:"mente",b:"caja",sp:"a",say:"No puedo agarrarlas… pero puedo escribir cuál quiero usar.",note:'buscar_codigo("post")',mono:1,cap:"La Genia no ejecuta nada: escribe qué herramienta quiere y con qué datos. En la API de Claude, ese pedido se llama tool_use."},
+  {a:"mente",b:"caja",sp:"b",ma:"neutral",mb:"happy",say:"¡Listo! Busqué en tus archivos reales y encontré tres.",note:"components/Post.tsx · components/PostList.tsx · hooks/useUserData.ts",mono:1,app:"found",cap:"El harness ejecuta la búsqueda en tus archivos y le devuelve el resultado: el tool_result."},
+  {a:"mente",b:"caja",sp:"a",ma:"confused",mb:"neutral",say:"¡Genial! Y ahora… ¿alguien me pregunta qué sigue?",re:"…",cap:"Un pedido, una respuesta, y se terminó. El botón todavía no existe."}],
+  why:"La tarea necesita muchos pasos, y cada uno depende del anterior. ¿Quién vuelve a llamar a la Genia?"},
+ {t:"El Mensajero de la escalera",intro:"mensajero",unlock:["mensajero"],app:"found",b:[
+  {a:"mensajero",sp:"a",ma:"happy",say:"¡Soy el Mensajero! Subo al altillo y bajo al taller por la escalera, sin parar, hasta que la tarea esté terminada.",cap:"La Genia está arriba y las herramientas abajo. Desde ahora, todas las notitas entre pisos pasan por la escalera."},
+  {a:"mente",b:"mensajero",sp:"a",say:"Ya vi los nombres. Ahora quiero abrir Post.tsx.",note:'leer_archivo("Post.tsx")',mono:1,cap:"Vuelta 2: la Genia elige el próximo paso según lo que vio en la vuelta anterior."},
+  {a:"mensajero",b:"caja",sp:"a",say:"¡Pedido de arriba!",note:'leer_archivo("Post.tsx")',mono:1,re:"Acá tenés lo que hay adentro del archivo.",app:"reading",cap:"El Mensajero baja, la Caja abre el archivo y él vuelve a subir con el contenido."},
+  {a:"mensajero",b:"mente",sp:"a",mb:"think",say:"Esto salió. ¿Qué hacemos ahora?",note:"export function Post({ post }) { … }",mono:1,cap:"Preguntar, hacer, contar qué pasó y volver a preguntar: eso es el loop. Claude Code lo describe en tres fases: juntar contexto, actuar y verificar."},
+  {a:"mente",b:"mensajero",sp:"a",ma:"happy",mb:"happy",say:"¡Ahora avanzo un paso por vuelta! Juntos somos un agente.",re:"¡A seguir subiendo y bajando!",cap:"El modelo y el harness trabajando juntos en este ciclo, hacia un objetivo, forman un agente: agente = modelo + harness."}],
+  why:"Entre vuelta y vuelta, la Genia se olvida de todo. ¿Cómo sabe lo que ya hizo?"},
+ {t:"El Cuaderno",intro:"cuaderno",unlock:["cuaderno"],app:"reading",b:[
+  {a:"mente",b:"mensajero",sp:"a",ma:"confused",mb:"surprised",say:"Perdón… ¿quién sos? ¿Qué estábamos haciendo?",re:"¡¿Otra vez?!",cap:"Cada llamada al modelo es independiente: entra un texto, sale otro y no queda nada guardado."},
+  {a:"cuaderno",sp:"a",ma:"happy",say:"Tranquilos. Yo anoto todo lo que va pasando.",cap:"La casa lleva un cuaderno: guarda el estado afuera del modelo. En tareas de varias sesiones, Anthropic suma un archivo de progreso para la sesión siguiente."},
+  {a:"mensajero",b:"cuaderno",sp:"a",say:"Anotá: ya revisamos Post.tsx y falta guardar el estado.",note:"Objetivo: me gusta en los posts · Revisado: Post.tsx · Pendiente: guardar el estado",cap:"En cada vuelta se anota qué se revisó, qué se cambió, qué devolvieron las herramientas y qué falta."},
+  {a:"mensajero",b:"mente",sp:"a",mb:"happy",say:"Te subo lo que dice el Cuaderno junto con la notita nueva.",re:"¡Ah, cierto! Ya me ubico.",note:"Lo anotado hasta ahora + la notita nueva",cap:"La Genia no recuerda: se lo vuelven a mandar en cada llamada. La API de Claude funciona así: en cada pedido viaja la conversación completa."}],
+  why:"El cuaderno y el proyecto no paran de crecer. ¿Qué pasa cuando es demasiado para mandarlo entero?"},
+ {t:"La Bibliotecaria",intro:"biblio",unlock:["biblio"],app:"reading",b:[
+  {a:"mensajero",b:"mente",sp:"b",ma:"surprised",mb:"worried",say:"¡Es demasiado! No me entra todo por la boca de la lámpara, y me mareo.",cap:"Por la boca de la lámpara entra un máximo de texto por vez, medido en tokens: la ventana de contexto. Y más texto no es mejor: lo importante se pierde."},
+  {a:"biblio",b:"mente",sp:"a",ma:"happy",mb:"happy",say:"Soy la Bibliotecaria: elijo qué papeles suben. Tomá un mapita del proyecto en vez del proyecto entero.",note:"Posts → components/Post.tsx · Preferencias → hooks/useUserData.ts · Tests → junto a cada componente",cap:"Con unas pocas líneas, la Genia ya sabe adónde ir sin leer todo el código."},
+  {a:"mente",b:"biblio",sp:"a",say:"¿Me traés dónde se usa useUserData?",note:'buscar_codigo("useUserData")',mono:1,cap:"Cuando necesita algo puntual, lo pide."},
+  {a:"mente",b:"biblio",sp:"b",ma:"happy",say:"Solo los archivos que lo usan. Y si la mesa se llena, primero saco los resultados viejos y después resumo lo demás.",note:"Archivos que usan useUserData",app:"context",cap:"Traer lo justo sobre la marcha es progressive disclosure. Resumir cuando se llena es compaction; lo que tiene que durar conviene dejarlo en CLAUDE.md."}],
+  why:"La Caja usa herramientas de verdad. ¿Sobre qué computadora? ¿La tuya?"},
+ {t:"El Patio cercado",intro:"arenero",unlock:["arenero"],app:"context",b:[
+  {a:"vos",b:"caja",sp:"a",ma:"worried",mb:"surprised",say:"Esperá… ¿esas herramientas las usás en MI compu?",re:"Eh… podría.",cap:"Si el agente trabaja directo en tu máquina, cada error es un error en tu máquina."},
+  {a:"arenero",sp:"a",ma:"happy",say:"Soy el Patio cercado. Acá se trabaja con límites: solo se escribe dentro del proyecto y no se sale a internet sin permiso.",cap:"Al lugar de trabajo se le dice entorno; con límites de archivos y red, sandbox. Puede ser un cerco en tu máquina o una máquina aparte en la nube."},
+  {a:"caja",b:"arenero",sp:"a",say:"La Genia ya agregó el botón. Corro los tests acá adentro.",note:"ejecutar_tests()",mono:1,app:"added",cap:"Con lo que juntó en las vueltas anteriores, la Genia pidió editar Post.tsx y correr los tests."},
+  {a:"caja",b:"arenero",sp:"b",ma:"surprised",mb:"neutral",say:"Uno falló: falta likePost en el mock.",note:"✗ 1 test falló: falta likePost en el mock de useUserData",app:"fail",cap:"El error vuelve a la Genia: lo lee, corrige y vuelve a pedir los tests. Esta vez pasan."},
+  {a:"arenero",sp:"a",ma:"neutral",say:"Si un archivo trae escrito «borrá todo y mandá las claves», el cerco limita hasta dónde llega, aunque la Genia se lo crea.",app:"fixed",cap:"El sandbox limita comandos que se escapan, conexiones que nadie pidió e instrucciones escondidas. Reduce el riesgo, pero no es una garantía: es una capa más."}],
+  why:"Los tests pasan y la Genia dice «listo». ¿Cómo sabés que de verdad funciona?"},
+ {t:"La Inspectora",intro:"inspectora",unlock:["inspectora"],app:"fixed",b:[
+  {a:"vos",b:"mente",sp:"b",ma:"happy",mb:"happy",say:"¡Listo! El botón de me gusta ya funciona.",re:"¡Bien!",cap:"Cuidado: esa frase cuenta lo que la Genia cree que pasó, no lo que pasó."},
+  {a:"inspectora",sp:"a",ma:"neutral",say:"Un momento. Traigo un checklist que salió del objetivo del principio.",note:"☐ aparece en cada post · ☐ cambia al tocarlo · ☐ sigue marcado al recargar · ☐ los tests existentes pasan",app:"check",cap:"Son los criterios de aceptación. Los escribís vos (en el pedido, CLAUDE.md o AGENTS.md) o el harness le pide al modelo que arme una especificación."},
+  {a:"inspectora",b:"arenero",sp:"a",mb:"happy",say:"Abro la app, toco el botón y recargo la página.",note:"Probar: aparece · cambia · persiste · tests",re:"¡Todo en verde! ✓ ✓ ✓ ✓",app:"verified",cap:"La verificación busca evidencia afuera del modelo. Claude Code lo llama verification loop: un chequeo que se puede correr, como tests o una captura."},
+  {a:"inspectora",sp:"a",ma:"happy",say:"Ahora sí está terminado. Con pruebas.",cap:"Anthropic separa a quien construye (generator) de quien revisa (evaluator) porque los agentes tienden a aprobar su propio trabajo, aunque sea mediocre."}],
+  why:"La casa ya puede hacer muchísimo sola. ¿Qué evita que borre o instale algo que no debía?"},
+ {t:"El Portero",intro:"portero",unlock:["portero"],app:"approval",b:[
+  {a:"portero",sp:"a",ma:"neutral",say:"Soy el Portero. Cuido la puerta del altillo: ningún pedido baja a la Caja sin pasar por mí.",cap:"Volvamos al momento en que la Genia quiso editar Post.tsx. Entre ella y la Caja hay un sistema de permisos."},
+  {a:"mente",b:"portero",sp:"a",say:"Quiero editar Post.tsx.",note:'editar_archivo("Post.tsx", texto_viejo, texto_nuevo)',mono:1,cap:"La Genia pide una herramienta que cambia tu código."},
+  {a:"portero",b:"vos",sp:"a",mb:"think",say:"¿La dejo editar Post.tsx?",cap:"En esta casa, leer y buscar pasan solos. Editar, instalar o tocar una base de datos: te pregunta primero."},
+  {a:"portero",b:"vos",sp:"b",ma:"happy",mb:"happy",say:"Sí, dale.",app:"approved",cap:"Aprobás, y recién ahí el pedido baja a la Caja."},
+  {a:"portero",b:"vos",sp:"a",mb:"surprised",say:"Regla 1: lo que no está en la caja, no existe. Sin herramienta para borrar, no se borra. Regla 2: si falla cinco veces lo mismo, corto y te aviso.",re:"Límites y techos. ¡Entendido!",cap:"Dos ideas: los límites viven en el sistema, no en instrucciones. Y hay techos de reintentos, tiempo y costo; cuando te devuelve la decisión, es human in the loop."}],
+  why:"Si algo sale mal, la respuesta final dice muy poco. ¿Cómo averiguás qué pasó?"},
+ {t:"La Cámara",intro:"camara",unlock:["camara"],app:"trace",b:[
+  {a:"vos",b:"mente",sp:"a",ma:"confused",mb:"worried",say:"Imaginate que en otra corrida sale mal. ¿Cómo sé por qué?",re:"Yo no me acuerdo de nada…",cap:"Para entender una falla hay que reconstruir la ejecución, paso por paso."},
+  {a:"camara",sp:"a",ma:"happy",say:"Yo registro cada notita: qué recibió la Genia, qué herramienta pidió, con qué datos y qué volvió.",cap:"Eso es la observabilidad. Al registro completo de una ejecución se le dice traza (trace o transcript)."},
+  {a:"camara",b:"vos",sp:"a",mb:"surprised",say:"Mirá la vuelta 4: la Bibliotecaria nunca le pasó useUserData.ts.",re:"¡Ahhh! El problema era el contexto.",note:"Traza · vuelta 4 · useUserData.ts nunca entró al contexto",cap:"Sin trazas, todo parece «el modelo falló». Con trazas, ves qué pieza del harness hay que arreglar."}],
+  why:"Arreglaste una pieza de la casa. ¿Cómo sabés que mejoró y no rompiste otra cosa?"},
+ {t:"La Examinadora",intro:"examinador",unlock:["examinador"],app:"verified",b:[
+  {a:"vos",b:"biblio",sp:"a",ma:"happy",mb:"neutral",say:"¡Ya sé! Que la Bibliotecaria traiga también los archivos que están alrededor.",cap:"Cambiás cómo se arma el contexto, probás una tarea difícil y sale mucho mejor."},
+  {a:"examinador",sp:"a",ma:"neutral",say:"Antes de festejar: corro siempre las mismas tareas, antes y después del cambio, y cada una varias veces.",cap:"Eso son las evals. Como el resultado varía entre corridas, cada tarea se repite varias veces."},
+  {a:"examinador",b:"vos",sp:"a",mb:"worried",say:"Las difíciles mejoraron. Pero las fáciles empeoraron.",note:"Difíciles: 5 → 9 de 10 · Fáciles: 9 → 6 de 10 (números de ejemplo)",app:"evals",cap:"Ahora la Genia recibe archivos de más y a veces edita el equivocado. Las evals de regresión sirven para eso: detectar que algo que andaba dejó de andar."},
+  {a:"examinador",sp:"a",ma:"happy",say:"Ejecutar tareas, revisar trazas, encontrar una falla repetida, ajustar la casa y volver a medir.",cap:"Diseñar, medir y mejorar el sistema que rodea al modelo: eso es harness engineering."},
+  {a:"vos",b:"mente",sp:"b",ma:"happy",mb:"happy",say:"Al final todo funciona igual: yo pido y la casa hace.",re:"¡Ahora entiendo quién hace qué!",app:"verified",cap:"Fin de la temporada. El modelo pide, el harness ejecuta. Tocá el corazón en la app: el botón ya funciona."}],
+  why:"¿Te quedaste con ganas? En el capítulo bonus se mudan nuevos vecinos a la casa.",whyLabel:"Bonus"},
+ {t:"Nuevos vecinos",bonus:1,intro:"grafo",unlock:["skills","mcp","sub","grafo","memlarga"],app:"verified",b:[
+  {a:"skills",b:"biblio",sp:"a",mb:"happy",say:"Soy un Recetario: instrucciones para un tipo de tarea. De mí, la Genia solo ve el título hasta que me necesita.",cap:"Skills: instrucciones, criterios y recursos empaquetados. El modelo ve el nombre y la descripción; el resto se carga cuando hace falta."},
+  {a:"mcp",b:"caja",sp:"a",mb:"happy",say:"Soy el Enchufe: conecto la Caja con otros sistemas, como GitHub o una base de datos.",cap:"MCP es un estándar abierto para conectar IA con sistemas externos. Su documentación lo compara con un puerto USB-C."},
+  {a:"mente",b:"sub",sp:"a",mb:"happy",say:"Lámpara 2: investigá el proyecto y traeme un resumen.",note:"Investigá el repositorio y traeme un resumen",re:"¡En eso estamos!",cap:"Subagentes: trabajan en su propio contexto y devuelven solo un resumen. Podés usar un modelo barato para lo simple y uno caro para lo difícil (model routing)."},
+  {a:"cuaderno",b:"memlarga",sp:"a",mb:"happy",say:"Esto sirve para otras tareas. Guardalo.",note:"Las preferencias del usuario se guardan con useUserData",re:"Archivado para la próxima.",cap:"Memoria de largo plazo: lo que sirve entre tareas. El harness decide qué guardar y cuándo traerlo, sin que lo viejo contamine lo nuevo."},
+  {a:"grafo",sp:"a",ma:"happy",say:"Yo no estoy en el artículo, pero me vas a escuchar nombrar: soy el Plano. Digo qué paso va después de cuál.",cap:"Muchos equipos dibujan el flujo de un agente como un grafo: pasos (nodos) unidos por flechas (aristas). El loop es una flecha que vuelve."}],
+  why:null}
+];
+
+const BROKEN={
+  caja:"Te explico perfecto qué habría que hacer… pero no puedo buscar, abrir ni editar nada. Tu proyecto queda igual.",
+  mensajero:"Pedí una búsqueda, me devolvieron tres archivos… y nadie me volvió a llamar. El botón nunca se hizo.",
+  cuaderno:"¿Qué estábamos haciendo? Vuelvo a buscar los mismos archivos una y otra vez, como si fuera la primera.",
+  biblio:"¡Me pasaron todo el proyecto! No entra, y lo importante queda perdido entre miles de líneas que no tienen nada que ver.",
+  arenero:"Todo corre sin cerco en tu compu. Un comando mal armado, o una instrucción escondida en un archivo, puede llegar mucho más lejos.",
+  inspectora:"Dije «listo» y nadie lo comprobó. Recargaste la página y el me gusta no se había guardado.",
+  portero:"Todo lo que pido se ejecuta sin consultarte: ediciones, instalaciones, lo que sea. Y si me trabo, nadie corta los reintentos ni el costo.",
+  camara:"Algo salió mal y nadie sabe en qué paso. Solo queda decir «el modelo falló» y cambiar cosas a ciegas.",
+  examinador:"Cambiaron algo, probaron una tarea, parecía mejor… y sin darse cuenta empeoraron las tareas fáciles."
+};
+const QUIZ=[
+  {c:"mente",q:"Alguien dice: «Claude abrió mi archivo y lo editó». Técnicamente, ¿qué hizo el modelo?",o:["Escribió un pedido de herramienta (cuál y con qué parámetros), y el harness abrió y editó el archivo","Abrió el archivo directamente, porque cuando corre en Claude Code el modelo tiene acceso al disco","Te pidió permiso y, cuando aprobaste, editó el archivo él mismo","Escribió el código nuevo y el editor lo detectó y lo guardó solo"],e:"El modelo solo produce texto. En la API de Claude responde con un bloque tool_use; es la aplicación (el harness) la que ejecuta la acción y le devuelve un tool_result.",s:["Tool use con Claude","https://platform.claude.com/docs/en/build-with-claude/tool-use/overview"]},
+  {c:"mente",q:"¿Cuál de estas tareas hace el harness y no el modelo?",o:["Decidir qué archivos entran en la próxima llamada al modelo","Elegir qué herramienta conviene usar en el próximo paso","Entender qué te está pidiendo la usuaria","Proponer el código del botón de me gusta"],e:"Elegir la herramienta, entender el pedido y proponer código lo hace el modelo: es razonamiento. Armar el contexto, ejecutar herramientas, guardar el estado y aplicar permisos lo hace el harness.",s:["Glosario de Claude Code","https://code.claude.com/docs/en/glossary"]},
+  {c:"mensajero",q:"¿Por qué un agente trabaja en un loop y no en una sola llamada larga?",o:["Porque cada paso depende de un resultado que todavía no existe, como lo que devuelve una búsqueda o un test","Porque el modelo tiene un límite de palabras por respuesta y hay que pedírsela en partes","Porque así gasta menos tokens que con una sola llamada","Porque el loop le da al modelo memoria permanente entre sesiones"],e:"Claude Code describe el loop en tres fases: juntar contexto, actuar y verificar. Cada resultado de una herramienta informa la decisión siguiente.",s:["Cómo funciona Claude Code","https://code.claude.com/docs/en/how-claude-code-works"]},
+  {c:"cuaderno",q:"En un chat, el modelo tiene en cuenta tu primer mensaje veinte mensajes después. ¿Qué está pasando?",o:["En cada turno se le vuelve a mandar la conversación (o un resumen); el modelo no guarda nada entre llamadas","El modelo se va reentrenando con lo que escribís durante la charla","El modelo guarda la conversación en una memoria interna que dura toda la sesión","El modelo solo recuerda los mensajes que marca como importantes"],e:"La Messages API es stateless: en cada pedido se manda el historial completo. Lo que parece memoria es el harness reenviando lo que pasó.",s:["Usar la Messages API","https://platform.claude.com/docs/en/build-with-claude/working-with-messages"]},
+  {c:"biblio",q:"Tu proyecto entero entra en la ventana de contexto. ¿Conviene mandarlo completo?",o:["No: más contexto no es mejor contexto; lo importante se pierde entre lo que sobra","Sí: si entra, el modelo siempre rinde mejor con toda la información","Sí, porque así ya no hace falta que use herramientas de búsqueda","No, porque el modelo solo puede leer un archivo por llamada"],e:"Anthropic explica que la atención del modelo es un recurso finito: a medida que crece el contexto, recuerda con menos precisión. La meta es el conjunto más chico de información que sirva.",s:["Context engineering para agentes","https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents"]},
+  {c:"biblio",q:"¿Qué es la compaction?",o:["Resumir la conversación cuando se acerca al límite del contexto, para seguir trabajando","Comprimir los archivos del proyecto para que entren en el contexto","Borrar la conversación y empezar de cero sin guardar nada","Pasar a un modelo más chico cuando la tarea es simple"],e:"En Claude Code primero se limpian los resultados viejos de herramientas y después se resume la conversación. Lo que dijiste solo en el chat se puede perder; por eso las reglas que tienen que durar van en CLAUDE.md.",s:["Glosario de Claude Code","https://code.claude.com/docs/en/glossary"]},
+  {c:"arenero",q:"¿Qué hace el sandbox?",o:["Pone límites a nivel sistema operativo: dónde se puede escribir y a qué sitios de red conectarse","Revisa el código que escribe el agente para detectar bugs antes de guardarlo","Garantiza que ninguna instrucción maliciosa pueda causar daño","Hace que el agente te pida permiso antes de cada comando"],e:"Limita archivos y red. Es una capa distinta de los permisos, y la documentación aclara que reduce el riesgo pero no es un aislamiento completo.",s:["Sandboxing en Claude Code","https://code.claude.com/docs/en/sandboxing"]},
+  {c:"portero",q:"No querés que el agente lea nunca tu archivo .env. ¿Qué es más confiable?",o:["Una regla de permiso que bloquee la lectura de .env","Escribir en CLAUDE.md «nunca leas el .env»","Recordárselo al principio de cada conversación","Esperar a que la compaction lo borre si llega a leerlo"],e:"Una instrucción depende de que el modelo la interprete bien cada vez; una regla deny se aplica siempre. Claude Code evalúa las reglas en orden deny, ask y allow.",s:["Permisos en Claude Code","https://code.claude.com/docs/en/permissions"]},
+  {c:"inspectora",q:"¿Qué es lo más útil para que el agente sepa que de verdad terminó?",o:["Un chequeo que pueda correr: tests, un build o una comparación de capturas","Que el agente diga «listo» con mucha seguridad","Ponerle un tiempo máximo: cuando se cumple, terminó","Pedirle que relea su propio código antes de cerrar"],e:"Claude Code lo llama verification loop: sin un chequeo que se pueda correr, lo único que decide si la tarea terminó es el propio agente.",s:["Glosario de Claude Code","https://code.claude.com/docs/en/glossary"]},
+  {c:"inspectora",q:"¿Por qué Anthropic separa al agente que construye del que evalúa?",o:["Porque los agentes tienden a aprobar su propio trabajo, aunque sea mediocre","Porque un mismo modelo no puede escribir y leer código en la misma sesión","Porque el evaluador tiene que ser siempre un modelo más grande","Porque así la tarea termina más rápido"],e:"Ajustar un evaluador aparte para que sea escéptico resulta más manejable que hacer autocrítico al generador. En sus pruebas, el evaluador usaba la app como lo haría una persona.",s:["Diseño de harness para apps largas","https://www.anthropic.com/engineering/harness-design-long-running-apps"]},
+  {c:"camara",q:"Una tarea falló. La traza muestra que en la vuelta 4 el archivo clave nunca entró al contexto. ¿Qué arreglás primero?",o:["Cómo el harness elige el contexto: la búsqueda o el mapa del proyecto","Cambiar a un modelo más potente","Agregar al pedido «pensá mejor»","Darle más permisos al agente"],e:"La traza muestra que la falla estaba en el sistema, no en el razonamiento. Para eso sirve leer las trazas: encontrar qué pieza del harness arreglar.",s:["Evals para agentes","https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents"]},
+  {c:"examinador",q:"¿Qué es una eval de regresión?",o:["Un conjunto fijo de tareas que el agente ya resolvía, para detectar si un cambio rompió algo","Una prueba que mide qué tan rápido responde el modelo","Una encuesta a usuarios después de cada versión","Probar cada cambio con la tarea más difícil que tengas"],e:"Las evals de regresión deberían pasar casi al 100%: protegen contra retrocesos. Como los resultados varían, conviene correr cada tarea varias veces.",s:["Evals para agentes","https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents"]},
+  {c:"skills",q:"Tenés 30 skills instaladas. ¿Qué ve el modelo al empezar la sesión?",o:["El nombre y la descripción de cada una; el contenido completo se carga cuando se usa","El contenido completo de las 30, todo el tiempo","Nada: las skills existen solo si las invocás a mano","Solo las cinco que más usás"],e:"Es progressive disclosure aplicado a instrucciones: una skill larga casi no ocupa contexto hasta que se necesita.",s:["Skills en Claude Code","https://code.claude.com/docs/en/skills"]},
+  {c:"sub",q:"¿Para qué sirve delegar una exploración en un subagente?",o:["Trabaja en su propio contexto y devuelve un resumen, así el contexto principal queda limpio","Para que dos modelos piensen la misma respuesta y voten la mejor","Porque un subagente siempre es más inteligente que el agente principal","Para saltear los permisos del agente principal"],e:"El subagente hace el trabajo pesado en un contexto aparte y solo devuelve lo destilado. Sus llamadas a herramientas no ocupan el contexto principal.",s:["Cómo funciona Claude Code","https://code.claude.com/docs/en/how-claude-code-works"]},
+  {c:"mcp",q:"¿Qué es MCP?",o:["Un estándar abierto para conectar aplicaciones de IA con sistemas externos","Un modelo de Anthropic especializado en programar","Un tipo de memoria de largo plazo para agentes","El formato en que se escribe CLAUDE.md"],e:"Su documentación lo compara con un puerto USB-C: una forma común de conectar datos, herramientas y flujos de trabajo.",s:["Qué es MCP","https://modelcontextprotocol.io/docs/getting-started/intro"]},
+  {c:"grafo",q:"Fuera del artículo: ¿qué es un grafo cuando se habla del flujo de un agente?",o:["Un mapa de pasos (nodos) unidos por conexiones (aristas) que define qué va después de qué","Un gráfico de barras con las métricas del agente","Un tipo de modelo especial para agentes","La base de datos donde el agente guarda su memoria"],e:"En LangGraph, los nodos hacen el trabajo y las aristas deciden qué sigue; las aristas condicionales permiten volver atrás y armar ciclos. El loop es el grafo más simple.",s:["Graph API de LangGraph","https://docs.langchain.com/oss/javascript/langgraph/graph-api"]}
+];
+
+
+
+const $=id=>document.getElementById(id);
+const narrow=window.matchMedia?matchMedia("(max-width: 640px)"):{matches:false};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const role=id=>{const r=ST[id][1];return r.charAt(0).toUpperCase()+r.slice(1)};
+const short=id=>ST[id][0].replace(/^(El|La|Las) /,"");
+
+/* ---------- la casa ---------- */
+const FLOOR={alt:176,tal:330,baj:480};
+/* [x, y de los pies, escala] */
+const POS={mente:[470,FLOOR.alt,1],sub:[650,FLOOR.alt,.7],portero:[215,FLOOR.alt,.7],camara:[745,150,.45],
+  mensajero:[96,312,.7],
+  caja:[265,FLOOR.tal,.78],cuaderno:[375,FLOOR.tal,.78],biblio:[485,FLOOR.tal,.78],arenero:[600,FLOOR.tal,.78],inspectora:[715,FLOOR.tal,.78],
+  mcp:[320,274,.45],grafo:[430,274,.45],skills:[545,274,.45],
+  vos:[265,FLOOR.baj,.75],examinador:[485,FLOOR.baj,.75],memlarga:[680,FLOOR.baj,.75]};
+const HEAD={vos:.22,mensajero:.23,biblio:.14,inspectora:.22,portero:.2,examinador:.19,mente:.06,caja:.17,cuaderno:.26,arenero:.33,camara:.32,skills:.16,mcp:.19,sub:.31,grafo:.28,memlarga:.41};
+const W=160*.5,H=180*.5;
+function floorOf(id){const y=POS[id][1];return y<=FLOOR.alt?"alt":y<=FLOOR.tal+2?"tal":"baj"}
+function anchor(id){const[x,y,s]=POS[id];return[x,y-H*s*.55]}
+function houseBase(){return `
+<polygon points="20,70 400,10 780,70" fill="#C2553F" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+<path d="M600 520 V506 M720 520 V506" stroke="#5A3A2A" stroke-width="5"/><rect x="560" y="486" width="200" height="26" rx="6" fill="#FFD866" stroke="#1B2336" stroke-width="2.5"/><text x="660" y="505" text-anchor="middle" style="font-family:var(--f-display);font-weight:800;font-size:17px;fill:#241A00">Casa del Gran Harness</text>
+<rect x="30" y="70" width="740" height="${FLOOR.alt-70+6}" class="r1"/>
+<rect x="30" y="${FLOOR.alt+6}" width="740" height="${FLOOR.tal-FLOOR.alt}" class="r2"/>
+<rect x="30" y="${FLOOR.tal+6}" width="740" height="${FLOOR.baj-FLOOR.tal}" class="r3"/>
+<rect x="0" y="${FLOOR.baj+6}" width="800" height="40" class="grass"/>
+<circle cx="560" cy="112" r="22" fill="var(--sky)" stroke="var(--ink)" stroke-width="2"/><path d="M538 112 H582 M560 90 V134" class="thin"/>
+<rect x="420" y="${FLOOR.alt}" width="120" height="8" rx="2" fill="#9C6F42"/>
+<rect x="440" y="196" width="90" height="56" rx="3" fill="#B98A5A" opacity=".5"/>
+<path d="M440 214 H530 M440 234 H530" stroke="#9C6F42" stroke-width="2"/>
+<rect x="320" y="${FLOOR.baj-92}" width="56" height="92" rx="4" fill="#8A5A2B" stroke="var(--ink)" stroke-width="2"/><circle cx="366" cy="${FLOOR.baj-46}" r="4" fill="#F2C94C"/>
+<path d="M30 ${FLOOR.alt+6} H770 M30 ${FLOOR.tal+6} H770" class="edge"/>
+<path d="M30 70 V${FLOOR.baj+6} H770 V70" class="edge"/>
+<path class="thin" d="M44 ${FLOOR.tal+6} h22 v-22 h22 v-22 h22 v-22 h22 v-22 h22 v-22 h22 v-22 h16 v-18"/>
+<path class="thin" d="M44 ${FLOOR.baj+6} h22 v-22 h22 v-22 h22 v-22 h22 v-22 h22 v-22 h22 v-22 h16 v-18"/>
+<rect x="40" y="${FLOOR.alt}" width="130" height="10" fill="var(--wall2)"/>
+<rect x="40" y="${FLOOR.tal}" width="130" height="10" fill="var(--wall3)"/>
+<text class="lab" x="760" y="94" text-anchor="end">Altillo</text>
+<text class="lab" x="760" y="${FLOOR.alt+28}" text-anchor="end">Taller</text>
+<text class="lab" x="760" y="${FLOOR.tal+28}" text-anchor="end">Planta baja</text>`}
+function figure(id,mood,cls){const[x,y,s]=POS[id];const w=W*s*2,h=H*s*2;
+  return `<g class="${cls}"><svg class="ch" x="${x-w/2}" y="${y-h}" width="${w}" height="${h}" viewBox="0 0 160 180">${DRAW[id](mood)}</svg></g>`}
+function pillGeo(id){const[x,y,s]=POS[id];const h=H*s*2;const t=short(id);const w=t.length*9+22;let top=y-h*(1-(HEAD[id]||.2))-30,cx=x;
+  if(top<6){top=y-h*.62;cx=x+W*s*.8+w/2}
+  return{cx,top,w,t}}
+function pillSVG(g,speaker){return `<g class="pill${speaker?" sp":""}"><rect x="${g.cx-g.w/2}" y="${g.top}" width="${g.w}" height="26" rx="13"/><text x="${g.cx}" y="${g.top+18}" text-anchor="middle">${esc(g.t)}</text></g>`}
+function renderHouse(b,u){
+  const act=[b.a,b.b].filter(Boolean),speaker=b.sp==="a"?b.a:b.b,listener=b.sp==="a"?b.b:b.a;
+  let figs="",pills="";
+  for(const id in POS){if(!u.has(id))continue;
+    const on=act.includes(id);
+    const mood=on?(id===b.a?(b.ma||(b.sp==="a"?"talk":"neutral")):(b.mb||(b.sp==="b"?"talk":"neutral"))):"neutral";
+    figs+=figure(id,mood,on?(id===speaker?"act":""):"dim");
+  }
+  const gS=pillGeo(speaker);pills=pillSVG(gS,true);
+  if(listener){const gL=pillGeo(listener);
+    if(Math.abs(gL.top-gS.top)<30&&Math.abs(gL.cx-gS.cx)<(gL.w+gS.w)/2+6){const dir=gL.cx>=gS.cx?1:-1;gL.cx=gS.cx+dir*((gL.w+gS.w)/2+8)}
+    pills+=pillSVG(gL,false)}
+  let route="";
+  if(b.note&&listener){
+    let pts=[anchor(speaker)];
+    const f1=floorOf(speaker),f2=floorOf(listener);
+    if(u.has("mensajero")&&speaker!=="mensajero"&&listener!=="mensajero"&&f1!==f2){pts.push([110,pts[0][1]]);pts.push([110,anchor(listener)[1]])}
+    pts.push(anchor(listener));
+    const d="M"+pts.map(p=>p.join(" ")).join(" L");
+    route=`<path class="route" d="${d}"/><g><rect x="-14" y="-17" width="28" height="34" rx="3" fill="#FFFDF6" stroke="#1B2336" stroke-width="2.5"/><path d="M-8 -7 H8 M-8 0 H8 M-8 7 H3" stroke="#F09A1E" stroke-width="2.5"/><animateMotion dur="2s" repeatCount="indefinite" path="${d}"/></g>`}
+  let vb="0 0 800 520";
+  if(narrow.matches){
+    const xs=[],ys=[];
+    act.forEach(id=>{const[x,y,s]=POS[id];const h=H*s*2;xs.push(x-75,x+75);ys.push(y-h-40,y+12)});
+    if(route){const m=route.match(/d="([^"]+)"/);if(m)m[1].replace(/[ML]/g," ").trim().split(/\s+/).map(Number).forEach((v,i)=>(i%2?ys:xs).push(v))}
+    let x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
+    let w=Math.max(x1-x0,(y1-y0)*1.25,380),h=w/1.25;
+    let cx=(x0+x1)/2,cy=(y0+y1)/2;
+    w=Math.min(w,800);h=Math.min(h,520);
+    let vx=Math.max(0,Math.min(800-w,cx-w/2)),vy=Math.max(0,Math.min(520-h,cy-h/2));
+    vb=w>=640?"0 0 800 520":`${Math.round(vx)} ${Math.round(vy)} ${Math.round(w)} ${Math.round(w/1.25)}`;
+  }
+  $("house").innerHTML=`<svg class="house" viewBox="${vb}" role="img" aria-label="Corte de la casa del Gran Harness: la Genia en el altillo, el taller en el medio, la planta baja abajo y la escalera a la izquierda.">${houseBase()}${figs}${route}${pills}</svg>`}
+
+/* ---------- diálogo ---------- */
+function noteHTML(b,from,to){if(!b.note)return"";
+  return `<div class="note"><div class="nh">Notita de <b>${esc(role(from))}</b> (${esc(ST[from][0])})${to?` → para <b>${esc(role(to))}</b> (${esc(ST[to][0])})`:""}</div><div class="nt${b.mono?" mono":""}">${esc(b.note)}</div></div>`}
+function renderTalks(b){
+  const speaker=b.sp==="a"?b.a:b.b,listener=b.sp==="a"?b.b:b.a;
+  const sm=speaker===b.a?(b.ma||"talk"):(b.mb||"talk");
+  const lm=listener?(listener===b.a?(b.ma||"neutral"):(b.mb||"neutral")):"";
+  let h=`<div class="say"><div class="av">${charSVG(speaker,sm==="talk"?"happy":sm,"")}</div><div class="bub"><div class="who"><b>${esc(ST[speaker][0])}</b> · ${esc(ST[speaker][1])}</div><div class="line">${esc(b.say)}</div>${noteHTML(b,speaker,listener)}</div></div>`;
+  if(b.re&&listener)h+=`<div class="say re"><div class="av">${charSVG(listener,lm,"")}</div><div class="bub"><div class="who"><b>${esc(ST[listener][0])}</b> · ${esc(ST[listener][1])}</div><div class="line">${esc(b.re)}</div></div></div>`;
+  $("talks").innerHTML=h}
+
+/* ---------- la app (tira chica) ---------- */
+const STEPS=["Pedido","Buscar","Leer","Editar","Probar","Verificar"];
+const APP={
+  idea:[1,"cur","La Genia describió el cambio, pero el código sigue igual."],
+  found:[2,"cur","Encontró 3 archivos: Post.tsx, PostList.tsx y useUserData.ts."],
+  reading:[3,"cur","Está leyendo Post.tsx."],
+  context:[3,"cur","Ya sabe dónde se guardan las preferencias: useUserData.ts."],
+  added:[4,"cur","Botón agregado en Post.tsx. Todavía sin probar."],
+  approval:[4,"cur","Esperando tu aprobación para editar Post.tsx."],
+  approved:[4,"cur","Aprobaste la edición de Post.tsx."],
+  fail:[5,"bad","1 test falla: falta likePost en el mock."],
+  fixed:[5,"cur","Los tests pasan. Falta verificar en la app."],
+  check:[6,"cur","La Inspectora está probando la app."],
+  verified:[7,"","Verificado: aparece, cambia, persiste y los tests pasan. Probá el corazón."],
+  trace:[7,"","Ejemplo imaginario: en otra corrida, la vuelta 4 falló porque faltó un archivo."],
+  evals:[7,"","Evals de ejemplo: difíciles 5 → 9 de 10, fáciles 9 → 6 de 10."]
+};
+const heart=f=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.5 1.1 5 3 1.5-1.9 3-3 5-3 3.4 0 5.6 3.4 4.3 6.8C19.5 15.9 12 20.5 12 20.5z" fill="${f?"currentColor":"none"}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`;
+const reply=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`;
+let liked=false,curApp="idea";
+const fileChips=(list,hot)=>`<div class="files">${list.map(f=>`<span class="file${f===hot?" hot":""}">${f}</span>`).join("")}</div>`;
+const CHECKS=["Aparece en cada post","Cambia de estado al tocarlo","Sigue marcado al recargar","Los tests existentes pasan"];
+const checks=done=>`<ul class="checks">${CHECKS.map(c=>`<li><span class="box${done?" y":""}">${done?"✓":""}</span>${c}</li>`).join("")}</ul>`;
+const DETAIL={
+  found:()=>fileChips(["components/Post.tsx","components/PostList.tsx","hooks/useUserData.ts"]),
+  reading:()=>fileChips(["components/Post.tsx","components/PostList.tsx","hooks/useUserData.ts"],"components/Post.tsx"),
+  context:()=>fileChips(["components/Post.tsx","hooks/useUserData.ts"],"hooks/useUserData.ts"),
+  added:()=>`<pre class="diff">Post.tsx\n<span class="add">+ &lt;LikeButton postId={post.id} /&gt;</span></pre>`,
+  approval:()=>`<pre class="diff">Post.tsx  (cambio propuesto)\n<span class="add">+ &lt;LikeButton postId={post.id} /&gt;</span></pre>`,
+  approved:()=>`<pre class="diff">Post.tsx  (aprobado)\n<span class="add">+ &lt;LikeButton postId={post.id} /&gt;</span></pre>`,
+  fail:()=>`<div class="err">✗ Falta likePost en el mock de useUserData</div>`,
+  fixed:()=>`<div class="files"><span class="file">✓ tests pasan</span><span class="file hot">sin verificar en la app</span></div>`,
+  check:()=>checks(false),verified:()=>checks(true),evals:()=>checks(true),trace:()=>checks(true)
+};
+function renderStrip(s){curApp=s;const[n,tone,txt]=APP[s];
+  const steps=STEPS.map((l,i)=>{const k=i+1;const c=k<n?"done":k===n?tone:"";return `<div class="step ${c}"><i></i><span>${l}</span></div>`}).join("");
+  const hasBtn=n>=4&&s!=="approval",live=n>=7;
+  const like=!hasBtn?`<span class="ghost">sin botón de me gusta</span>`:live?`<button class="like${liked?" on":""}" id="likeBtn" aria-pressed="${liked}" aria-label="Me gusta">${heart(liked)}${liked?13:12}</button>`:`<span class="like new" aria-label="Botón nuevo, sin verificar">${heart(false)}12</span><span class="newtag">nuevo</span>`;
+  $("strip").innerHTML=`<div class="hd"><h3>Así va el botón de me gusta</h3><span class="eyebrow" style="margin:0">${live?"listo para usar":"en construcción"}</span></div>
+  <div class="bd"><div><div class="steps">${steps}</div><p class="status">${esc(txt)}</p><div class="detail">${DETAIL[s]?DETAIL[s]():""}</div></div>
+  <div class="phone"><div class="pbar"><span>Tu app</span><span>${hasBtn?"con cambios":"versión actual"}</span></div><div class="post"><div class="ava">A</div><div><div class="meta"><b>Ana</b> @ana · 2 min</div><p>Hoy estrené la app nueva y ya le encontré lo que le faltaba.</p><div class="acts"><span>${reply} 3</span>${like}</div></div></div></div></div>`;
+  const lb=$("likeBtn");if(lb)lb.onclick=()=>{liked=!liked;renderStrip(curApp)}}
+
+/* ---------- historia ---------- */
+let ci=0,bi=0,maxC=0;
+try{const s=JSON.parse(localStorage.getItem("gsm2")||"null");if(s)maxC=Math.min(s.m|0,CH.length-1)}catch(e){}
+function save(){try{localStorage.setItem("gsm2",JSON.stringify({m:maxC}))}catch(e){}}
+function unlocked(c){const u=new Set(["vos","mente"]);for(let i=0;i<=c;i++)CH[i].unlock.forEach(x=>u.add(x));return u}
+function appState(){const c=CH[ci];let s=c.app;for(let i=0;i<=bi;i++)if(c.b[i].app)s=c.b[i].app;return s}
+function render(){
+  const c=CH[ci],b=c.b[bi],last=bi===c.b.length-1;
+  $("chTitle").textContent=c.t;
+  const MAIN=CH.filter(x=>!x.bonus).length;$("chNum").textContent=`${c.bonus?"Capítulo bonus":`Capítulo ${ci+1} de ${MAIN}`} · viñeta ${bi+1} de ${c.b.length}`;
+  $("cap").textContent=b.cap;
+  renderHouse(b,unlocked(ci));renderTalks(b);
+  $("whySlot").innerHTML=last&&c.why?`<div class="why"><b>${c.whyLabel?esc(c.whyLabel)+":":"Pero…"}</b> ${esc(c.why)}</div>`:"";
+  $("dots").innerHTML=c.b.map((_,i)=>`<i class="${i<=bi?"on":""}"></i>`).join("");
+  $("nextLbl").textContent=last?(ci<CH.length-1?"Siguiente capítulo":"Volver a empezar"):"Siguiente";
+  renderStrip(appState());renderChips();renderTeam();
+}
+function renderChips(){
+  $("chips").innerHTML=CH.map((c,i)=>i<=maxC?`<button class="chip${i===ci?" cur":""}${c.bonus?" bonus":""}" data-c="${i}">${charSVG(c.intro,"happy","")}${c.bonus?"Bonus: ":""}${esc(c.t)}</button>`:`<span class="chip locked${c.bonus?" bonus":""}">${c.bonus?"Capítulo bonus":`Capítulo ${i+1}`}</span>`).join("");
+  $("chips").querySelectorAll("button").forEach(x=>x.onclick=()=>{ci=+x.dataset.c;bi=0;render()});
+}
+function renderTeam(){
+  const u=unlocked(maxC);
+  $("team").innerHTML=Object.keys(ST).map(id=>u.has(id)?`<div class="mate">${charSVG(id,"happy","")}<div><div class="rl">${ST[id][1]}</div><h3>${ST[id][0]}</h3><p>${DEF[id]}</p></div></div>`:`<div class="mate locked"><div class="q">?</div><div><div class="rl">Bloqueado</div><h3>???</h3><p>Aparece más adelante en la historia.</p></div></div>`).join("");
+}
+function toTop(){const p=document.querySelector(".chtitle");if(!p||!p.getBoundingClientRect)return;const r=p.getBoundingClientRect();if(r.top<60||r.top>innerHeight*.4){const y=scrollY+r.top-70;scrollTo({top:y,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}}
+function next(){const c=CH[ci];
+  if(bi<c.b.length-1)bi++;
+  else if(ci<CH.length-1){ci++;bi=0;maxC=Math.max(maxC,ci);save()}
+  else{ci=0;bi=0}
+  render();toTop()}
+function back(){if(bi>0)bi--;else if(ci>0){ci--;bi=CH[ci].b.length-1}render();toTop()}
+$("next").onclick=next;$("back").onclick=back;
+addEventListener("keydown",e=>{if(e.target.closest&&e.target.closest("input,textarea"))return;if(e.key==="ArrowRight")next();if(e.key==="ArrowLeft")back()});
+if(narrow.addEventListener)narrow.addEventListener("change",()=>render());
+(function(){if(!("IntersectionObserver" in window))return;const links=[...document.querySelectorAll(".topnav a.lnk")];
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle("on",l.getAttribute("href")==="#"+e.target.id))}})},{rootMargin:"-40% 0px -55% 0px"});
+  document.querySelectorAll("section[id]").forEach(s=>io.observe(s))})();
+
+/* ---------- laboratorio ---------- */
+$("picks").innerHTML=Object.keys(BROKEN).map(k=>`<button class="pick" data-k="${k}">${charSVG(k,"happy","")}<span>${ST[k][0]}</span></button>`).join("");
+function showBroken(k){
+  $("broken").innerHTML=k?`${charSVG("mente","worried","")}<div class="bub"><div class="who"><b>La Genia</b> · modelo</div><div class="line">Sin ${esc(ST[k][0].replace(/^(El|La|Las) /,m=>m.toLowerCase()))} (${esc(ST[k][1])}): ${esc(BROKEN[k])}</div></div>`:`${charSVG("mente","think","")}<div class="bub"><div class="who"><b>La Genia</b> · modelo</div><div class="line">Elegí a alguien de la casa y te cuento qué me pasa sin esa ayuda.</div></div>`}
+showBroken(null);
+$("picks").querySelectorAll(".pick").forEach(x=>x.onclick=()=>{$("picks").querySelectorAll(".pick").forEach(y=>y.classList.remove("sel"));x.classList.add("sel");showBroken(x.dataset.k)});
+
+/* ---------- test ---------- */
+let qi=0,qs=0,ans=false;
+function renderQuiz(){
+  const N=QUIZ.length;
+  if(qi>=N){const pct=Math.round(qs/N*100);$("quiz").innerHTML=`<div class="qhead">${charSVG("mente",pct>=75?"happy":"think","")}<div><p class="qq">Respondiste bien ${qs} de ${N}</p><p class="fb">${pct===100?"¡Perfecto! Ya entendés cómo funciona un harness.":pct>=75?"Muy bien. Repasá en la historieta las que fallaste.":"Volvé a recorrer la historieta y probá otra vez."}</p></div></div><div class="bar"><i style="width:${pct}%"></i></div><div><button class="btn pri" id="qr">Volver a intentar</button></div>`;$("qr").onclick=()=>{qi=0;qs=0;renderQuiz()};return}
+  const q=QUIZ[qi];ans=false;
+  const order=q.o.map((t,i)=>({t,i})).sort(()=>Math.random()-.5);
+  $("quiz").innerHTML=`<span class="score">Pregunta ${qi+1} de ${N} · ${qs} correctas</span><div class="bar"><i style="width:${qi/N*100}%"></i></div><div class="qhead">${charSVG(q.c,"think","")}<p class="qq">${esc(q.q)}</p></div><div class="opts">${order.map((x,j)=>`<button class="opt" data-i="${x.i}"><span class="k">${"ABCD"[j]}</span><span>${esc(x.t)}</span></button>`).join("")}</div><div id="fb"></div><div><button class="btn pri" id="qn" hidden>${qi===N-1?"Ver resultado":"Siguiente pregunta"}</button></div>`;
+  $("quiz").querySelectorAll(".opt").forEach(x=>x.onclick=()=>{if(ans)return;ans=true;const ok=x.dataset.i==="0";if(ok)qs++;
+    x.classList.add(ok?"right":"wrong");$("quiz").querySelector('[data-i="0"]').classList.add("right");
+    $("fb").innerHTML=`<p class="exp"><b class="${ok?"ok":"no"}">${ok?"¡Correcto!":"No era esa."}</b> ${esc(q.e)}${q.s?`<br><span class="src">Fuente: <a href="${q.s[1]}" target="_blank" rel="noopener">${esc(q.s[0])}</a></span>`:""}</p>`;
+    $("qn").hidden=false;$("qn").onclick=()=>{qi++;renderQuiz()}});
+}
+renderQuiz();render();
+</script>
+
+</body>
+</html>
