@@ -297,6 +297,8 @@ html{scroll-behavior:smooth}
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 [hidden]{display:none!important}
 </style>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
@@ -323,7 +325,7 @@ html{scroll-behavior:smooth}
       <li><i style="background:var(--wall3)"></i><b>Planta baja</b><span>el harness entre tareas</span></li>
       <li><i style="background:var(--sky)"></i><b>Afuera</b><span>vos, que hacés el pedido</span></li>
     </ul>
-    <p class="why-it"><b>¿Por qué importa?</b> LangChain pasó del puesto 30 al top 5 de Terminal Bench 2.0 <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank" rel="noopener">cambiando solo el harness</a>, sin tocar el modelo.</p>
+    <p class="why-it"><b>¿Por qué importa?</b> LangChain pasó del top 30 al top 5 de Terminal Bench 2.0 <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank" rel="noopener">cambiando solo el harness</a>, sin tocar el modelo.</p>
   </header>
 
   <section class="story" id="historieta" aria-label="Historieta">
@@ -476,7 +478,7 @@ const DEF={
   caja:"Las herramientas que el harness le ofrece: buscar, leer, editar, correr tests. La Genia pide; el harness ejecuta.",
   mensajero:"Llama a la Genia una y otra vez y le cuenta qué pasó en la vuelta anterior. Genia + casa dando vueltas = un agente.",
   cuaderno:"Guarda afuera de la Genia lo que va pasando y se lo vuelve a pasar en cada vuelta.",
-  biblio:"Elige qué ve la Genia en cada llamada: un mapa primero, y solo los archivos que hacen falta.",
+  biblio:"Arma lo que ve la Genia en cada llamada: primero un mapa, y después solo lo que ella pide o hace falta.",
   arenero:"Un entorno con límites: dónde se puede escribir y a qué sitios de internet se puede conectar. Reduce el daño de un error, pero no es una garantía total.",
   inspectora:"Compara el resultado con los criterios de aceptación y busca evidencia real antes de dar algo por terminado.",
   portero:"Decide qué herramientas existen, cuáles corren solas y cuáles te consultan. Pone techos a los reintentos.",
@@ -494,7 +496,7 @@ function charSVG(id,m,cls){return `<svg class="${cls||"ch"}" viewBox="0 0 160 18
 const CH=[
  {t:"La Genia",intro:"mente",unlock:[],app:"idea",b:[
   {a:"mente",sp:"a",ma:"happy",say:"¡Hola! Tengo todas las ideas del mundo, pero no tengo cuerpo. Lo único que puedo hacer es leer las notitas que me acercan y dictar la respuesta.",cap:"Bienvenidos a la casa del Gran Harness. Ella es la Genia y representa al modelo: es puro pensamiento, no puede tocar nada, y vive en una lámpara del altillo."},
-  {a:"mente",sp:"a",ma:"think",say:"Por ahora estoy sola en la casa. Nadie me ayuda: lo que me pidan, solo puedo contestarlo.",cap:"La casa empieza vacía a propósito. Así funciona un modelo sin harness, como en un chat. En cada capítulo se muda alguien nuevo, y cada habitante es una pieza del harness."},
+  {a:"mente",sp:"a",ma:"think",say:"Por ahora estoy sola en la casa. Nadie me ayuda: lo que me pidan, solo puedo contestarlo.",cap:"La casa empieza vacía a propósito: así es un modelo solo, que recibe texto y devuelve texto. En cada capítulo se muda alguien nuevo, y cada habitante es una pieza del harness."},
   {a:"vos",b:"mente",sp:"a",say:"¡Tengo un pedido para vos!",note:"Agregá un botón de me gusta a los posts.",cap:"Vos llegás a la puerta. No sos parte del harness: sos quien hace el pedido, y a la Genia le llega como texto."},
   {a:"vos",b:"mente",sp:"b",ma:"neutral",say:"¡Fácil! Te dicto cómo se hace.",note:"Habría que agregar un botón en el componente del post.",cap:"La Genia entiende perfecto y dicta su respuesta, que aparece escrita en otra notita."},
   {a:"vos",b:"mente",sp:"a",ma:"confused",mb:"worried",say:"¿Y? ¿Ya está el botón?",re:"Eh… no. No puedo tocar nada. Solo te dicté cómo se haría.",cap:"Tu proyecto quedó igual. Sin herramientas, el modelo solo puede responder con texto."}],
@@ -528,7 +530,7 @@ const CH=[
  {t:"El Patio cercado",intro:"arenero",unlock:["arenero"],app:"context",b:[
   {a:"vos",b:"caja",sp:"a",ma:"worried",mb:"surprised",say:"Esperá… ¿esas herramientas las usás en MI compu?",re:"Eh… podría.",cap:"Si el agente trabaja directo en tu máquina, cada error es un error en tu máquina."},
   {a:"arenero",sp:"a",ma:"happy",say:"Soy el Patio cercado: el lugar donde la Caja usa sus herramientas. Acá se trabaja con límites: solo se escribe dentro del proyecto y no se sale a internet sin permiso.",cap:"Al lugar de trabajo se le dice entorno; con límites de archivos y red, sandbox. Puede ser un cerco en tu máquina o una máquina aparte en la nube."},
-  {a:"caja",b:"arenero",sp:"a",say:"La Genia ya agregó el botón. Corro los tests acá adentro.",note:"ejecutar_tests()",mono:1,app:"added",cap:"Con lo que juntó en las vueltas anteriores, la Genia pidió editar Post.tsx y correr los tests."},
+  {a:"caja",b:"arenero",sp:"a",say:"Ya edité Post.tsx como dictó la Genia. Ahora corro los tests acá adentro.",note:"ejecutar_tests()",mono:1,app:"added",cap:"Con lo que juntó en las vueltas anteriores, la Genia pidió editar Post.tsx y correr los tests."},
   {a:"caja",b:"arenero",sp:"b",ma:"surprised",mb:"neutral",say:"Uno falló: falta likePost en el mock.",note:"✗ 1 test falló: falta likePost en el mock de useUserData",app:"fail",cap:"El error vuelve a la Genia: lo lee, corrige y vuelve a pedir los tests. Esta vez pasan."},
   {a:"arenero",sp:"a",ma:"neutral",say:"Si un archivo trae escrito «borrá todo y mandá las claves», el cerco limita hasta dónde llega, aunque la Genia se lo crea.",app:"fixed",cap:"El sandbox limita comandos que se escapan, conexiones que nadie pidió e instrucciones escondidas. Reduce el riesgo, pero no es una garantía: es una capa más."}],
   why:"Los tests pasan y la Genia dice «listo». ¿Cómo sabés que de verdad funciona?"},
@@ -578,8 +580,8 @@ const BROKEN={
   examinador:"Cambiaron algo, probaron una tarea, parecía mejor… y sin darse cuenta empeoraron las tareas fáciles."
 };
 const QUIZ=[
-  {c:"mente",q:"Alguien dice: «Claude abrió mi archivo y lo editó». Técnicamente, ¿qué hizo el modelo?",o:["Generó un pedido de herramienta (cuál y con qué parámetros), y el harness abrió y editó el archivo","Abrió el archivo directamente, porque cuando corre en Claude Code el modelo tiene acceso al disco","Te pidió permiso y, cuando aprobaste, editó el archivo él mismo","Generó el código nuevo y el editor lo detectó y lo guardó solo"],e:"El modelo solo produce texto. En la API de Claude responde con un bloque tool_use; es la aplicación (el harness) la que ejecuta la acción y le devuelve un tool_result.",s:["Tool use con Claude","https://platform.claude.com/docs/en/build-with-claude/tool-use/overview"]},
-  {c:"mente",q:"¿Cuál de estas tareas hace el harness y no el modelo?",o:["Decidir qué archivos entran en la próxima llamada al modelo","Elegir qué herramienta conviene usar en el próximo paso","Entender qué te está pidiendo la usuaria","Proponer el código del botón de me gusta"],e:"Elegir la herramienta, entender el pedido y proponer código lo hace el modelo: es razonamiento. Armar el contexto, ejecutar herramientas, guardar el estado y aplicar permisos lo hace el harness.",s:["Glosario de Claude Code","https://code.claude.com/docs/en/glossary"]},
+  {c:"mente",q:"Alguien dice: «Claude abrió mi archivo y lo editó». Técnicamente, ¿qué hizo el modelo?",o:["Generó un pedido de herramienta (cuál y con qué parámetros), y el harness abrió y editó el archivo","Abrió el archivo directamente, porque cuando corre en Claude Code el modelo tiene acceso al disco","Te pidió permiso y, cuando aprobaste, editó el archivo él mismo","Generó el código nuevo y el editor lo detectó y lo guardó solo"],e:"El modelo solo produce texto. En la API de Claude responde con un bloque tool_use; quien ejecuta la acción y le devuelve un tool_result es el harness (tu aplicación o, en las herramientas de servidor, la plataforma).",s:["Tool use con Claude","https://platform.claude.com/docs/en/build-with-claude/tool-use/overview"]},
+  {c:"mente",q:"¿Cuál de estas tareas hace el harness y no el modelo?",o:["Armar lo que se le manda al modelo en cada llamada","Elegir qué herramienta conviene usar en el próximo paso","Entender qué te está pidiendo la usuaria","Proponer el código del botón de me gusta"],e:"Elegir la herramienta, entender el pedido y proponer código lo hace el modelo: es razonamiento. Armar lo que se le manda, ejecutar herramientas, guardar el estado y aplicar permisos lo hace el harness.",s:["Glosario de Claude Code","https://code.claude.com/docs/en/glossary"]},
   {c:"mensajero",q:"¿Por qué un agente trabaja en un loop y no en una sola llamada larga?",o:["Porque cada paso depende de un resultado que todavía no existe, como lo que devuelve una búsqueda o un test","Porque el modelo tiene un límite de palabras por respuesta y hay que pedírsela en partes","Porque así gasta menos tokens que con una sola llamada","Porque el loop le da al modelo memoria permanente entre sesiones"],e:"Claude Code describe el loop en tres fases: juntar contexto, actuar y verificar. Cada resultado de una herramienta informa la decisión siguiente.",s:["Cómo funciona Claude Code","https://code.claude.com/docs/en/how-claude-code-works"]},
   {c:"cuaderno",q:"En un chat, el modelo tiene en cuenta tu primer mensaje veinte mensajes después. ¿Qué está pasando?",o:["En cada turno se le vuelve a mandar la conversación (o un resumen); el modelo no guarda nada entre llamadas","El modelo se va reentrenando con lo que escribís durante la charla","El modelo guarda la conversación en una memoria interna que dura toda la sesión","El modelo solo recuerda los mensajes que marca como importantes"],e:"La Messages API es stateless: en cada pedido se manda el historial completo. Lo que parece memoria es el harness reenviando lo que pasó.",s:["Usar la Messages API","https://platform.claude.com/docs/en/build-with-claude/working-with-messages"]},
   {c:"biblio",q:"Tu proyecto entero entra en la ventana de contexto. ¿Conviene mandarlo completo?",o:["No: más contexto no es mejor contexto; lo importante se pierde entre lo que sobra","Sí: si entra, el modelo siempre rinde mejor con toda la información","Sí, porque así ya no hace falta que use herramientas de búsqueda","No, porque el modelo solo puede leer un archivo por llamada"],e:"Anthropic explica que la atención del modelo es un recurso finito: a medida que crece el contexto, recuerda con menos precisión. La meta es el conjunto más chico de información que sirva.",s:["Context engineering para agentes","https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents"]},

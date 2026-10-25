@@ -6,7 +6,7 @@ Bienvenidos a la casa de GH. En una lámpara del altillo vive la Genia, que repr
 
 Los pisos de la casa también tienen significado: en el **altillo** está el modelo; en el **taller**, el harness en acción (lo que pasa mientras se resuelve una tarea); en la **planta baja**, el harness entre tareas (las evals y la memoria de largo plazo). **Afuera** de la casa está la usuaria que hace el pedido: no es parte del agente.
 
-**¿Por qué importa?** Porque el mismo modelo rinde muy distinto según el harness que lo rodea: LangChain llevó su agente del puesto 30 al top 5 de Terminal Bench 2.0 [cambiando solo el harness](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering).
+**¿Por qué importa?** Porque el mismo modelo rinde muy distinto según el harness que lo rodea: LangChain llevó su agente del top 30 al top 5 de Terminal Bench 2.0 [cambiando solo el harness](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering).
 
 ## Secciones
 

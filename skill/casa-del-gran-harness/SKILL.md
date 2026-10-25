@@ -21,7 +21,7 @@ Necesitás, como mínimo, el **pedido literal** de la persona. Con eso solo ya s
 - El prompt completo o el system prompt, si es un agente propio.
 - Instrucciones persistentes: `CLAUDE.md`, `AGENTS.md` o equivalentes.
 - Herramientas y conexiones disponibles (incluidos los servidores MCP).
-- Permisos y límites: qué corre solo, qué pide aprobación, qué está prohibido. En Claude Code están en `.claude/settings.json` y `~/.claude/settings.json`; los servidores MCP del proyecto, en `.mcp.json`; las skills, en `.claude/skills/`.
+- Permisos y límites: qué corre solo, qué pide aprobación, qué está prohibido. En Claude Code están en `.claude/settings.json`, `.claude/settings.local.json` y `~/.claude/settings.json`; los servidores MCP del proyecto, en `.mcp.json`; las skills, en `.claude/skills/`.
 - Lo que pasó: la traza o transcript de la ejecución, los logs, los resultados de los tests, el resultado final.
 - Si la persona pide "pasá a historieta lo que acabás de hacer", la traza es esta misma conversación: usá los pasos que realmente diste.
 
