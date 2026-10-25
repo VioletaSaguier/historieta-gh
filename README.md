@@ -14,10 +14,10 @@ Los pisos de la casa también tienen significado: en el **altillo** está el mod
 - **Personajes:** quién es quién y qué pieza del harness representa.
 - **Sacá una pieza:** una prueba de ablación. Quitá un personaje y mirá qué deja de funcionar.
 - **Test de conocimiento:** 16 preguntas con explicación y fuente oficial.
-- **Tu flujo en la casa:** cómo usar la skill para ver tu propio pedido en historieta.
+- **La skill:** cómo usar la skill para ver tu propio pedido en historieta.
 - **Fuentes:** documentación oficial de Claude Code, la API de Claude, Anthropic Engineering, Codex, MCP, LangChain y LangGraph.
 
-## Skill: tu flujo en la casa
+## La skill
 
 La carpeta [`skill/casa-del-gran-harness`](skill/casa-del-gran-harness) es una [Agent Skill](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) que convierte tu pedido (y, si la tenés, la traza de lo que hizo tu agente) en una historieta de la casa. Cada personaje lleva una marca con el estado de su pieza del harness:
 
