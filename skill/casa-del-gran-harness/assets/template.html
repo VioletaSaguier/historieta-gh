@@ -2,6 +2,9 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#EEF1EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#11161F" media="(prefers-color-scheme: dark)">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>__TITLE__ · La casa del Gran Harness</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,6 +33,7 @@
   --ok:#6FD48D;--ok-soft:#173523;--bad:#FF8A80;--bad-soft:#3D1D1B;--warn:#FFD27A;--warn-soft:#3A2C0E;
   --blue:#8DB8F2;--blue-soft:#18273D;--rev:#B9A6FF;--rev-soft:#2A2344;--gone:#9AA3B0;--gone-soft:#262D3A;color-scheme:dark}
 *{box-sizing:border-box}
+:root{color-scheme:light}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding:24px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
 .wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:36px}
@@ -171,6 +175,22 @@ footer p{margin:0;max-width:76ch}
   .floors{font-size:12px;justify-content:center}.floors .l{display:none}.house .lab{display:none}
   .house .pill text{font-size:18px}
   .cards{grid-template-columns:minmax(0,1fr)}
+}
+
+@media (max-width:640px){
+  .caption{display:block;font-size:15px;line-height:1.42;padding:10px 12px}
+  .caption b{display:inline-block;margin:0 6px 0 0;padding:1px 6px;font-size:10px;vertical-align:1px}
+  #house .floors{display:none}
+  .house{max-height:none}
+  .talks{padding:10px;gap:8px}
+  .say{gap:8px}
+  .say .av{width:40px;height:44px;border-radius:10px}
+  .bub{padding:8px 11px;gap:4px;border-radius:16px}
+  .line{font-size:15px}
+  .note .nt{font-size:14px}
+  .note .nt.mono{font-size:13px}
+  .nav{padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px))}
+  .nav .btn{min-height:44px;padding:9px 14px}
 }
 @media (prefers-reduced-motion:reduce){.house .act,.house .route,.ch .talk,.bub{animation:none}}
 [hidden]{display:none!important}
@@ -373,10 +393,10 @@ function renderHouse(b){
     act.concat(b.pieza&&POS[b.pieza]?[b.pieza]:[]).forEach(id=>{const[x,y,s]=POS[id];const h=H*s*2;xs.push(x-75,x+75);ys.push(y-h-40,y+12)});
     if(route){const m=route.match(/d="([^"]+)"/);if(m)m[1].replace(/[ML]/g," ").trim().split(/\s+/).map(Number).forEach((v,i)=>(i%2?ys:xs).push(v))}
     let x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
-    let w=Math.max(x1-x0,(y1-y0)*1.25,380);
-    let cx=(x0+x1)/2,cy=(y0+y1)/2;w=Math.min(w,900);const h=Math.min(w/1.25,520);
+    let w=Math.max(x1-x0,(y1-y0)*1.7,380);
+    let cx=(x0+x1)/2,cy=(y0+y1)/2;w=Math.min(w,900);const h=Math.min(w/1.7,520);
     let vx=Math.max(0,Math.min(900-w,cx-w/2)),vy=Math.max(0,Math.min(520-h,cy-h/2));
-    vb=w>=640?"0 0 900 520":`${Math.round(vx)} ${Math.round(vy)} ${Math.round(w)} ${Math.round(w/1.25)}`;
+    vb=w>=640?"0 0 900 520":`${Math.round(vx)} ${Math.round(vy)} ${Math.round(w)} ${Math.round(w/1.7)}`;
   }
   const fl=new Set(act.map(floorOf));
   const legend=`<div class="floors">${[["alt","wall","Altillo","el modelo"],["tal","wall2","Taller","el harness en acción"],["baj","wall3","Planta baja","el harness entre tareas"],["out","sky","Afuera","quien pide"]].map(([k,c,n,d])=>`<span class="${fl.has(k)?"on":""}"><i style="background:var(--${c})"></i><b>${n}</b> <span class="l">${d}</span></span>`).join("")}</div>`;

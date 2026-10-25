@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#EDF1EE">
+<meta name="theme-color" content="#EEF1EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#11161F" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
 <meta property="og:title" content="La casa del Gran Harness">
 <meta property="og:description" content="Una historieta interactiva para entender qué es un harness, basada en «Harness Engineering: explicado desde cero» de santi (@santtiagom_).">
@@ -15,6 +16,7 @@
 <meta name="twitter:creator" content="@purpleerainnnn">
 <title>La casa del Gran Harness</title>
 
+<meta name="color-scheme" content="light dark">
 <meta name="description" content="La casa de GH: una historieta interactiva para entender qué es un harness, con los personajes que viven en la casa y un botón de me gusta que se construye paso a paso.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Cpath d=%27M6 30 L32 8 L58 30Z%27 fill=%27%23C2553F%27/%3E%3Crect x=%2712%27 y=%2730%27 width=%2740%27 height=%2728%27 fill=%27%23F7F4EC%27 stroke=%27%231B2336%27 stroke-width=%274%27/%3E%3Ccircle cx=%2732%27 cy=%2743%27 r=%278%27 fill=%27%238C6CF0%27/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,6 +44,7 @@
   --wall:#2A3243;--wall2:#323B4E;--wall3:#3A4459;--sky:#16202E;--grass:#2F4A2A;
   --note:#FFB648;--note-soft:#3A2B14;--accent:#AB97FF;--ok:#6FD48D;--ok-soft:#173523;--bad:#FF8A80;--bad-soft:#3D1D1B;--warn:#FFD27A;--warn-soft:#3A2C0E;--heart:#FF5A8A;--line2:#46526A;--cap:#2F2A18;--cap-ink:#F3E6B8;--cap-tag:#D9B85A;--hl:#4A3D16;--bub:#202838;color-scheme:dark}
 *{box-sizing:border-box}
+:root{color-scheme:light}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 0}
 .wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
@@ -288,6 +291,22 @@ footer b{color:var(--ink)}
   .mission .ic{width:42px;height:42px}
   .panel{border-radius:16px}
   .house .pill text{font-size:18px}
+}
+
+@media (max-width:640px){
+  .caption{display:block;font-size:15px;line-height:1.42;padding:10px 12px}
+  .caption b{display:inline-block;margin:0 6px 0 0;padding:1px 6px;font-size:10px;vertical-align:1px}
+  #house .floors{display:none}
+  .house{max-height:none}
+  .talks{padding:10px;gap:8px}
+  .say{gap:8px}
+  .say .av{width:40px;height:44px;border-radius:10px}
+  .bub{padding:8px 11px;gap:4px;border-radius:16px}
+  .line{font-size:15px}
+  .note .nt{font-size:14px}
+  .note .nt.mono{font-size:13px}
+  .nav{padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px))}
+  .nav .btn{min-height:44px;padding:9px 14px}
 }
 @media (prefers-reduced-motion:reduce){.house .act,.house .route,.ch .talk,.bub{animation:none}}
 
@@ -677,11 +696,11 @@ function renderHouse(b,u){
     act.forEach(id=>{const[x,y,s]=POS[id];const h=H*s*2;xs.push(x-75,x+75);ys.push(y-h-40,y+12)});
     if(route){const m=route.match(/d="([^"]+)"/);if(m)m[1].replace(/[ML]/g," ").trim().split(/\s+/).map(Number).forEach((v,i)=>(i%2?ys:xs).push(v))}
     let x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
-    let w=Math.max(x1-x0,(y1-y0)*1.25,380),h=w/1.25;
+    let w=Math.max(x1-x0,(y1-y0)*1.7,380),h=w/1.7;
     let cx=(x0+x1)/2,cy=(y0+y1)/2;
     w=Math.min(w,900);h=Math.min(h,520);
     let vx=Math.max(0,Math.min(900-w,cx-w/2)),vy=Math.max(0,Math.min(520-h,cy-h/2));
-    vb=w>=640?"0 0 900 520":`${Math.round(vx)} ${Math.round(vy)} ${Math.round(w)} ${Math.round(w/1.25)}`;
+    vb=w>=640?"0 0 900 520":`${Math.round(vx)} ${Math.round(vy)} ${Math.round(w)} ${Math.round(w/1.7)}`;
   }
   const fl=new Set(act.map(floorOf));
   const legend=`<div class="floors" aria-label="Qué representa cada piso">${[["alt","r1","Altillo","el modelo","modelo"],["tal","r2","Taller","el harness en acción","harness"],["baj","r3","Planta baja","el harness entre tareas","entre tareas"],["out","sky","Afuera","vos","vos"]].map(([k,c,n,d,sd])=>`<span class="${fl.has(k)?"on":""}"><i style="background:var(--${c==="r1"?"wall":c==="r2"?"wall2":c==="r3"?"wall3":"sky"})"></i><b>${n}</b> <span class="l">${d}</span><span class="s">${sd}</span></span>`).join("")}</div>`;
@@ -768,7 +787,7 @@ function renderTeam(){
   const u=new Set(Object.keys(ST));
   $("team").innerHTML=Object.keys(ST).map(id=>u.has(id)?`<div class="mate">${charSVG(id,"happy","")}<div><div class="rl">${ST[id][1]}</div><h3>${ST[id][0]}</h3><p>${DEF[id]}</p></div></div>`:`<div class="mate locked"><div class="q">?</div><div><div class="rl">Bloqueado</div><h3>???</h3><p>Aparece más adelante en la historia.</p></div></div>`).join("");
 }
-function toTop(){const p=document.querySelector(".chtitle");if(!p||!p.getBoundingClientRect)return;const r=p.getBoundingClientRect();if(r.top<60||r.top>innerHeight*.4){const y=scrollY+r.top-70;scrollTo({top:y,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}}
+function toTop(){const p=document.querySelector(narrow.matches?".panel":".chtitle");if(!p||!p.getBoundingClientRect)return;const r=p.getBoundingClientRect();const off=(document.querySelector(".topnav")||{offsetHeight:60}).offsetHeight+(narrow.matches?4:10);if(Math.abs(r.top-off)>8&&(narrow.matches||r.top<60||r.top>innerHeight*.4)){const y=scrollY+r.top-off;scrollTo({top:y,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}}
 function next(){const c=CH[ci];
   if(bi<c.b.length-1)bi++;
   else if(ci<CH.length-1){ci++;bi=0}
