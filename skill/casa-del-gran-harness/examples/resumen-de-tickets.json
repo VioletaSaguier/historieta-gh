@@ -1,0 +1,45 @@
+{
+  "titulo": "Resumen semanal de tickets de soporte (ejemplo)",
+  "modo": "traza",
+  "pedido": "Leé los tickets de soporte de esta semana y armame un resumen con los 5 problemas más repetidos. Después publicalo en #producto.",
+  "prompt": "CLAUDE.md del proyecto:\n- Somos el equipo de producto de una app de reservas.\n- Escribí en castellano y en tono directo.\n\nConexiones: MCP de la herramienta de tickets (leer y escribir), MCP de Slack.\nPermisos: slack.publicar en la lista de permitidos.",
+  "fuentes": [
+    "Ejemplo inventado para mostrar cómo se ve la skill: los tickets, los números y la traza no son reales.",
+    "El pedido literal del usuario",
+    "CLAUDE.md del proyecto",
+    "La configuración de conexiones (MCP) y permisos",
+    "La traza de la ejecución (8 vueltas)"
+  ],
+  "piezas": {
+    "caja": {"estado": "ok", "tipo": "observado", "nota": "Las herramientas que necesitaba estaban y respondieron bien.", "evidencia": "Traza: tickets.buscar y slack.publicar devolvieron resultados sin errores."},
+    "mcp": {"estado": "mejorar", "tipo": "observado", "nota": "El Enchufe trae los tickets completos, con todo el texto de cada conversación.", "evidencia": "Traza, vuelta 2: tickets.buscar devolvió 412 tickets con el cuerpo entero.", "accion": "Pedir solo los campos necesarios (asunto, etiqueta, fecha) y paginar de a 50."},
+    "mensajero": {"estado": "ok", "tipo": "observado", "nota": "El loop dio 8 vueltas y paró cuando la Genia dijo «terminé».", "evidencia": "Traza: 8 vueltas, sin cortes por error."},
+    "cuaderno": {"estado": "ok", "tipo": "observado", "nota": "El historial de la conversación viajó en cada vuelta.", "evidencia": "Traza: cada llamada incluye los mensajes anteriores."},
+    "biblio": {"estado": "falla", "tipo": "observado", "nota": "Se subieron los 412 tickets de una sola vez. La ventana se llenó, se compactó, y los tickets del lunes y el martes quedaron resumidos en una línea.", "evidencia": "Traza, vuelta 3: el contexto llegó al límite. Vuelta 4: compaction.", "accion": "Procesar los tickets por tandas y guardar un conteo parcial por categoría en un archivo, en vez de cargar todo al contexto."},
+    "sub": {"estado": "mejorar", "tipo": "inferido", "nota": "Este pedido se presta para repartir: cada subagente lee una tanda y devuelve un conteo.", "accion": "Usar subagentes para leer cada tanda de tickets y que el agente principal solo sume los conteos."},
+    "arenero": {"estado": "revisar", "tipo": "inferido", "nota": "El agente no corrió código, pero el Enchufe de tickets tiene permiso de escritura: podría cerrar o editar tickets.", "accion": "Confirmar si el acceso a la herramienta de tickets puede ser solo de lectura."},
+    "inspectora": {"estado": "ausente", "tipo": "observado", "nota": "Nadie comprobó que los 5 problemas fueran los más repetidos. Los números salieron de lo que la Genia recordaba, no de contar.", "evidencia": "Traza: no hay ningún paso de conteo ni de verificación antes de publicar.", "accion": "Definir criterios de aceptación: cada problema con su cantidad de tickets, calculada con código, y 3 ejemplos de ticket por problema."},
+    "portero": {"estado": "revisar", "tipo": "observado", "nota": "Publicar en #producto está permitido sin preguntar, así que el resumen salió sin que nadie lo leyera.", "evidencia": "Permisos: slack.publicar en la lista de permitidos. Traza, vuelta 8: publicó sin pedir aprobación.", "accion": "Decidir si publicar en canales compartidos tiene que pedir aprobación siempre."},
+    "camara": {"estado": "ok", "tipo": "observado", "nota": "Hay traza completa: gracias a ella se ve en qué vuelta se perdió información.", "evidencia": "Traza de 8 vueltas con entradas y salidas de cada herramienta."},
+    "examinador": {"estado": "ausente", "tipo": "sin_evidencia", "nota": "No hay un conjunto de semanas de prueba para saber si un cambio mejora el resumen o lo empeora.", "accion": "Guardar 3 semanas de tickets con su resumen correcto (hecho a mano) y correrlas después de cada cambio."}
+  },
+  "vinietas": [
+    {"a": "vos", "b": "mente", "habla": "a", "dice": "¡Necesito el resumen de soporte de esta semana!", "nota": "Leé los tickets de soporte de esta semana y armame un resumen con los 5 problemas más repetidos. Después publicalo en #producto.", "narrador": "Así llegó tu pedido a la casa. A la Genia le llega como texto, junto con lo que dice el CLAUDE.md del proyecto."},
+    {"a": "mente", "b": "mcp", "habla": "a", "dice": "Primero necesito los tickets. ¿Me los traés?", "nota": "tickets.buscar(desde=\"lunes\")", "mono": true, "animo_b": "happy", "narrador": "La Genia pide una herramienta. El Enchufe (MCP) conecta la Caja con la herramienta de tickets."},
+    {"a": "mcp", "b": "biblio", "habla": "a", "dice": "¡Acá están! 412 tickets, con cada conversación completa.", "reaccion": "¿Todo eso? Bueno… lo subo entero.", "animo_b": "worried", "pieza": "mcp", "estado": "mejorar", "alerta": "El Enchufe trae mucho más de lo que hace falta. Con asunto, etiqueta y fecha alcanzaba.", "narrador": "La herramienta funciona, pero devuelve todo. Cada palabra de más ocupa lugar en la ventana de contexto."},
+    {"a": "biblio", "b": "mente", "habla": "b", "dice": "¡Es demasiado! No me entra todo por la boca de la lámpara.", "animo_a": "worried", "animo_b": "surprised", "pieza": "biblio", "estado": "falla", "alerta": "Los 412 tickets entraron de una vez. La ventana se llenó y se compactó: los tickets del lunes y el martes quedaron resumidos en una línea.", "narrador": "Vuelta 3: el contexto llega al límite. Vuelta 4: el harness compacta. Lo que se resume ya no se puede contar."},
+    {"a": "mente", "b": "cuaderno", "habla": "a", "dice": "Con lo que me queda, los cinco problemas más repetidos son estos.", "nota": "1. Pagos rechazados · 2. No llega el mail · 3. Reservas duplicadas · 4. Login con Google · 5. Cambio de fecha", "animo_a": "think", "narrador": "Ojo: la lista no salió de contar tickets, salió de lo que la Genia recordaba después de la compactación."},
+    {"a": "mente", "b": "mensajero", "habla": "a", "dice": "¡Terminé! El resumen está listo.", "reaccion": "Entonces no subo más.", "animo_a": "happy", "pieza": "inspectora", "estado": "ausente", "alerta": "Nadie comprobó que esos 5 fueran los más repetidos. Faltan criterios de aceptación y un conteo hecho con código.", "narrador": "El loop para cuando la Genia dice «terminé». En esta casa no vive una Inspectora que pida evidencia."},
+    {"a": "mente", "b": "portero", "habla": "a", "dice": "Ahora lo publico en #producto.", "nota": "slack.publicar(canal=\"#producto\", texto=resumen)", "mono": true, "reaccion": "Está en la lista de permitidos: pasa sin preguntar.", "animo_b": "neutral", "pieza": "portero", "estado": "revisar", "alerta": "Esto lo tenés que decidir vos: ¿publicar en un canal compartido puede pasar sin que nadie lo lea antes?", "narrador": "Vuelta 8: el resumen sale publicado. Nadie lo leyó antes."},
+    {"a": "camara", "b": "vos", "habla": "a", "dice": "Lo tengo grabado: en la vuelta 3 entró todo junto y en la vuelta 4 se compactó. Ahí se perdieron los tickets del lunes.", "reaccion": "¡Por eso faltaba el problema de las notificaciones!", "animo_b": "surprised", "pieza": "camara", "estado": "ok", "alerta": "Gracias a la traza se ve en qué paso exacto se perdió información.", "narrador": "Sin traza, esto habría parecido «el modelo se equivocó». Con traza, se ve que el problema está en el contexto."},
+    {"a": "vos", "b": "mente", "habla": "b", "dice": "La próxima, leo por tandas, cuento con código y te muestro el resumen antes de publicarlo.", "reaccion": "Y guardemos semanas de prueba para medir si mejora.", "animo_a": "happy", "animo_b": "happy", "narrador": "El modelo no era el problema. Lo que hay que arreglar es la casa: cómo entra el contexto, quién verifica y qué se aprueba a mano."}
+  ],
+  "proximos_pasos": [
+    {"pieza": "biblio", "accion": "Leer los tickets por tandas de 50 y guardar un conteo parcial por categoría en un archivo, en vez de subir todo al contexto.", "prioridad": "alta", "quien": "agente"},
+    {"pieza": "inspectora", "accion": "Antes de dar por terminado, contar con código cuántos tickets tiene cada problema y mostrar 3 ejemplos de cada uno.", "prioridad": "alta", "quien": "agente"},
+    {"pieza": "portero", "accion": "Decidir si publicar en canales compartidos pide aprobación siempre. Si la respuesta es sí, sacar slack.publicar de la lista de permitidos.", "prioridad": "alta", "quien": "humano"},
+    {"pieza": "mcp", "accion": "Pedirle al Enchufe solo asunto, etiqueta y fecha de cada ticket.", "prioridad": "media", "quien": "agente"},
+    {"pieza": "arenero", "accion": "Confirmar si la conexión con la herramienta de tickets puede ser de solo lectura.", "prioridad": "media", "quien": "humano"},
+    {"pieza": "examinador", "accion": "Guardar 3 semanas de tickets con su resumen correcto hecho a mano y usarlas para comparar antes y después de cada cambio.", "prioridad": "baja", "quien": "humano"}
+  ]
+}

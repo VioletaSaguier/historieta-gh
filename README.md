@@ -14,7 +14,36 @@ Los pisos de la casa también tienen significado: en el **altillo** está el mod
 - **Personajes:** quién es quién y qué pieza del harness representa.
 - **Sacá una pieza:** una prueba de ablación. Quitá un personaje y mirá qué deja de funcionar.
 - **Test de conocimiento:** 16 preguntas con explicación y fuente oficial.
+- **Tu flujo en la casa:** cómo usar la skill para ver tu propio pedido en historieta.
 - **Fuentes:** documentación oficial de Claude Code, la API de Claude, Anthropic Engineering, Codex, MCP, LangChain y LangGraph.
+
+## Skill: tu flujo en la casa
+
+La carpeta [`skill/casa-del-gran-harness`](skill/casa-del-gran-harness) es una [Agent Skill](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) que convierte tu pedido (y, si la tenés, la traza de lo que hizo tu agente) en una historieta de la casa. Cada personaje lleva una marca con el estado de su pieza del harness:
+
+| Estado | Qué significa |
+|---|---|
+| ✓ Funciona | Hay evidencia de que cumple su función en este flujo. |
+| ↑ Conviene mejorar | Funciona, pero hay un ajuste concreto que lo haría más confiable, rápido o barato. |
+| ! Incompleta | La pieza existe, pero le falta algo para este pedido. |
+| ✗ Falla | Esta pieza causó o dejó pasar un error. |
+| ? Revisión humana | Hace falta una decisión tuya: un permiso, un riesgo o un criterio. |
+| ○ No está | La pieza no existe en este flujo y su falta importa. |
+
+Al final hay un diagnóstico por pieza y una lista priorizada de qué arreglar, con un botón para copiar los pasos como pedido para tu agente. Mirá [un ejemplo](ejemplo-skill.html).
+
+La skill nunca marca una pieza como «Funciona» sin evidencia observada, y separa lo observado de lo inferido. Si solo le das el pedido, arma una simulación y lo aclara.
+
+**En Claude Code:** copiá la carpeta a `~/.claude/skills/` (todos tus proyectos) o a `.claude/skills/` (solo ese proyecto) y pedí `/casa-del-gran-harness`.
+
+```bash
+git clone https://github.com/VioletaSaguier/historieta-gh
+cp -r historieta-gh/skill/casa-del-gran-harness ~/.claude/skills/
+```
+
+**En Claude (web y app):** descargá [`casa-del-gran-harness.zip`](skill/casa-del-gran-harness.zip) y subilo en **Customize → Skills → + → Create skill → Upload a skill**. Necesitás tener activada la ejecución de código ([cómo usar skills en Claude](https://support.claude.com/en/articles/12512180-use-skills-in-claude)).
+
+El script que arma la página (`scripts/build.py`) usa solo la biblioteca estándar de Python.
 
 ## Inspiración
 

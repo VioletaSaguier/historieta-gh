@@ -255,6 +255,20 @@ button.like:hover{border-color:var(--heart)}
 .srcs span{font-size:14px;color:var(--muted)}
 .srcs i{font-style:normal;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
 .fb{margin:0}
+.estados{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.estados li{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:4px 12px 4px 5px;font-size:14px}
+.ei{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;color:#fff;font-weight:700;font-size:13px;line-height:1}
+.use{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:760px){.use{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.usecard{background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.usecard h3{font-size:17px}
+.usecard p{margin:0;font-size:15px;color:var(--muted)}
+.usecard b{color:var(--ink)}
+.usecard code,.usecard pre{font-family:var(--f-mono);font-size:13px;background:var(--wall);border-radius:6px}
+.usecard code{padding:1px 5px;color:var(--ink)}
+.usecard pre{margin:0;padding:10px;overflow-x:auto;color:var(--ink)}
+.row-btns{display:flex;flex-wrap:wrap;gap:10px}
+.row-btns .btn{text-decoration:none}
 .score{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
 footer{border-top:1px solid var(--line);padding:20px 0 40px;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:10px}
 footer p{margin:0;max-width:72ch}
@@ -294,6 +308,7 @@ html{scroll-behavior:smooth}
     <a class="lnk" href="#personajes">Personajes</a>
     <a class="lnk" href="#stress">Sacá una pieza</a>
     <a class="lnk" href="#test">Test de conocimiento</a>
+    <a class="lnk" href="#tuflujo">Tu flujo</a>
     <a class="lnk" href="#fuentes">Fuentes</a>
   </div>
 </nav>
@@ -349,6 +364,29 @@ html{scroll-behavior:smooth}
     <h2 id="quizH">Testeá tu conocimiento</h2>
     <p>Dieciséis preguntas con respuestas que suenan razonables: la idea es separar el concepto de las confusiones más comunes. Después de cada una te explico por qué y te dejo la fuente oficial.</p>
     <div class="quiz" id="quiz"></div>
+  </section>
+
+  <section class="sec" id="tuflujo" aria-labelledby="flujoH">
+    <h2 id="flujoH">Tu flujo en la casa</h2>
+    <p>Con la skill <b style="color:var(--ink)">casa-del-gran-harness</b>, tu agente cuenta tu propio pedido como una historieta de la casa: qué hizo cada pieza del harness y en qué estado quedó. Así ves de un vistazo dónde se rompió el flujo, qué está incompleto y qué tenés que decidir vos.</p>
+    <ul class="estados" aria-label="Estados de cada pieza">
+      <li><span class="ei" style="background:#1F7A3A">✓</span>Funciona</li>
+      <li><span class="ei" style="background:#1F5FAD">↑</span>Conviene mejorar</li>
+      <li><span class="ei" style="background:#8A5A00">!</span>Incompleta</li>
+      <li><span class="ei" style="background:#B3261E">✗</span>Falla</li>
+      <li><span class="ei" style="background:#6A4BD8">?</span>Revisión humana</li>
+      <li><span class="ei" style="background:#6B7380">○</span>No está</li>
+    </ul>
+    <div class="use">
+      <div class="usecard"><h3>En Claude Code</h3><p>Copiá la carpeta de la skill a <code>~/.claude/skills/</code> (para todos tus proyectos) o a <code>.claude/skills/</code> (solo este proyecto). Después pedí <code>/casa-del-gran-harness</code> o escribí «pasá a la casa de GH lo que acabás de hacer».</p><pre>git clone https://github.com/VioletaSaguier/historieta-gh
+cp -r historieta-gh/skill/casa-del-gran-harness ~/.claude/skills/</pre></div>
+      <div class="usecard"><h3>En Claude (web y app)</h3><p>Descargá el .zip, andá a <b>Customize → Skills</b>, tocá <b>+</b>, <b>Create skill</b> y <b>Upload a skill</b>. Necesitás tener activada la ejecución de código.</p><p>Después pegá tu pedido (y si tenés, la traza) y pedí «mostrame esto en la casa del Gran Harness».</p></div>
+    </div>
+    <div class="row-btns">
+      <a class="btn pri" href="ejemplo-skill.html" target="_blank" rel="noopener">Ver un ejemplo</a>
+      <a class="btn" href="https://github.com/VioletaSaguier/historieta-gh/raw/main/skill/casa-del-gran-harness.zip">Descargar la skill (.zip)</a>
+      <a class="btn" href="https://github.com/VioletaSaguier/historieta-gh/tree/main/skill/casa-del-gran-harness" target="_blank" rel="noopener">Ver el código</a>
+    </div>
   </section>
 
   <section class="sec" id="fuentes" aria-labelledby="srcH">

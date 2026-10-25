@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Resumen semanal de tickets de soporte (ejemplo) · La casa del Gran Harness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Generado por la skill casa-del-gran-harness. Una historieta del flujo del agente + diagnóstico por pieza del harness. */
+:root{
+  --bg:#EEF1EF;--surface:#FFFFFF;--ink:#1B2336;--muted:#5E6878;--line:#D3DAD6;--line2:#AEB8B3;--cap:#FFF4CF;--cap-ink:#3D3110;--cap-tag:#8A6A10;--hl:#FFEDB0;--bub:#FFFFFF;
+  --wall:#F7F4EC;--wall2:#ECE5D3;--wall3:#E2D8C0;--sky:#DCEBF2;--grass:#9CC48A;
+  --note:#F09A1E;--note-soft:#FFF3DE;--accent:#6A4BD8;
+  --ok:#1F7A3A;--ok-soft:#E3F3E7;--bad:#B3261E;--bad-soft:#FBE4E2;--warn:#8A5A00;--warn-soft:#FFF0CC;
+  --blue:#1F5FAD;--blue-soft:#E2ECF8;--rev:#6A4BD8;--rev-soft:#EEE9FC;--gone:#6B7380;--gone-soft:#ECEEF0;
+  --f-display:"Bricolage Grotesque",ui-rounded,"Trebuchet MS",sans-serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11161F;--surface:#1A2130;--ink:#E9EDF3;--muted:#9EAABB;--line:#2D3749;--line2:#46526A;--cap:#2F2A18;--cap-ink:#F3E6B8;--cap-tag:#D9B85A;--hl:#4A3D16;--bub:#202838;
+  --wall:#2A3243;--wall2:#323B4E;--wall3:#3A4459;--sky:#16202E;--grass:#2F4A2A;--note:#FFB648;--note-soft:#3A2B14;--accent:#AB97FF;
+  --ok:#6FD48D;--ok-soft:#173523;--bad:#FF8A80;--bad-soft:#3D1D1B;--warn:#FFD27A;--warn-soft:#3A2C0E;
+  --blue:#8DB8F2;--blue-soft:#18273D;--rev:#B9A6FF;--rev-soft:#2A2344;--gone:#9AA3B0;--gone-soft:#262D3A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11161F;--surface:#1A2130;--ink:#E9EDF3;--muted:#9EAABB;--line:#2D3749;--line2:#46526A;--cap:#2F2A18;--cap-ink:#F3E6B8;--cap-tag:#D9B85A;--hl:#4A3D16;--bub:#202838;
+  --wall:#2A3243;--wall2:#323B4E;--wall3:#3A4459;--sky:#16202E;--grass:#2F4A2A;--note:#FFB648;--note-soft:#3A2B14;--accent:#AB97FF;
+  --ok:#6FD48D;--ok-soft:#173523;--bad:#FF8A80;--bad-soft:#3D1D1B;--warn:#FFD27A;--warn-soft:#3A2C0E;
+  --blue:#8DB8F2;--blue-soft:#18273D;--rev:#B9A6FF;--rev-soft:#2A2344;--gone:#9AA3B0;--gone-soft:#262D3A;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding:24px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:36px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(22px,3.2vw,28px);font-weight:700}
+a{color:var(--accent)}
+button:focus-visible{outline:3px solid var(--note);outline-offset:2px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.sec{display:flex;flex-direction:column;gap:14px}
+.sec>p{margin:0;color:var(--muted);max-width:66ch}
+
+.hero{display:flex;flex-direction:column;gap:14px}
+.mode{display:inline-flex;align-self:flex-start;align-items:center;gap:6px;font-size:13px;border:1.5px solid var(--line2);border-radius:999px;padding:3px 10px;background:var(--surface);color:var(--muted)}
+.mode b{color:var(--ink);font-weight:700}
+.ask{background:var(--surface);border:1.5px solid var(--line2);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.ask .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ask .t{font-family:var(--f-display);font-weight:600;font-size:clamp(17px,2.4vw,21px);line-height:1.3;white-space:pre-wrap;overflow-wrap:anywhere}
+.ask details{font-size:14px;color:var(--muted)}
+.ask summary{cursor:pointer;color:var(--ink);font-weight:600}
+.ask pre{font-family:var(--f-mono);font-size:13px;background:var(--wall);border-radius:10px;padding:10px;white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0 0;max-height:320px;overflow:auto}
+.ask ul{margin:6px 0 0;padding-left:20px}
+.sum{display:flex;flex-wrap:wrap;gap:8px}
+.st{font:inherit;font-size:14px;display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 12px 5px 6px;cursor:pointer}
+.st[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1.5px var(--ink)}
+.st .n{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.ic{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;font-size:13px;font-weight:700;color:var(--surface);flex:0 0 auto;line-height:1}
+.e-ok .ic,.ic.e-ok{background:var(--ok)}.e-mejorar .ic,.ic.e-mejorar{background:var(--blue)}.e-incompleto .ic,.ic.e-incompleto{background:var(--warn)}
+.e-falla .ic,.ic.e-falla{background:var(--bad)}.e-revisar .ic,.ic.e-revisar{background:var(--rev)}.e-ausente .ic,.ic.e-ausente{background:var(--gone)}
+
+.story{display:flex;flex-direction:column;gap:12px}
+.panel{border:1.5px solid var(--line2);border-radius:20px;overflow:hidden;overflow:clip;background:var(--surface)}
+.caption{background:var(--cap);color:var(--cap-ink);font-size:clamp(16px,1.9vw,18px);line-height:1.5;padding:12px 16px;border-bottom:1.5px solid var(--line2);display:flex;gap:12px;align-items:flex-start}
+.caption b{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;flex:0 0 auto;font-weight:500;color:var(--cap-tag);border:1px solid currentColor;border-radius:6px;padding:3px 7px;margin-top:3px}
+#house{background:var(--sky);border-bottom:1.5px solid var(--line2);display:flex;flex-direction:column}
+.floors{display:flex;flex-wrap:wrap;gap:4px 8px;padding:7px 10px;border-top:1px solid var(--line);background:var(--surface);font-size:13px;color:var(--muted)}
+.floors>span{display:inline-flex;align-items:center;gap:6px;padding:2px 6px;border-radius:8px}
+.floors i{width:14px;height:14px;border-radius:4px;border:1px solid var(--line2)}
+.floors b{color:var(--ink);font-family:var(--f-display);font-weight:600}
+.floors>span.on{background:var(--hl);color:var(--cap-ink)}.floors>span.on b{color:var(--cap-ink)}
+.house{display:block;width:100%;height:auto;max-height:52vh;background:var(--sky);margin-block:auto}
+.house .r1{fill:var(--wall)}.house .r2{fill:var(--wall2)}.house .r3{fill:var(--wall3)}
+.house .edge{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+.house .thin{fill:none;stroke:var(--ink);stroke-width:2}
+.house .lab{font-family:var(--f-mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;fill:var(--ink);opacity:.6}
+.house .grass{fill:var(--grass)}
+.house .dim{opacity:.3}
+.house .gone{opacity:.14;filter:grayscale(1)}
+.house .act{animation:bob 1s ease-in-out infinite;transform-box:fill-box;transform-origin:bottom}
+.house .pill rect{fill:var(--surface);stroke:var(--line2);stroke-width:1.5}
+.house .pill.sp rect{fill:#FFE9A6;stroke:#8A6A10}
+.house .pill text{font-family:var(--f-display);font-weight:600;font-size:16px;fill:var(--ink)}
+.house .pill.sp text{fill:#3D3110}
+.house .badge text{font-family:var(--f-body);font-weight:700;font-size:15px;fill:#fff}
+.house .badge circle{stroke:var(--surface);stroke-width:2.5}
+.house .focus{fill:none;stroke-width:4;stroke-dasharray:7 6}
+.house .route{fill:none;stroke:var(--note);stroke-width:5;stroke-dasharray:12 9;stroke-linecap:round;stroke-linejoin:round;animation:dash 1s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-21}}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.ch .talk{transform-box:fill-box;transform-origin:center;animation:talk .28s ease-in-out infinite alternate}
+@keyframes talk{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
+.talks{background:var(--wall);padding:14px;display:flex;flex-direction:column;gap:10px}
+.say{display:flex;gap:10px;align-items:flex-start;max-width:640px}
+.say.re{align-self:flex-end;flex-direction:row-reverse}
+.say .av{width:58px;height:64px;flex:0 0 auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:2px}
+.say .av svg{width:100%;height:100%}
+.bub{position:relative;background:var(--bub);border:1.5px solid var(--line2);border-radius:18px;padding:10px 14px;min-width:0;display:flex;flex-direction:column;gap:6px;animation:popin .3s ease}
+.say.re .bub{border-style:dashed}
+.bub::before{content:"";position:absolute;top:16px;left:-10px;border:8px solid transparent;border-right:11px solid var(--line2);border-left:0}
+.bub::after{content:"";position:absolute;top:18px;left:-7px;border:6px solid transparent;border-right:8px solid var(--bub);border-left:0}
+.say.re .bub::before{left:auto;right:-10px;border-right:0;border-left:11px solid var(--line2)}
+.say.re .bub::after{left:auto;right:-7px;border-right:0;border-left:8px solid var(--bub)}
+.who{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.who b{font-family:var(--f-display);font-size:14px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--ink)}
+.line{font-family:var(--f-display);font-weight:500;font-size:clamp(15px,1.6vw,17px);line-height:1.3;overflow-wrap:anywhere}
+.note{background:var(--note-soft);border:1px solid var(--note);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:2px}
+.note .nh{font-family:var(--f-mono);font-size:11px;color:var(--cap-tag)}
+.note .nh b{font-weight:500;color:var(--ink)}
+.note .nt{font-size:15px;line-height:1.35;overflow-wrap:anywhere;white-space:pre-wrap}
+.note .nt.mono{font-family:var(--f-mono);font-size:13.5px}
+@keyframes popin{from{transform:translateY(6px);opacity:0}to{transform:none;opacity:1}}
+.alert{margin:0 14px 10px;border-radius:14px;padding:10px 14px;display:flex;gap:10px;align-items:flex-start;border:1.5px solid}
+.alert .ic{margin-top:1px}
+.alert b{font-family:var(--f-display)}
+.alert.e-ok{background:var(--ok-soft);border-color:var(--ok)}.alert.e-mejorar{background:var(--blue-soft);border-color:var(--blue)}
+.alert.e-incompleto{background:var(--warn-soft);border-color:var(--warn)}.alert.e-falla{background:var(--bad-soft);border-color:var(--bad)}
+.alert.e-revisar{background:var(--rev-soft);border-color:var(--rev)}.alert.e-ausente{background:var(--gone-soft);border-color:var(--gone)}
+.nav{display:flex;gap:10px;align-items:center;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--wall);position:sticky;bottom:0;z-index:5;border-top:1px solid var(--line)}
+@media (min-width:980px){
+  .panel{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);grid-template-rows:auto 1fr auto auto}
+  #house{grid-column:1;grid-row:1 / 5;border-bottom:0;border-right:1.5px solid var(--line2)}
+  .house{max-height:78vh}
+  .caption{grid-column:2;grid-row:1}.talks{grid-column:2;grid-row:2;align-content:start}
+  #alertSlot{grid-column:2;grid-row:3}.nav{grid-column:2;grid-row:4}.say{max-width:none}
+}
+#alertSlot{background:var(--wall)}
+.dots{display:flex;gap:5px;flex:1;justify-content:center;flex-wrap:wrap;min-width:0}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--ink)}
+.dots i.e-falla{box-shadow:0 0 0 2px var(--bad)}.dots i.e-revisar{box-shadow:0 0 0 2px var(--rev)}.dots i.e-incompleto{box-shadow:0 0 0 2px var(--warn)}
+.btn{font:inherit;font-weight:600;border-radius:12px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--line2);display:inline-flex;align-items:center;gap:6px;background:var(--surface);color:var(--ink)}
+.btn.pri{background:var(--ink);color:var(--bg)}
+.chtitle{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.chtitle span{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.card{background:var(--surface);border:1.5px solid var(--line);border-left-width:6px;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card.e-ok{border-left-color:var(--ok)}.card.e-mejorar{border-left-color:var(--blue)}.card.e-incompleto{border-left-color:var(--warn)}
+.card.e-falla{border-left-color:var(--bad)}.card.e-revisar{border-left-color:var(--rev)}.card.e-ausente{border-left-color:var(--gone);border-style:dashed;border-left-style:solid}
+.card .top{display:flex;gap:10px;align-items:center}
+.card .top svg{width:52px;height:58px;flex:0 0 auto;background:var(--wall);border-radius:12px}
+.card.e-ausente .top svg{opacity:.4;filter:grayscale(1)}
+.card h3{font-size:16px}
+.card .rl{font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;margin-top:2px}
+.tag .ic{width:18px;height:18px;font-size:11px}
+.card p{margin:0;font-size:15px}
+.ev{font-size:14px;color:var(--muted);background:var(--wall);border-radius:10px;padding:8px 10px;overflow-wrap:anywhere}
+.ev i{font-style:normal;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin-right:6px}
+.todo{font-size:15px}
+.todo b{font-family:var(--f-display)}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.steps li{background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start}
+.steps li svg{width:44px;height:50px;flex:0 0 auto;background:var(--wall);border-radius:10px}
+.steps .num{font-family:var(--f-mono);font-size:13px;color:var(--muted);min-width:22px;margin-top:2px}
+.steps .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pchip{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;border-radius:6px;padding:2px 7px;border:1px solid var(--line2);color:var(--muted)}
+.pchip.alta{border-color:var(--bad);color:var(--bad)}.pchip.media{border-color:var(--warn);color:var(--warn)}
+.pchip.humano{border-color:var(--rev);color:var(--rev)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.copied{font-size:14px;color:var(--ok)}
+footer{border-top:1px solid var(--line);padding:20px 0 40px;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:8px}
+footer p{margin:0;max-width:76ch}
+@media (max-width:640px){
+  .caption{flex-direction:column;gap:6px;padding:12px 14px}
+  .talks{padding:12px}
+  .say .av{width:44px;height:50px;border-radius:12px}
+  .btn{padding:12px 16px;min-height:48px}
+  .floors{font-size:12px;justify-content:center}.floors .l{display:none}.house .lab{display:none}
+  .house .pill text{font-size:18px}
+  .cards{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){.house .act,.house .route,.ch .talk,.bub{animation:none}}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow">Tu flujo, en la casa del Gran Harness</p>
+    <h1 id="title"></h1>
+    <span class="mode" id="mode"></span>
+    <div class="ask" id="ask"></div>
+    <div class="sum" id="sum" aria-label="Resumen del diagnóstico"></div>
+  </header>
+
+  <section class="story" aria-label="Historieta del flujo">
+    <div class="chtitle"><h2>La historieta</h2><span id="num"></span></div>
+    <div class="panel">
+      <div class="caption"><b>Narrador</b><span id="cap"></span></div>
+      <div id="house"></div>
+      <div class="talks" id="talks"></div>
+      <div id="alertSlot"></div>
+      <div class="nav">
+        <button class="btn" id="back" aria-label="Viñeta anterior"><span aria-hidden="true">←</span></button>
+        <div class="dots" id="dots"></div>
+        <button class="btn pri" id="next"><span id="nextLbl">Siguiente</span><span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="diag" aria-labelledby="diagH">
+    <h2 id="diagH">Diagnóstico por pieza</h2>
+    <p>Cada habitante de la casa es una pieza del harness. Tocá un estado arriba para filtrar.</p>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section class="sec" id="pasos" aria-labelledby="pasosH">
+    <h2 id="pasosH">Qué arreglar primero</h2>
+    <p>Los pasos marcados como <b style="color:var(--rev)">humano</b> necesitan una decisión tuya. Los de <b>agente</b> se los podés pedir directamente.</p>
+    <ol class="steps" id="steps"></ol>
+    <div class="row"><button class="btn" id="copy">Copiar los pasos como pedido para el agente</button><span class="copied" id="copied" aria-live="polite"></span></div>
+  </section>
+
+  <footer>
+    <p id="srcs"></p>
+    <p>Hecho con la skill <b>casa-del-gran-harness</b>. Los personajes son metáforas de las piezas de un harness, de <a href="https://github.com/VioletaSaguier/historieta-gh" target="_blank" rel="noopener">La casa del Gran Harness</a>, creada por <a href="https://x.com/purpleerainnnn" target="_blank" rel="noopener">@purpleerainnnn</a> e inspirada en <a href="https://x.com/santtiagom_/article/2098782814837543075" target="_blank" rel="noopener">«Harness Engineering: explicado desde cero»</a> de santi (@santtiagom_).</p>
+    <p>El diagnóstico lo escribe un modelo a partir de la evidencia que tuvo a mano: revisalo antes de actuar.</p>
+  </footer>
+</div>
+
+<script>
+const STORY={"titulo": "Resumen semanal de tickets de soporte (ejemplo)", "modo": "traza", "pedido": "Leé los tickets de soporte de esta semana y armame un resumen con los 5 problemas más repetidos. Después publicalo en #producto.", "prompt": "CLAUDE.md del proyecto:\n- Somos el equipo de producto de una app de reservas.\n- Escribí en castellano y en tono directo.\n\nConexiones: MCP de la herramienta de tickets (leer y escribir), MCP de Slack.\nPermisos: slack.publicar en la lista de permitidos.", "fuentes": ["Ejemplo inventado para mostrar cómo se ve la skill: los tickets, los números y la traza no son reales.", "El pedido literal del usuario", "CLAUDE.md del proyecto", "La configuración de conexiones (MCP) y permisos", "La traza de la ejecución (8 vueltas)"], "piezas": {"caja": {"estado": "ok", "tipo": "observado", "nota": "Las herramientas que necesitaba estaban y respondieron bien.", "evidencia": "Traza: tickets.buscar y slack.publicar devolvieron resultados sin errores."}, "mcp": {"estado": "mejorar", "tipo": "observado", "nota": "El Enchufe trae los tickets completos, con todo el texto de cada conversación.", "evidencia": "Traza, vuelta 2: tickets.buscar devolvió 412 tickets con el cuerpo entero.", "accion": "Pedir solo los campos necesarios (asunto, etiqueta, fecha) y paginar de a 50."}, "mensajero": {"estado": "ok", "tipo": "observado", "nota": "El loop dio 8 vueltas y paró cuando la Genia dijo «terminé».", "evidencia": "Traza: 8 vueltas, sin cortes por error."}, "cuaderno": {"estado": "ok", "tipo": "observado", "nota": "El historial de la conversación viajó en cada vuelta.", "evidencia": "Traza: cada llamada incluye los mensajes anteriores."}, "biblio": {"estado": "falla", "tipo": "observado", "nota": "Se subieron los 412 tickets de una sola vez. La ventana se llenó, se compactó, y los tickets del lunes y el martes quedaron resumidos en una línea.", "evidencia": "Traza, vuelta 3: el contexto llegó al límite. Vuelta 4: compaction.", "accion": "Procesar los tickets por tandas y guardar un conteo parcial por categoría en un archivo, en vez de cargar todo al contexto."}, "sub": {"estado": "mejorar", "tipo": "inferido", "nota": "Este pedido se presta para repartir: cada subagente lee una tanda y devuelve un conteo.", "accion": "Usar subagentes para leer cada tanda de tickets y que el agente principal solo sume los conteos."}, "arenero": {"estado": "revisar", "tipo": "inferido", "nota": "El agente no corrió código, pero el Enchufe de tickets tiene permiso de escritura: podría cerrar o editar tickets.", "accion": "Confirmar si el acceso a la herramienta de tickets puede ser solo de lectura."}, "inspectora": {"estado": "ausente", "tipo": "observado", "nota": "Nadie comprobó que los 5 problemas fueran los más repetidos. Los números salieron de lo que la Genia recordaba, no de contar.", "evidencia": "Traza: no hay ningún paso de conteo ni de verificación antes de publicar.", "accion": "Definir criterios de aceptación: cada problema con su cantidad de tickets, calculada con código, y 3 ejemplos de ticket por problema."}, "portero": {"estado": "revisar", "tipo": "observado", "nota": "Publicar en #producto está permitido sin preguntar, así que el resumen salió sin que nadie lo leyera.", "evidencia": "Permisos: slack.publicar en la lista de permitidos. Traza, vuelta 8: publicó sin pedir aprobación.", "accion": "Decidir si publicar en canales compartidos tiene que pedir aprobación siempre."}, "camara": {"estado": "ok", "tipo": "observado", "nota": "Hay traza completa: gracias a ella se ve en qué vuelta se perdió información.", "evidencia": "Traza de 8 vueltas con entradas y salidas de cada herramienta."}, "examinador": {"estado": "ausente", "tipo": "sin_evidencia", "nota": "No hay un conjunto de semanas de prueba para saber si un cambio mejora el resumen o lo empeora.", "accion": "Guardar 3 semanas de tickets con su resumen correcto (hecho a mano) y correrlas después de cada cambio."}}, "vinietas": [{"a": "vos", "b": "mente", "narrador": "Así llegó tu pedido a la casa. A la Genia le llega como texto, junto con lo que dice el CLAUDE.md del proyecto.", "sp": "a", "say": "¡Necesito el resumen de soporte de esta semana!", "note": "Leé los tickets de soporte de esta semana y armame un resumen con los 5 problemas más repetidos. Después publicalo en #producto."}, {"a": "mente", "b": "mcp", "mono": 1, "narrador": "La Genia pide una herramienta. El Enchufe (MCP) conecta la Caja con la herramienta de tickets.", "sp": "a", "say": "Primero necesito los tickets. ¿Me los traés?", "note": "tickets.buscar(desde=\"lunes\")", "mb": "happy"}, {"a": "mcp", "b": "biblio", "pieza": "mcp", "estado": "mejorar", "alerta": "El Enchufe trae mucho más de lo que hace falta. Con asunto, etiqueta y fecha alcanzaba.", "narrador": "La herramienta funciona, pero devuelve todo. Cada palabra de más ocupa lugar en la ventana de contexto.", "sp": "a", "say": "¡Acá están! 412 tickets, con cada conversación completa.", "re": "¿Todo eso? Bueno… lo subo entero.", "mb": "worried"}, {"a": "biblio", "b": "mente", "pieza": "biblio", "estado": "falla", "alerta": "Los 412 tickets entraron de una vez. La ventana se llenó y se compactó: los tickets del lunes y el martes quedaron resumidos en una línea.", "narrador": "Vuelta 3: el contexto llega al límite. Vuelta 4: el harness compacta. Lo que se resume ya no se puede contar.", "sp": "b", "say": "¡Es demasiado! No me entra todo por la boca de la lámpara.", "ma": "worried", "mb": "surprised"}, {"a": "mente", "b": "cuaderno", "narrador": "Ojo: la lista no salió de contar tickets, salió de lo que la Genia recordaba después de la compactación.", "sp": "a", "say": "Con lo que me queda, los cinco problemas más repetidos son estos.", "note": "1. Pagos rechazados · 2. No llega el mail · 3. Reservas duplicadas · 4. Login con Google · 5. Cambio de fecha", "ma": "think"}, {"a": "mente", "b": "mensajero", "pieza": "inspectora", "estado": "ausente", "alerta": "Nadie comprobó que esos 5 fueran los más repetidos. Faltan criterios de aceptación y un conteo hecho con código.", "narrador": "El loop para cuando la Genia dice «terminé». En esta casa no vive una Inspectora que pida evidencia.", "sp": "a", "say": "¡Terminé! El resumen está listo.", "re": "Entonces no subo más.", "ma": "happy"}, {"a": "mente", "b": "portero", "mono": 1, "pieza": "portero", "estado": "revisar", "alerta": "Esto lo tenés que decidir vos: ¿publicar en un canal compartido puede pasar sin que nadie lo lea antes?", "narrador": "Vuelta 8: el resumen sale publicado. Nadie lo leyó antes.", "sp": "a", "say": "Ahora lo publico en #producto.", "re": "Está en la lista de permitidos: pasa sin preguntar.", "note": "slack.publicar(canal=\"#producto\", texto=resumen)", "mb": "neutral"}, {"a": "camara", "b": "vos", "pieza": "camara", "estado": "ok", "alerta": "Gracias a la traza se ve en qué paso exacto se perdió información.", "narrador": "Sin traza, esto habría parecido «el modelo se equivocó». Con traza, se ve que el problema está en el contexto.", "sp": "a", "say": "Lo tengo grabado: en la vuelta 3 entró todo junto y en la vuelta 4 se compactó. Ahí se perdieron los tickets del lunes.", "re": "¡Por eso faltaba el problema de las notificaciones!", "mb": "surprised"}, {"a": "vos", "b": "mente", "narrador": "El modelo no era el problema. Lo que hay que arreglar es la casa: cómo entra el contexto, quién verifica y qué se aprueba a mano.", "sp": "b", "say": "La próxima, leo por tandas, cuento con código y te muestro el resumen antes de publicarlo.", "re": "Y guardemos semanas de prueba para medir si mejora.", "ma": "happy", "mb": "happy"}], "proximos_pasos": [{"pieza": "biblio", "accion": "Leer los tickets por tandas de 50 y guardar un conteo parcial por categoría en un archivo, en vez de subir todo al contexto.", "prioridad": "alta", "quien": "agente"}, {"pieza": "inspectora", "accion": "Antes de dar por terminado, contar con código cuántos tickets tiene cada problema y mostrar 3 ejemplos de cada uno.", "prioridad": "alta", "quien": "agente"}, {"pieza": "portero", "accion": "Decidir si publicar en canales compartidos pide aprobación siempre. Si la respuesta es sí, sacar slack.publicar de la lista de permitidos.", "prioridad": "alta", "quien": "humano"}, {"pieza": "mcp", "accion": "Pedirle al Enchufe solo asunto, etiqueta y fecha de cada ticket.", "prioridad": "media", "quien": "agente"}, {"pieza": "arenero", "accion": "Confirmar si la conexión con la herramienta de tickets puede ser de solo lectura.", "prioridad": "media", "quien": "humano"}, {"pieza": "examinador", "accion": "Guardar 3 semanas de tickets con su resumen correcto hecho a mano y usarlas para comparar antes y después de cada cambio.", "prioridad": "baja", "quien": "humano"}]};
+const INK="#1E2230";
+function face(x,y,m,c,s){c=c||INK;s=s||1;const e=10*s,r=3.6*s;let o="";
+  const ey=m==="think"?y-3*s:y,er=m==="surprised"?r*1.3:r;
+  o+=`<circle cx="${x-e}" cy="${ey}" r="${er}" fill="${c}"/><circle cx="${x+e}" cy="${ey}" r="${er}" fill="${c}"/>`;
+  if(m!=="surprised"&&m!=="think")o+=`<circle cx="${x-e+1.2*s}" cy="${ey-1.2*s}" r="${1.1*s}" fill="#fff"/><circle cx="${x+e+1.2*s}" cy="${ey-1.2*s}" r="${1.1*s}" fill="#fff"/>`;
+  const by=y-9*s,sw=2.6*s;
+  if(m==="worried")o+=`<path d="M${x-e-5*s} ${by} L${x-e+5*s} ${by-4*s} M${x+e+5*s} ${by} L${x+e-5*s} ${by-4*s}" stroke="${c}" stroke-width="${sw}" stroke-linecap="round"/>`;
+  if(m==="surprised")o+=`<path d="M${x-e-5*s} ${by-4*s} Q${x-e} ${by-8*s} ${x-e+5*s} ${by-4*s} M${x+e-5*s} ${by-4*s} Q${x+e} ${by-8*s} ${x+e+5*s} ${by-4*s}" stroke="${c}" stroke-width="${sw}" fill="none" stroke-linecap="round"/>`;
+  if(m==="confused")o+=`<path d="M${x+e-5*s} ${by-5*s} L${x+e+5*s} ${by-2*s}" stroke="${c}" stroke-width="${sw}" stroke-linecap="round"/>`;
+  const my=y+13*s,M={
+    talk:`<ellipse class="talk" cx="${x}" cy="${my}" rx="${6*s}" ry="${5*s}" fill="${c}"/>`,
+    happy:`<path d="M${x-9*s} ${my-2*s} Q${x} ${my+8*s} ${x+9*s} ${my-2*s}" stroke="${c}" stroke-width="${sw}" fill="none" stroke-linecap="round"/>`,
+    neutral:`<path d="M${x-6*s} ${my} L${x+6*s} ${my}" stroke="${c}" stroke-width="${sw}" stroke-linecap="round"/>`,
+    worried:`<path d="M${x-8*s} ${my+4*s} Q${x} ${my-4*s} ${x+8*s} ${my+4*s}" stroke="${c}" stroke-width="${sw}" fill="none" stroke-linecap="round"/>`,
+    surprised:`<ellipse cx="${x}" cy="${my+1*s}" rx="${4.5*s}" ry="${6*s}" fill="${c}"/>`,
+    confused:`<path d="M${x-8*s} ${my} q${4*s} ${-4*s} ${8*s} 0 t${8*s} 0" stroke="${c}" stroke-width="${sw}" fill="none" stroke-linecap="round"/>`,
+    think:`<circle cx="${x+3*s}" cy="${my}" r="${2.6*s}" fill="${c}"/>`};
+  o+=M[m]||M.neutral;
+  if(m==="happy")o+=`<circle cx="${x-e-6*s}" cy="${y+6*s}" r="${3.5*s}" fill="#F28B82" opacity=".55"/><circle cx="${x+e+6*s}" cy="${y+6*s}" r="${3.5*s}" fill="#F28B82" opacity=".55"/>`;
+  return o}
+const lashes=(x,y,s)=>{s=s||1;return `<path d="M${x-15*s} ${y-4*s} l${-4*s} ${-3*s} M${x+15*s} ${y-4*s} l${4*s} ${-3*s}" stroke="${INK}" stroke-width="2" stroke-linecap="round"/>`};
+const person=(skin,shirt,hairBack,hairFront,extraBack,extraFront,m,fem)=>`${hairBack||""}${extraBack||""}<path d="M44 176 Q44 116 80 112 Q116 116 116 176Z" fill="${shirt}"/><circle cx="80" cy="78" r="32" fill="${skin}"/>${hairFront||""}${face(80,82,m)}${fem?lashes(80,82):""}${extraFront||""}`;
+const lamp=(x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M-44 0 Q-40 -20 0 -22 Q40 -20 46 -6 L74 -22 Q80 -24 78 -16 L54 6 Q40 14 0 14 Q-40 14 -44 0Z" fill="#E2B33C"/><path d="M-44 0 Q-62 -6 -58 -20 Q-52 -30 -40 -14" fill="none" stroke="#C99A26" stroke-width="6" stroke-linecap="round"/><ellipse cx="0" cy="-22" rx="16" ry="5" fill="#C99A26"/><circle cx="0" cy="-30" r="5" fill="#C99A26"/><rect x="-26" y="12" width="52" height="8" rx="3" fill="#C99A26"/></g>`;
+
+const DRAW={
+  vos:m=>person("#F3C9A1","#2E8B7A",`<path d="M46 78 Q42 40 80 40 Q118 40 114 78 L120 150 Q100 158 94 140 L94 104 L66 104 L66 140 Q60 158 40 150Z" fill="#4A2E22"/>`,`<path d="M48 80 Q46 42 80 44 Q114 42 112 80 Q104 58 86 58 Q74 66 56 62 Q50 68 48 80Z" fill="#4A2E22"/>`,"",`<rect x="56" y="146" width="48" height="26" rx="4" fill="#9AA6B8"/><rect x="60" y="150" width="40" height="18" rx="2" fill="#DCE7F5"/>`,m,1),
+  mente:m=>`${lamp(78,162,1)}<path class="smoke" d="M120 146 Q142 120 112 116 Q84 112 96 132 Q72 140 64 128" fill="none" stroke="#B8A6FF" stroke-width="12" stroke-linecap="round" opacity=".85"/><path d="M56 132 Q52 108 60 98 L100 98 Q108 108 104 132 Q80 142 56 132Z" fill="#7C5CF0"/><path d="M60 98 Q80 108 100 98" fill="none" stroke="#F2C94C" stroke-width="3"/><path d="M46 62 Q44 26 80 24 Q116 26 114 62 Q122 92 108 104 Q112 80 100 60 L60 60 Q48 80 52 104 Q38 92 46 62Z" fill="#3B2A72"/><circle cx="80" cy="66" r="28" fill="#C9B8FF"/><path d="M52 62 Q54 34 80 34 Q106 34 108 62 Q96 46 80 48 Q64 46 52 62Z" fill="#3B2A72"/><circle cx="80" cy="20" r="11" fill="#3B2A72"/><rect x="74" y="28" width="12" height="6" rx="2" fill="#F2C94C"/><circle cx="52" cy="78" r="3.5" fill="#F2C94C"/><circle cx="108" cy="78" r="3.5" fill="#F2C94C"/>${face(80,68,m,INK,.95)}${lashes(80,68,.95)}<path d="M128 40 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 l7 -3Z M26 92 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 l5 -2Z" fill="#F2C94C"/>`,
+  caja:m=>`<g transform="rotate(18 108 64)"><rect x="104" y="40" width="9" height="44" rx="3" fill="#A0A9B5"/><circle cx="108.5" cy="40" r="9" fill="#A0A9B5"/></g><path d="M60 80 V62 H100 V80" stroke="#59606B" stroke-width="7" fill="none" stroke-linejoin="round"/><rect x="28" y="86" width="104" height="80" rx="10" fill="#D9483B"/><rect x="24" y="78" width="112" height="18" rx="6" fill="#B83A2F"/><rect x="72" y="88" width="16" height="10" rx="2" fill="#F2C94C"/>${face(80,124,m)}`,
+  mensajero:m=>person("#C68A5E","#F08A24","",`<path d="M48 70 Q50 42 80 42 Q110 42 112 70Z" fill="#F08A24"/><rect x="98" y="63" width="30" height="8" rx="3" fill="#C9661A"/>`,"",`<path d="M56 118 L112 172" stroke="#7A4A1C" stroke-width="6"/><rect x="98" y="148" width="28" height="22" rx="4" fill="#8A5A2B"/><rect x="104" y="140" width="16" height="12" rx="1" fill="#FFFDF6" stroke="#1B2336" stroke-width="1.5"/>`,m,0),
+  cuaderno:m=>`<rect x="40" y="46" width="86" height="122" rx="8" fill="#2F7FD8"/><rect x="118" y="52" width="10" height="110" rx="2" fill="#F5F1E6"/>${[64,86,108,130,152].map(y=>`<circle cx="40" cy="${y}" r="6" fill="none" stroke="#59606B" stroke-width="3"/>`).join("")}<rect x="58" y="60" width="52" height="14" rx="3" fill="#FFFDF6"/>${face(83,110,m,"#FFFFFF")}`,
+  biblio:m=>person("#C98B5E","#3E9B5C","",`<circle cx="80" cy="40" r="14" fill="#4A2E1E"/><path d="M48 80 Q46 44 80 46 Q114 44 112 80 Q108 60 80 58 Q54 60 48 80Z" fill="#4A2E1E"/>`,"",`<circle cx="70" cy="82" r="10" fill="none" stroke="#1B2336" stroke-width="2.2"/><circle cx="90" cy="82" r="10" fill="none" stroke="#1B2336" stroke-width="2.2"/><rect x="52" y="140" width="56" height="10" rx="2" fill="#D9483B"/><rect x="56" y="150" width="50" height="10" rx="2" fill="#F2C94C"/><rect x="50" y="160" width="58" height="10" rx="2" fill="#2F7FD8"/>`,m,1),
+  arenero:m=>`<ellipse cx="80" cy="168" rx="70" ry="12" fill="#F1D08A"/>${[24,48,72,96,120].map(x=>`<path d="M${x} 166 V72 L${x+8} 60 L${x+16} 72 V166Z" fill="#C89B5B"/>`).join("")}<rect x="20" y="92" width="122" height="10" rx="2" fill="#A97C40"/><rect x="20" y="140" width="122" height="10" rx="2" fill="#A97C40"/><rect x="44" y="98" width="72" height="48" rx="8" fill="#F1D08A" stroke="#A97C40" stroke-width="2"/>${face(80,116,m)}`,
+  inspectora:m=>person("#F0C29A","#E9B32A",`<path d="M46 80 Q42 40 80 42 Q118 40 114 80 L116 124 Q104 128 100 118 L60 118 Q56 128 44 124Z" fill="#9C4A2A"/>`,`<path d="M48 82 Q44 42 80 44 Q116 42 112 82 Q112 60 96 56 Q80 66 60 58 Q50 64 48 82Z" fill="#9C4A2A"/>`,`<rect x="22" y="118" width="34" height="46" rx="4" fill="#8B5E3C"/><rect x="27" y="126" width="24" height="34" fill="#FFFDF6"/><path d="M31 134 l3 3 l6 -6 M31 146 l3 3 l6 -6" stroke="#1F7A3A" stroke-width="2" fill="none"/>`,`<circle cx="124" cy="116" r="15" fill="#DCEBFF" fill-opacity=".5" stroke="#4A5160" stroke-width="5"/><path d="M134 128 L146 146" stroke="#4A5160" stroke-width="7" stroke-linecap="round"/>`,m,1),
+  portero:m=>person("#D9A27A","#24467D","",`<path d="M50 74 Q52 58 80 58 Q108 58 110 74 Q100 66 80 66 Q60 66 50 74Z" fill="#2B1B14"/><rect x="47" y="70" width="6" height="14" rx="2" fill="#2B1B14"/><rect x="107" y="70" width="6" height="14" rx="2" fill="#2B1B14"/><rect x="50" y="36" width="60" height="24" rx="5" fill="#1F3A68"/><rect x="44" y="56" width="72" height="8" rx="3" fill="#152B4F"/><circle cx="80" cy="48" r="5" fill="#F2C94C"/>`,"",`<path d="M66 108 Q80 116 94 108" stroke="#2B1B14" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55"/><circle cx="80" cy="134" r="3" fill="#F2C94C"/><circle cx="80" cy="150" r="3" fill="#F2C94C"/><circle cx="124" cy="140" r="9" fill="none" stroke="#F2C94C" stroke-width="5"/><path d="M124 149 V170 M124 160 H131 M124 166 H130" stroke="#F2C94C" stroke-width="5"/>`,m,0),
+  camara:m=>`<rect x="56" y="58" width="34" height="18" rx="4" fill="#2C313D"/><rect x="26" y="70" width="108" height="82" rx="14" fill="#3B4252"/><circle cx="80" cy="110" r="32" fill="#8FA1BF"/><circle cx="80" cy="110" r="26" fill="#1E222B"/>${face(80,106,m,"#FFFFFF",.9)}<circle cx="118" cy="84" r="6" fill="#E5484D"/><rect x="66" y="152" width="28" height="16" fill="#59606B"/><path d="M60 176 L80 166 L100 176" stroke="#59606B" stroke-width="5" fill="none"/>`,
+  examinador:m=>person("#EBC09B","#8E3B46",`<path d="M46 74 Q44 52 80 52 Q116 52 114 74 L118 140 Q104 146 98 132 L62 132 Q56 146 42 140Z" fill="#5A3A2A"/>`,`<path d="M50 76 Q50 54 80 54 Q110 54 110 76 Q98 62 80 64 Q62 62 50 76Z" fill="#5A3A2A"/><polygon points="44,48 80,34 116,48 80,62" fill="#222832"/><path d="M110 50 V66" stroke="#F2C94C" stroke-width="3"/><circle cx="110" cy="68" r="4" fill="#F2C94C"/>`,"",`<rect x="100" y="132" width="34" height="40" rx="3" fill="#FFFDF6" stroke="#1B2336" stroke-width="2"/><path d="M106 144 H128 M106 152 H122 M106 160 H126" stroke="#9AA6B8" stroke-width="2"/>`,m,1),
+  skills:m=>`<circle cx="62" cy="58" r="15" fill="#FFFFFF" stroke="#C6CFCA" stroke-width="2"/><circle cx="80" cy="50" r="17" fill="#FFFFFF" stroke="#C6CFCA" stroke-width="2"/><circle cx="98" cy="58" r="15" fill="#FFFFFF" stroke="#C6CFCA" stroke-width="2"/><rect x="60" y="58" width="40" height="22" fill="#FFFFFF"/><rect x="34" y="80" width="92" height="86" rx="6" fill="#C0569A"/><rect x="118" y="86" width="8" height="76" fill="#F5F1E6"/>${face(78,122,m,"#FFFFFF")}`,
+  mcp:m=>`<rect x="58" y="34" width="9" height="32" rx="2" fill="#A0A9B5"/><rect x="93" y="34" width="9" height="32" rx="2" fill="#A0A9B5"/><rect x="42" y="62" width="76" height="86" rx="18" fill="#F2C94C"/><path d="M80 148 Q80 176 120 172" stroke="#4A5160" stroke-width="7" fill="none" stroke-linecap="round"/>${face(80,104,m)}`,
+  sub:m=>`${lamp(46,168,.55)}${lamp(116,168,.6)}<path d="M56 154 Q40 140 46 128" fill="none" stroke="#B8A6FF" stroke-width="8" stroke-linecap="round"/><path d="M128 152 Q142 138 118 124" fill="none" stroke="#B8A6FF" stroke-width="9" stroke-linecap="round"/><circle cx="46" cy="104" r="24" fill="#C9B8FF"/><path d="M24 104 Q24 78 46 78 Q68 78 68 104 Q60 90 46 90 Q32 90 24 104Z" fill="#3B2A72"/><circle cx="116" cy="96" r="26" fill="#C9B8FF"/><path d="M92 96 Q92 68 116 68 Q140 68 140 96 Q130 82 116 82 Q102 82 92 96Z" fill="#3B2A72"/>${face(46,106,m,INK,.7)}${face(116,98,m,INK,.75)}`,
+  grafo:m=>`<rect x="26" y="50" width="108" height="118" rx="8" fill="#2D5F9E"/><path d="M26 74 H134 M26 98 H134 M26 122 H134 M26 146 H134 M50 50 V168 M74 50 V168 M98 50 V168 M122 50 V168" stroke="#FFFFFF" stroke-opacity=".15"/><path d="M48 70 L80 70 L112 70 M112 70 Q124 86 80 86 Q50 86 48 76" stroke="#FFFFFF" stroke-width="2.5" fill="none"/><circle cx="48" cy="70" r="6" fill="#F2C94C"/><circle cx="80" cy="70" r="6" fill="#F2C94C"/><circle cx="112" cy="70" r="6" fill="#F2C94C"/>${face(80,128,m,"#FFFFFF")}`,
+  memlarga:m=>`<rect x="34" y="86" width="92" height="80" rx="6" fill="#B98A5A"/><rect x="28" y="74" width="104" height="20" rx="5" fill="#9C6F42"/><rect x="62" y="100" width="36" height="12" rx="2" fill="#FFFDF6"/>${face(80,136,m)}`
+};
+
+const ST={
+  vos:["Vos","usuario"],mente:["La Genia","modelo"],caja:["La Caja","tools"],mensajero:["El Mensajero","loop"],
+  cuaderno:["El Cuaderno","memoria"],biblio:["La Bibliotecaria","contexto"],arenero:["El Patio cercado","sandbox"],
+  inspectora:["La Inspectora","verificación"],portero:["El Portero","permisos"],camara:["La Cámara","observabilidad"],
+  examinador:["La Examinadora","evals"],skills:["El Recetario","skills"],mcp:["El Enchufe","MCP"],sub:["Las otras genias","subagentes"],
+  grafo:["El Plano","grafo"],memlarga:["El Archivo","memoria de largo plazo"]
+};
+if(STORY.usuario)ST.vos=[STORY.usuario,"usuario"];
+const EST={ok:["Funciona","✓"],mejorar:["Conviene mejorar","↑"],incompleto:["Incompleta","!"],falla:["Falla","✗"],revisar:["Revisión humana","?"],ausente:["No está","○"]};
+const ORDER=["falla","incompleto","ausente","revisar","mejorar","ok"];
+const COLOR={ok:"var(--ok)",mejorar:"var(--blue)",incompleto:"var(--warn)",falla:"var(--bad)",revisar:"var(--rev)",ausente:"var(--gone)"};
+const EVT={observado:"Observado",inferido:"Inferido",sin_evidencia:"Sin evidencia"};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const narrow=window.matchMedia?matchMedia("(max-width: 640px)"):{matches:false};
+const P=STORY.piezas||{};
+const estOf=id=>P[id]&&P[id].estado;
+const short=id=>ST[id][0].replace(/^(El|La|Las) /,"");
+const role=id=>{const r=ST[id][1];return r.charAt(0).toUpperCase()+r.slice(1)};
+function charSVG(id,m,cls){return `<svg class="${cls||"ch"}" viewBox="0 0 160 180" role="img" aria-label="${esc(ST[id][0])}"><ellipse cx="80" cy="176" rx="52" ry="6" fill="#000" opacity=".12"/>${DRAW[id](m||"happy")}</svg>`}
+const icon=e=>`<span class="ic e-${e}" aria-hidden="true">${EST[e][1]}</span>`;
+
+/* ---------- encabezado ---------- */
+$("title").textContent=STORY.titulo;
+document.title=STORY.titulo+" · La casa del Gran Harness";
+$("mode").innerHTML=STORY.modo==="traza"?"<b>Basado en una ejecución real</b> · lo que el agente hizo":"<b>Simulación</b> · lo que el agente haría con este pedido";
+$("ask").innerHTML=`<span class="k">Tu pedido</span><div class="t">${esc(STORY.pedido)}</div>`+
+  (STORY.prompt?`<details><summary>Ver el prompt y la configuración que se analizaron</summary><pre>${esc(STORY.prompt)}</pre></details>`:"")+
+  (STORY.fuentes&&STORY.fuentes.length?`<details><summary>Qué se revisó para este diagnóstico</summary><ul>${STORY.fuentes.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></details>`:"");
+let filter=null;
+function renderSum(){const cnt={};Object.keys(P).forEach(id=>{const e=P[id].estado;cnt[e]=(cnt[e]||0)+1});
+  $("sum").innerHTML=ORDER.filter(e=>cnt[e]).map(e=>`<button class="st e-${e}" data-e="${e}" aria-pressed="${filter===e}">${icon(e)}${EST[e][0]}<span class="n">${cnt[e]}</span></button>`).join("");
+  $("sum").querySelectorAll("button").forEach(b=>b.onclick=()=>{filter=filter===b.dataset.e?null:b.dataset.e;renderSum();renderCards();if(filter)$("diag").scrollIntoView({behavior:"smooth",block:"start"})})}
+
+/* ---------- la casa ---------- */
+const FLOOR={alt:176,tal:330,baj:480};
+const POS={mente:[470,FLOOR.alt,1],sub:[650,FLOOR.alt,.7],portero:[215,FLOOR.alt,.7],camara:[178,262,.45],
+  mensajero:[96,312,.7],
+  caja:[265,FLOOR.tal,.78],cuaderno:[375,FLOOR.tal,.78],biblio:[485,FLOOR.tal,.78],arenero:[600,FLOOR.tal,.78],inspectora:[715,FLOOR.tal,.78],
+  mcp:[320,274,.45],grafo:[430,274,.45],skills:[545,274,.45],
+  vos:[842,FLOOR.baj+22,.72],examinador:[485,FLOOR.baj,.75],memlarga:[680,FLOOR.baj,.75]};
+const HEAD={vos:.22,mensajero:.23,biblio:.14,inspectora:.22,portero:.2,examinador:.19,mente:.06,caja:.17,cuaderno:.26,arenero:.33,camara:.32,skills:.16,mcp:.19,sub:.31,grafo:.28,memlarga:.41};
+const W=80,H=90;
+function floorOf(id){if(id==="vos")return"out";const y=POS[id][1];return y<=FLOOR.alt?"alt":y<=FLOOR.tal+2?"tal":"baj"}
+const DOOR=[772,FLOOR.baj-44];
+function anchor(id){const[x,y,s]=POS[id];return[x,y-H*s*.55]}
+function houseBase(){return `
+<polygon points="20,70 400,10 780,70" fill="#C2553F" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+<rect x="30" y="70" width="740" height="${FLOOR.alt-64}" class="r1"/>
+<rect x="30" y="${FLOOR.alt+6}" width="740" height="${FLOOR.tal-FLOOR.alt}" class="r2"/>
+<rect x="30" y="${FLOOR.tal+6}" width="740" height="${FLOOR.baj-FLOOR.tal}" class="r3"/>
+<rect x="0" y="${FLOOR.baj+6}" width="900" height="40" class="grass"/>
+<circle cx="560" cy="112" r="22" fill="var(--sky)" stroke="var(--ink)" stroke-width="2"/><path d="M538 112 H582 M560 90 V134" class="thin"/>
+<rect x="420" y="${FLOOR.alt}" width="120" height="8" rx="2" fill="#9C6F42"/>
+<path d="M30 ${FLOOR.alt+6} H770 M30 ${FLOOR.tal+6} H770" class="edge"/>
+<path d="M30 70 V${FLOOR.baj+6} H770 V70" class="edge"/>
+<path class="thin" d="M44 ${FLOOR.tal+6} h22 v-22 h22 v-22 h22 v-22 h22 v-22 h22 v-22 h22 v-22 h16 v-18"/>
+<path class="thin" d="M44 ${FLOOR.baj+6} h22 v-22 h22 v-22 h22 v-22 h22 v-22 h22 v-22 h22 v-22 h16 v-18"/>
+<rect x="40" y="${FLOOR.alt}" width="130" height="10" fill="var(--wall2)"/>
+<rect x="40" y="${FLOOR.tal}" width="130" height="10" fill="var(--wall3)"/>
+<rect x="758" y="${FLOOR.baj-90}" width="26" height="96" fill="var(--wall3)"/><rect x="784" y="${FLOOR.baj-90}" width="10" height="96" rx="2" fill="#8A5A2B" stroke="var(--ink)" stroke-width="2"/>
+<text class="lab" x="890" y="${FLOOR.alt+28}" text-anchor="end">Afuera</text>
+<text class="lab" x="760" y="94" text-anchor="end">Altillo · modelo</text>
+<text class="lab" x="760" y="${FLOOR.alt+28}" text-anchor="end">Taller · harness</text>
+<text class="lab" x="760" y="${FLOOR.tal+28}" text-anchor="end">Planta baja · entre tareas</text>`}
+function figure(id,mood,cls){const[x,y,s]=POS[id];const w=W*s*2,h=H*s*2;
+  return `<g class="${cls}"><svg class="ch" x="${x-w/2}" y="${y-h}" width="${w}" height="${h}" viewBox="0 0 160 180">${DRAW[id](mood)}</svg></g>`}
+function badge(id){const e=estOf(id);if(!e)return"";const[x,y,s]=POS[id];const h=H*s*2;const cx=x+W*s*.62,cy=y-h*(1-(HEAD[id]||.2))+6;
+  return `<g class="badge"><title>${esc(ST[id][0])}: ${EST[e][0]}</title><circle cx="${cx}" cy="${cy}" r="12" style="fill:${COLOR[e]}"/><text x="${cx}" y="${cy+5}" text-anchor="middle">${EST[e][1]}</text></g>`}
+function pillGeo(id){const[x,y,s]=POS[id];const h=H*s*2;const t=short(id);const w=t.length*9+22;let top=y-h*(1-(HEAD[id]||.2))-30,cx=x;
+  if(top<6){top=y-h*.62;cx=x+W*s*.8+w/2}
+  return{cx,top,w,t}}
+function pillSVG(g,sp){return `<g class="pill${sp?" sp":""}"><rect x="${g.cx-g.w/2}" y="${g.top}" width="${g.w}" height="26" rx="13"/><text x="${g.cx}" y="${g.top+18}" text-anchor="middle">${esc(g.t)}</text></g>`}
+function present(){const u=new Set(["vos","mente"]);Object.keys(P).forEach(id=>u.add(id));return u}
+function renderHouse(b){
+  const u=present(),act=[b.a,b.b].filter(Boolean),speaker=b.sp==="b"?b.b:b.a,listener=b.sp==="b"?b.a:b.b;
+  let figs="",badges="";
+  for(const id in POS){if(!u.has(id))continue;
+    const on=act.includes(id),gone=estOf(id)==="ausente";
+    const mood=on?(id===b.a?(b.ma||(speaker===id?"talk":"neutral")):(b.mb||(speaker===id?"talk":"neutral"))):"neutral";
+    figs+=figure(id,mood,gone?"gone":on?(id===speaker?"act":""):"dim");
+    if(id!=="vos")badges+=badge(id);
+  }
+  let focus="";
+  if(b.pieza&&POS[b.pieza]&&u.has(b.pieza)){const[x,y,s]=POS[b.pieza];const h=H*s*2;const e=b.estado||estOf(b.pieza)||"revisar";
+    focus=`<rect class="focus" x="${x-W*s-6}" y="${y-h-4}" width="${W*s*2+12}" height="${h+10}" rx="14" style="stroke:${COLOR[e]}"/>`}
+  const gS=pillGeo(speaker);let pills=pillSVG(gS,true);
+  if(listener){const gL=pillGeo(listener);
+    if(Math.abs(gL.top-gS.top)<30&&Math.abs(gL.cx-gS.cx)<(gL.w+gS.w)/2+6){const dir=gL.cx>=gS.cx?1:-1;gL.cx=gS.cx+dir*((gL.w+gS.w)/2+8)}
+    pills+=pillSVG(gL,false)}
+  let route="";
+  if(b.note&&listener){
+    const fl0=id=>floorOf(id)==="out"?"baj":floorOf(id);
+    const stairs=u.has("mensajero")&&estOf("mensajero")!=="ausente"&&speaker!=="mensajero"&&listener!=="mensajero";
+    let pts=[anchor(speaker)];
+    if(speaker==="vos")pts.push(DOOR);
+    if(stairs&&fl0(speaker)!==fl0(listener)){const yS=speaker==="vos"?DOOR[1]:pts[0][1],yL=listener==="vos"?DOOR[1]:anchor(listener)[1];pts.push([110,yS],[110,yL])}
+    if(listener==="vos")pts.push(DOOR);
+    pts.push(anchor(listener));
+    const d="M"+pts.map(p=>p.join(" ")).join(" L");
+    route=`<path class="route" d="${d}"/><g><rect x="-14" y="-17" width="28" height="34" rx="3" fill="#FFFDF6" stroke="#1B2336" stroke-width="2.5"/><path d="M-8 -7 H8 M-8 0 H8 M-8 7 H3" stroke="#F09A1E" stroke-width="2.5"/><animateMotion dur="2s" repeatCount="indefinite" path="${d}"/></g>`}
+  let vb="0 0 900 520";
+  if(narrow.matches){
+    const xs=[],ys=[];
+    act.concat(b.pieza&&POS[b.pieza]?[b.pieza]:[]).forEach(id=>{const[x,y,s]=POS[id];const h=H*s*2;xs.push(x-75,x+75);ys.push(y-h-40,y+12)});
+    if(route){const m=route.match(/d="([^"]+)"/);if(m)m[1].replace(/[ML]/g," ").trim().split(/\s+/).map(Number).forEach((v,i)=>(i%2?ys:xs).push(v))}
+    let x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
+    let w=Math.max(x1-x0,(y1-y0)*1.25,380);
+    let cx=(x0+x1)/2,cy=(y0+y1)/2;w=Math.min(w,900);const h=Math.min(w/1.25,520);
+    let vx=Math.max(0,Math.min(900-w,cx-w/2)),vy=Math.max(0,Math.min(520-h,cy-h/2));
+    vb=w>=640?"0 0 900 520":`${Math.round(vx)} ${Math.round(vy)} ${Math.round(w)} ${Math.round(w/1.25)}`;
+  }
+  const fl=new Set(act.map(floorOf));
+  const legend=`<div class="floors">${[["alt","wall","Altillo","el modelo"],["tal","wall2","Taller","el harness en acción"],["baj","wall3","Planta baja","el harness entre tareas"],["out","sky","Afuera","quien pide"]].map(([k,c,n,d])=>`<span class="${fl.has(k)?"on":""}"><i style="background:var(--${c})"></i><b>${n}</b> <span class="l">${d}</span></span>`).join("")}</div>`;
+  $("house").innerHTML=`<svg class="house" viewBox="${vb}" role="img" aria-label="Corte de la casa con las piezas del harness de este flujo y su estado">${houseBase()}${figs}${focus}${route}${badges}${pills}</svg>`+legend}
+
+/* ---------- diálogo ---------- */
+function noteHTML(b,from,to){if(!b.note)return"";
+  return `<div class="note"><div class="nh">Notita de <b>${esc(role(from))}</b> (${esc(ST[from][0])})${to?` → para <b>${esc(role(to))}</b> (${esc(ST[to][0])})`:""}</div><div class="nt${b.mono?" mono":""}">${esc(b.note)}</div></div>`}
+function renderTalks(b){
+  const speaker=b.sp==="b"?b.b:b.a,listener=b.sp==="b"?b.a:b.b;
+  const sm=speaker===b.a?(b.ma||"happy"):(b.mb||"happy"),lm=listener?(listener===b.a?(b.ma||"neutral"):(b.mb||"neutral")):"";
+  let h=`<div class="say"><div class="av">${charSVG(speaker,sm==="talk"?"happy":sm,"")}</div><div class="bub"><div class="who"><b>${esc(ST[speaker][0])}</b> · ${esc(ST[speaker][1])}</div><div class="line">${esc(b.say)}</div>${noteHTML(b,speaker,listener)}</div></div>`;
+  if(b.re&&listener)h+=`<div class="say re"><div class="av">${charSVG(listener,lm,"")}</div><div class="bub"><div class="who"><b>${esc(ST[listener][0])}</b> · ${esc(ST[listener][1])}</div><div class="line">${esc(b.re)}</div></div></div>`;
+  $("talks").innerHTML=h}
+function renderAlert(b){
+  if(!b.estado){$("alertSlot").innerHTML="";return}
+  const who=b.pieza?`${ST[b.pieza][0]} (${ST[b.pieza][1]})`:"";
+  $("alertSlot").innerHTML=`<div class="alert e-${b.estado}" role="note">${icon(b.estado)}<div><b>${EST[b.estado][0]}${who?" · "+esc(who):""}.</b> ${esc(b.alerta||(b.pieza&&P[b.pieza]?P[b.pieza].nota:""))}</div></div>`}
+
+/* ---------- historia ---------- */
+const V=STORY.vinietas;let bi=0;
+function render(){const b=V[bi],last=bi===V.length-1;
+  $("num").textContent=`Viñeta ${bi+1} de ${V.length}`;
+  $("cap").textContent=b.narrador||"";
+  renderHouse(b);renderTalks(b);renderAlert(b);
+  $("dots").innerHTML=V.map((x,i)=>`<i class="${i<=bi?"on":""}${x.estado&&x.estado!=="ok"?" e-"+x.estado:""}" title="${x.estado?EST[x.estado][0]:""}"></i>`).join("");
+  $("nextLbl").textContent=last?"Volver a empezar":"Siguiente"}
+function next(){bi=bi<V.length-1?bi+1:0;render()}
+function back(){if(bi>0){bi--;render()}}
+$("next").onclick=next;$("back").onclick=back;
+addEventListener("keydown",e=>{if(e.key==="ArrowRight")next();if(e.key==="ArrowLeft")back()});
+if(narrow.addEventListener)narrow.addEventListener("change",render);
+
+/* ---------- diagnóstico ---------- */
+function renderCards(){
+  const ids=Object.keys(P).filter(id=>!filter||P[id].estado===filter).sort((x,y)=>ORDER.indexOf(P[x].estado)-ORDER.indexOf(P[y].estado));
+  $("cards").innerHTML=ids.map(id=>{const p=P[id],e=p.estado;
+    return `<article class="card e-${e}"><div class="top">${charSVG(id,e==="ok"?"happy":e==="falla"?"worried":e==="revisar"?"think":"neutral","")}<div><div class="rl">${esc(ST[id][1])}</div><h3>${esc(ST[id][0])}</h3><span class="tag">${icon(e)}${EST[e][0]}</span></div></div>
+    ${p.nota?`<p>${esc(p.nota)}</p>`:""}
+    ${p.evidencia?`<div class="ev"><i>${esc(EVT[p.tipo]||"Evidencia")}</i>${esc(p.evidencia)}</div>`:p.tipo==="sin_evidencia"?`<div class="ev"><i>Sin evidencia</i>No hubo forma de comprobarlo con lo que se revisó.</div>`:""}
+    ${p.accion?`<div class="todo"><b>Qué hacer:</b> ${esc(p.accion)}</div>`:""}</article>`}).join("")||`<p>No hay piezas con ese estado.</p>`}
+
+/* ---------- próximos pasos ---------- */
+const S=STORY.proximos_pasos||[];
+$("steps").innerHTML=S.map((s,i)=>`<li>${s.pieza&&ST[s.pieza]?charSVG(s.pieza,"happy",""):""}<span class="num">${i+1}.</span><div><div>${esc(s.accion)}</div><div class="meta">${s.pieza&&ST[s.pieza]?`<span class="pchip">${esc(ST[s.pieza][0])}</span>`:""}${s.prioridad?`<span class="pchip ${esc(s.prioridad)}">prioridad ${esc(s.prioridad)}</span>`:""}${s.quien?`<span class="pchip ${esc(s.quien)}">${esc(s.quien)}</span>`:""}</div></div></li>`).join("");
+if(!S.length)$("pasos").hidden=true;
+$("copy").onclick=()=>{const ag=S.filter(s=>s.quien!=="humano");const hu=S.filter(s=>s.quien==="humano");
+  const txt=`Quiero mejorar el harness de este flujo: «${STORY.pedido}».\n\nHacé estos cambios, en orden:\n${ag.map((s,i)=>`${i+1}. ${s.accion}`).join("\n")}`+(hu.length?`\n\nAntes de tocar esto, preguntame:\n${hu.map(s=>"- "+s.accion).join("\n")}`:"")+`\n\nCuando termines, mostrame cómo verificaste cada cambio.`;
+  const done=()=>{$("copied").textContent="Copiado."};
+  try{navigator.clipboard.writeText(txt).then(done,()=>fallback(txt))}catch(e){fallback(txt)}
+  function fallback(t){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done()}catch(e){$("copied").textContent="No se pudo copiar."}ta.remove()}};
+$("srcs").textContent=STORY.fecha?`Diagnóstico del ${STORY.fecha}.`:"";
+
+renderSum();renderCards();render();
+</script>
+</body>
+</html>
