@@ -251,6 +251,14 @@ button.like:hover{border-color:var(--heart)}
 .exp b.ok{color:var(--ok)}
 .exp b.no{color:var(--bad)}
 .exp .src{font-size:13px;color:var(--muted)}
+.srcbox{background:var(--surface);border:1.5px solid var(--line);border-radius:16px}
+.srcbox summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;font-family:var(--f-display);font-weight:600;font-size:17px}
+.srcbox summary::-webkit-details-marker{display:none}
+.srcbox summary:focus-visible{outline:3px solid var(--note);outline-offset:2px;border-radius:14px}
+.srcbox .chev{transition:transform .2s;color:var(--muted)}
+.srcbox[open] .chev{transform:rotate(180deg)}
+.srcbox .srcs{padding:0 16px 16px}
+.srcbox .srcs a{background:var(--bg)}
 .srcs{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
 .srcs a{display:block;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;text-decoration:none;color:var(--ink)}
 .srcs a:hover{border-color:var(--ink)}
@@ -412,7 +420,9 @@ cp -r historieta-gh/skill/casa-del-gran-harness ~/.claude/skills/</pre></div>
 
   <section class="sec" id="fuentes" aria-labelledby="srcH">
     <h2 id="srcH">Fuentes</h2>
-    <p>Cada concepto de la historia está chequeado contra el artículo original y contra documentación oficial. Si querés profundizar, empezá por acá.</p>
+    <p>Cada concepto de la historia está chequeado contra el artículo original y contra documentación oficial. Si querés profundizar, abrí la lista.</p>
+    <details class="srcbox">
+    <summary><span>Ver las 15 fuentes</span><span class="chev" aria-hidden="true">▾</span></summary>
     <div class="srcs">
       <a href="https://code.claude.com/docs/en/glossary" target="_blank" rel="noopener"><i>Claude Code</i><b>Glosario de Claude Code</b><span>Define harness, loop, contexto, compaction, permisos, sandbox, skills y subagentes.</span></a>
       <a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" rel="noopener"><i>Claude Code</i><b>Cómo funciona Claude Code</b><span>El loop en tres fases (juntar contexto, actuar, verificar) y por qué Claude Code es el harness.</span></a>
@@ -430,6 +440,7 @@ cp -r historieta-gh/skill/casa-del-gran-harness ~/.claude/skills/</pre></div>
       <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank" rel="noopener"><i>LangChain</i><b>Mejorar agentes con harness engineering</b><span>De Top 30 a Top 5 en Terminal Bench 2.0 cambiando solo el harness.</span></a>
       <a href="https://docs.langchain.com/oss/javascript/langgraph/graph-api" target="_blank" rel="noopener"><i>LangGraph</i><b>Graph API de LangGraph</b><span>Grafos de agentes: nodos, aristas, estado y ciclos.</span></a>
     </div>
+    </details>
   </section>
 
   <footer>
