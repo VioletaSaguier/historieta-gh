@@ -14,7 +14,7 @@
 /* Generado por la skill casa-del-gran-harness. Una historieta del flujo del agente + diagnóstico por pieza del harness. */
 :root{
   --bg:#EEF1EF;--surface:#FFFFFF;--ink:#1B2336;--muted:#5E6878;--line:#D3DAD6;--line2:#AEB8B3;--cap:#FFF4CF;--cap-ink:#3D3110;--cap-tag:#8A6A10;--hl:#FFEDB0;--bub:#FFFFFF;
-  --wall:#F7F4EC;--wall2:#ECE5D3;--wall3:#E2D8C0;--sky:#DCEBF2;--grass:#9CC48A;
+  --wall:#F7F4EC;--wall2:#FBE7CF;--wall3:#DCEBD5;--fl1:#ECE6FB;--fl1b:#8C6CF0;--fl2b:#D9822B;--fl3b:#4F9A5A;--skyb:#4A90B8;--sky:#DCEBF2;--grass:#9CC48A;
   --note:#F09A1E;--note-soft:#FFF3DE;--accent:#6A4BD8;
   --ok:#1F7A3A;--ok-soft:#E3F3E7;--bad:#B3261E;--bad-soft:#FBE4E2;--warn:#8A5A00;--warn-soft:#FFF0CC;
   --blue:#1F5FAD;--blue-soft:#E2ECF8;--rev:#6A4BD8;--rev-soft:#EEE9FC;--gone:#6B7380;--gone-soft:#ECEEF0;
@@ -24,12 +24,12 @@
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#11161F;--surface:#1A2130;--ink:#E9EDF3;--muted:#9EAABB;--line:#2D3749;--line2:#46526A;--cap:#2F2A18;--cap-ink:#F3E6B8;--cap-tag:#D9B85A;--hl:#4A3D16;--bub:#202838;
-  --wall:#2A3243;--wall2:#323B4E;--wall3:#3A4459;--sky:#16202E;--grass:#2F4A2A;--note:#FFB648;--note-soft:#3A2B14;--accent:#AB97FF;
+  --wall:#2A3243;--wall2:#3D2F22;--wall3:#24382B;--fl1:#322B4F;--fl1b:#AB97FF;--fl2b:#FFB648;--fl3b:#6FD48D;--skyb:#7FB8D8;--sky:#16202E;--grass:#2F4A2A;--note:#FFB648;--note-soft:#3A2B14;--accent:#AB97FF;
   --ok:#6FD48D;--ok-soft:#173523;--bad:#FF8A80;--bad-soft:#3D1D1B;--warn:#FFD27A;--warn-soft:#3A2C0E;
   --blue:#8DB8F2;--blue-soft:#18273D;--rev:#B9A6FF;--rev-soft:#2A2344;--gone:#9AA3B0;--gone-soft:#262D3A;color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#11161F;--surface:#1A2130;--ink:#E9EDF3;--muted:#9EAABB;--line:#2D3749;--line2:#46526A;--cap:#2F2A18;--cap-ink:#F3E6B8;--cap-tag:#D9B85A;--hl:#4A3D16;--bub:#202838;
-  --wall:#2A3243;--wall2:#323B4E;--wall3:#3A4459;--sky:#16202E;--grass:#2F4A2A;--note:#FFB648;--note-soft:#3A2B14;--accent:#AB97FF;
+  --wall:#2A3243;--wall2:#3D2F22;--wall3:#24382B;--fl1:#322B4F;--fl1b:#AB97FF;--fl2b:#FFB648;--fl3b:#6FD48D;--skyb:#7FB8D8;--sky:#16202E;--grass:#2F4A2A;--note:#FFB648;--note-soft:#3A2B14;--accent:#AB97FF;
   --ok:#6FD48D;--ok-soft:#173523;--bad:#FF8A80;--bad-soft:#3D1D1B;--warn:#FFD27A;--warn-soft:#3A2C0E;
   --blue:#8DB8F2;--blue-soft:#18273D;--rev:#B9A6FF;--rev-soft:#2A2344;--gone:#9AA3B0;--gone-soft:#262D3A;color-scheme:dark}
 *{box-sizing:border-box}
@@ -75,7 +75,7 @@ button:focus-visible{outline:3px solid var(--note);outline-offset:2px}
 .floors b{color:var(--ink);font-family:var(--f-display);font-weight:600}
 .floors>span.on{background:var(--hl);color:var(--cap-ink)}.floors>span.on b{color:var(--cap-ink)}
 .house{display:block;width:100%;height:auto;max-height:52vh;background:var(--sky);margin-block:auto}
-.house .r1{fill:var(--wall)}.house .r2{fill:var(--wall2)}.house .r3{fill:var(--wall3)}
+.house .r1{fill:var(--fl1)}.house .r2{fill:var(--wall2)}.house .r3{fill:var(--wall3)}
 .house .edge{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
 .house .thin{fill:none;stroke:var(--ink);stroke-width:2}
 .house .lab{font-family:var(--f-mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;fill:var(--ink);opacity:.6}
@@ -401,7 +401,7 @@ function renderHouse(b){
     vb=w>=640?"0 0 900 520":`${Math.round(vx)} ${Math.round(vy)} ${Math.round(w)} ${Math.round(w/1.7)}`;
   }
   const fl=new Set(act.map(floorOf));
-  const legend=`<div class="floors">${[["alt","wall","Altillo","el modelo"],["tal","wall2","Taller","el harness en acción"],["baj","wall3","Planta baja","el harness entre tareas"],["out","sky","Afuera","quien pide"]].map(([k,c,n,d])=>`<span class="${fl.has(k)?"on":""}"><i style="background:var(--${c})"></i><b>${n}</b> <span class="l">${d}</span></span>`).join("")}</div>`;
+  const legend=`<div class="floors">${[["alt","fl1","Altillo","el modelo"],["tal","wall2","Taller","el harness en acción"],["baj","wall3","Planta baja","el harness entre tareas"],["out","sky","Afuera","quien pide"]].map(([k,c,n,d])=>`<span class="${fl.has(k)?"on":""}"><i style="background:var(--${c});border:2px solid var(--${({fl1:"fl1b",wall2:"fl2b",wall3:"fl3b",sky:"skyb"})[c]})"></i><b>${n}</b> <span class="l">${d}</span></span>`).join("")}</div>`;
   $("house").innerHTML=`<svg class="house" viewBox="${vb}" role="img" aria-label="Corte de la casa con las piezas del harness de este flujo y su estado">${houseBase()}${figs}${focus}${route}${badges}${pills}</svg>`+legend}
 
 /* ---------- diálogo ---------- */
