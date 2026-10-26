@@ -2,7 +2,7 @@
 
 Cada personaje de la casa del Gran Harness representa una pieza. Los personajes son metáforas: lo que se diagnostica es la pieza real del flujo.
 
-**Pisos:** en el altillo está el modelo; en el taller, el harness en acción (lo que pasa mientras se resuelve una tarea); en la planta baja, el harness entre tareas; afuera, la persona que hace el pedido.
+**Pisos:** en el altillo está el modelo; en el taller, el harness en acción (lo que pasa mientras se resuelve una tarea); en la planta baja, lo que se usa entre tareas (la memoria de largo plazo, que sí es parte del harness, y las evals, que lo ponen a prueba); afuera, la persona que hace el pedido.
 
 ## Quienes no se diagnostican
 
@@ -56,6 +56,7 @@ El registro de cada paso: qué vio el modelo, qué pidió y qué volvió (traza 
 - `ok` en modo traza si la traza existe. `ausente`: solo se ve el resultado final. En modo plan, marcala `revisar` y explicá que sin traza no se puede saber qué pasó.
 
 ### `examinador` · La Examinadora · evals
+No es parte del harness del agente: Anthropic la llama harness de evaluación, la infraestructura que corre las evals y pone a prueba al modelo junto con su harness. Se diagnostica igual porque, sin evals, no hay forma de saber si un cambio mejoró el flujo.
 Un conjunto fijo de tareas que se corre antes y después de cada cambio, con varios intentos por tarea porque el resultado varía. Las evals de regresión detectan que algo que andaba dejó de andar.
 - Preguntas: ¿hay casos de prueba con el resultado esperado? ¿Se comparan versiones del prompt o del harness?
 - Casi siempre `ausente` en flujos personales. Si el flujo se repite (un resumen semanal, un reporte), recomendá armar 3 a 5 casos de prueba; si es una tarea única, puede quedar `ausente` con una nota que diga que no hace falta todavía.
