@@ -15,7 +15,7 @@ Los pisos de la casa también tienen significado: en el **altillo** está el mod
 - **Sacá una pieza:** una prueba de ablación. Quitá un personaje y mirá qué deja de funcionar.
 - **Test de conocimiento:** 16 preguntas con explicación y fuente oficial.
 - **La skill:** cómo usar la skill para ver tu propio pedido en historieta.
-- **Fuentes:** documentación oficial de Claude Code, la API de Claude, Anthropic Engineering, Codex, MCP, LangChain y LangGraph.
+- **Fuentes:** documentación oficial de Claude Code, la API de Claude, Anthropic Engineering, OpenAI, Codex, MCP, LangChain y LangGraph.
 
 ## La skill
 

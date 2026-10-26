@@ -422,7 +422,7 @@ cp -r historieta-gh/skill/casa-del-gran-harness ~/.claude/skills/</pre></div>
     <h2 id="srcH">Fuentes</h2>
     <p>Cada concepto de la historia está chequeado contra el artículo original y contra documentación oficial. Si querés profundizar, abrí la lista.</p>
     <details class="srcbox">
-    <summary><span>Ver las 15 fuentes</span><span class="chev" aria-hidden="true">▾</span></summary>
+    <summary><span>Ver las 16 fuentes</span><span class="chev" aria-hidden="true">▾</span></summary>
     <div class="srcs">
       <a href="https://code.claude.com/docs/en/glossary" target="_blank" rel="noopener"><i>Claude Code</i><b>Glosario de Claude Code</b><span>Define harness, loop, contexto, compaction, permisos, sandbox, skills y subagentes.</span></a>
       <a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" rel="noopener"><i>Claude Code</i><b>Cómo funciona Claude Code</b><span>El loop en tres fases (juntar contexto, actuar, verificar) y por qué Claude Code es el harness.</span></a>
@@ -436,6 +436,7 @@ cp -r historieta-gh/skill/casa-del-gran-harness ~/.claude/skills/</pre></div>
       <a href="https://code.claude.com/docs/en/sandboxing" target="_blank" rel="noopener"><i>Claude Code</i><b>Sandboxing</b><span>Límites de archivos y red, y sus limitaciones.</span></a>
       <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener"><i>Claude Code</i><b>Skills</b><span>Qué es una skill y cómo se carga por partes.</span></a>
       <a href="https://learn.chatgpt.com/docs/sandboxing" target="_blank" rel="noopener"><i>Codex</i><b>Sandboxing en Codex</b><span>Modos de solo lectura, escritura en el proyecto y acceso total.</span></a>
+      <a href="https://openai.com/index/harness-engineering/" target="_blank" rel="noopener"><i>OpenAI</i><b>Harness engineering con Codex</b><span>Un mapa en vez de un manual, y reglas que se hacen cumplir con linters y tests.</span></a>
       <a href="https://modelcontextprotocol.io/docs/getting-started/intro" target="_blank" rel="noopener"><i>MCP</i><b>Qué es Model Context Protocol</b><span>El estándar abierto para conectar IA con sistemas externos.</span></a>
       <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank" rel="noopener"><i>LangChain</i><b>Mejorar agentes con harness engineering</b><span>De Top 30 a Top 5 en Terminal Bench 2.0 cambiando solo el harness.</span></a>
       <a href="https://docs.langchain.com/oss/javascript/langgraph/graph-api" target="_blank" rel="noopener"><i>LangGraph</i><b>Graph API de LangGraph</b><span>Grafos de agentes: nodos, aristas, estado y ciclos.</span></a>
@@ -553,7 +554,7 @@ const CH=[
   why:"El cuaderno y el proyecto no paran de crecer. ¿Qué pasa cuando es demasiado para mandarlo entero?"},
  {t:"La Bibliotecaria",intro:"biblio",unlock:["biblio"],app:"reading",b:[
   {a:"mensajero",b:"mente",sp:"b",ma:"surprised",mb:"worried",say:"¡Es demasiado! No me entra todo por la boca de la lámpara, y me mareo.",cap:"Por la boca de la lámpara entra un máximo de texto por vez, medido en tokens: la ventana de contexto. Y más texto no es mejor: lo importante se pierde."},
-  {a:"biblio",b:"mente",sp:"a",ma:"happy",mb:"happy",say:"Soy la Bibliotecaria: del Cuaderno y del proyecto, elijo qué papeles suben en cada viaje. Tomá un mapita en vez del proyecto entero.",note:"Posts → components/Post.tsx · Preferencias → hooks/useUserData.ts · Tests → junto a cada componente",cap:"Con unas pocas líneas, la Genia ya sabe adónde ir sin leer todo el código."},
+  {a:"biblio",b:"mente",sp:"a",ma:"happy",mb:"happy",say:"Soy la Bibliotecaria: del Cuaderno y del proyecto, elijo qué papeles suben en cada viaje. Tomá un mapita en vez del proyecto entero.",note:"Posts → components/Post.tsx · Preferencias → hooks/useUserData.ts · Tests → junto a cada componente",cap:"Con unas pocas líneas, la Genia ya sabe adónde ir sin leer todo el código. OpenAI cuenta lo mismo: a su agente le dieron un mapa, no un manual de mil páginas."},
   {a:"mente",b:"biblio",sp:"a",say:"¿Me traés dónde se usa useUserData?",note:'buscar_codigo("useUserData")',mono:1,cap:"Cuando necesita algo puntual, lo pide."},
   {a:"mente",b:"biblio",sp:"b",ma:"happy",say:"Solo los archivos que lo usan. Y si la mesa se llena, primero saco los resultados viejos y después resumo lo demás.",note:"Archivos que usan useUserData",app:"context",cap:"Traer lo justo sobre la marcha es progressive disclosure. Resumir cuando se llena es compaction; lo que tiene que durar conviene dejarlo en CLAUDE.md."}],
   why:"La Caja usa herramientas de verdad. ¿Sobre qué computadora? ¿La tuya?"},
@@ -573,7 +574,7 @@ const CH=[
  {t:"El Portero",intro:"portero",unlock:["portero"],app:"approval",b:[
   {a:"portero",sp:"a",ma:"neutral",say:"Soy el Portero. Me paro en la puerta del altillo: todo lo que la Genia dicta pasa por mí antes de bajar a la Caja.",cap:"Volvamos al momento en que la Genia quiso editar Post.tsx. Entre ella y la Caja hay un sistema de permisos (a estos límites también se les dice guardrails)."},
   {a:"mente",b:"portero",sp:"a",say:"Quiero editar Post.tsx.",note:'editar_archivo("Post.tsx", texto_viejo, texto_nuevo)',mono:1,cap:"La Genia pide una herramienta que cambia tu código."},
-  {a:"portero",b:"vos",sp:"a",mb:"think",say:"¿La dejo editar Post.tsx?",cap:"En esta casa, leer y buscar pasan solos. Editar, instalar o tocar una base de datos: te pregunta primero."},
+  {a:"portero",b:"vos",sp:"a",mb:"think",say:"¿La dejo editar Post.tsx?",cap:"En esta casa, leer y buscar pasan solos, y editar te pregunta. Un buen criterio: si se puede deshacer, puede pasar solo. Si no se puede deshacer, lo revisa una persona."},
   {a:"portero",b:"vos",sp:"b",ma:"happy",mb:"happy",say:"Sí, dale.",app:"approved",cap:"Aprobás, y recién ahí el pedido baja a la Caja."},
   {a:"portero",b:"vos",sp:"a",mb:"surprised",say:"Regla 1: lo que no está en la caja, no existe. Sin herramienta para borrar, no se borra. Regla 2: si falla cinco veces lo mismo, corto y te aviso.",re:"Límites y techos. ¡Entendido!",cap:"Dos ideas: los límites viven en el sistema, no en instrucciones. Y hay techos de reintentos, tiempo y costo; cuando te devuelve la decisión, es human in the loop."}],
   why:"Si algo sale mal, la respuesta final dice muy poco. ¿Cómo averiguás qué pasó?"},
