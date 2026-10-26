@@ -57,7 +57,7 @@ Cada concepto está chequeado contra el artículo original y contra documentaci�
 
 ## Licencia
 
-Esta obra está bajo licencia [Creative Commons Atribución 4.0 Internacional (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/deed.es): podés copiarla, adaptarla y compartirla, también con fines comerciales, siempre que des crédito a [@purpleerainnnn](https://x.com/purpleerainnnn) e indiques si hiciste cambios. El artículo que la inspira es obra de santi (@santtiagom_) y no está cubierto por esta licencia.
+Esta obra está bajo licencia [Creative Commons Atribución 4.0 Internacional (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/deed.es): podés copiarla, adaptarla y compartirla, también con fines comerciales, siempre que des crédito a [@violetas___](https://x.com/violetas___) e indiques si hiciste cambios. El artículo que la inspira es obra de santi (@santtiagom_) y no está cubierto por esta licencia.
 
 ## Cómo correrlo
 
@@ -65,4 +65,4 @@ Es un solo archivo HTML, sin dependencias ni build. Abrí `index.html` en el nav
 
 ---
 
-Creado con 💜 por [@purpleerainnnn](https://x.com/purpleerainnnn)
+Creado con 💜 por [@violetas___](https://x.com/violetas___)
