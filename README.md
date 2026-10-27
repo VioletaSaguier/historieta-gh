@@ -13,7 +13,7 @@ Los pisos de la casa también tienen significado: en el **altillo** está el mod
 - **Historieta:** 11 capítulos más un capítulo bonus, viñeta por viñeta. Podés saltar a cualquier capítulo.
 - **Personajes:** quién es quién y qué pieza del harness representa.
 - **Sacá una pieza:** una prueba de ablación. Quitá un personaje y mirá qué deja de funcionar.
-- **Test de conocimiento:** 17 preguntas con explicación y fuente oficial.
+- **Test de conocimiento:** 18 preguntas con explicación y fuente oficial.
 - **La skill:** cómo usar la skill para ver tu propio pedido en historieta.
 - **Fuentes:** documentación oficial de Claude Code, la API de Claude, Anthropic Engineering, OpenAI, Codex, MCP, LangChain y LangGraph.
 
