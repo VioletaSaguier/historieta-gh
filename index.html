@@ -265,6 +265,7 @@ button.like:hover{border-color:var(--heart)}
 .srcs span{font-size:14px;color:var(--muted)}
 .srcs i{font-style:normal;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
 .fb{margin:0}
+.beta{display:inline-block;vertical-align:middle;margin-left:6px;font-family:var(--f-mono);font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1.5px solid currentColor;border-radius:999px;padding:2px 9px}
 .estados{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
 .estados li{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:4px 12px 4px 5px;font-size:14px}
 .ei{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;color:#fff;font-weight:700;font-size:13px;line-height:1}
@@ -390,8 +391,8 @@ html{scroll-behavior:smooth}
   </section>
 
   <section class="sec" id="skill" aria-labelledby="flujoH">
-    <h2 id="flujoH">La skill</h2>
-    <p>Con la skill <b style="color:var(--ink)">casa-del-gran-harness</b>, tu agente cuenta tu propio pedido como una historieta de la casa: qué hizo cada pieza del harness y en qué estado quedó. Así ves de un vistazo dónde se rompió el flujo, qué está incompleto y qué tenés que decidir vos.</p>
+    <h2 id="flujoH">La skill <span class="beta">Beta</span></h2>
+    <p>Con la skill <b style="color:var(--ink)">casa-del-gran-harness</b>, tu agente cuenta tu propio pedido como una historieta de la casa: qué hizo cada pieza del harness y en qué estado quedó. Así ves de un vistazo dónde se rompió el flujo, qué está incompleto y qué tenés que decidir vos. Está en beta: el diagnóstico lo escribe un modelo y puede equivocarse, así que revisalo antes de actuar.</p>
     <ul class="estados" aria-label="Estados de cada pieza">
       <li><span class="ei" style="background:#1F7A3A">✓</span>Funciona</li>
       <li><span class="ei" style="background:#1F5FAD">↑</span>Conviene mejorar</li>
@@ -510,7 +511,7 @@ const DEF={
   biblio:"Arma lo que ve la Genia en cada llamada: primero un mapa, y después solo lo que ella pide o hace falta.",
   arenero:"Un entorno con límites: dónde se puede escribir y a qué sitios de internet se puede conectar. Reduce el daño de un error, pero no es una garantía total.",
   inspectora:"Compara el resultado con los criterios de aceptación y busca evidencia real antes de dar algo por terminado.",
-  portero:"Decide qué herramientas existen, cuáles corren solas y cuáles te consultan. Pone techos a los reintentos.",
+  portero:"Decide qué herramientas existen, cuáles corren solas y cuáles te consultan. Revisa los datos que entran y lo que sale, y pone techos a los reintentos.",
   camara:"Registra cada paso: qué vio la Genia, qué pidió y qué volvió. Así encontrás dónde falló.",
   examinador:"No forma parte del agente: es la que pone a prueba al modelo junto con la casa (Anthropic llama a esto harness de evaluación). Corre siempre las mismas tareas antes y después de un cambio, para saber si mejoró de verdad.",
   skills:"Instrucciones empaquetadas para un tipo de tarea. Al empezar, el modelo solo ve su nombre y descripción; el contenido completo se carga cuando hace falta.",

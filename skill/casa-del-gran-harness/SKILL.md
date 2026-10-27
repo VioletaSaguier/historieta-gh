@@ -1,10 +1,14 @@
 ---
 name: casa-del-gran-harness
-description: Convierte el pedido o prompt de alguien, y lo que su agente hizo (o haría) con él, en una historieta interactiva de La casa del Gran Harness, con un diagnóstico visual de cada pieza del harness (herramientas, loop, memoria, contexto, sandbox, verificación, permisos, observabilidad, evals, skills, MCP, subagentes) marcada como funciona, conviene mejorar, incompleta, falla, revisión humana o no está, y los próximos pasos para arreglarla. Usala cuando alguien quiera ver su flujo de agente en historieta, entender qué parte de su prompt, agente o harness falla o está incompleta, revisar una ejecución o traza, o pida "pasá esto a la casa de GH".
+description: Convierte el pedido o prompt de alguien, y lo que su agente hizo (o haría) con él, en una historieta interactiva de La casa del Gran Harness, con un diagnóstico visual de cada pieza del harness (instrucciones, herramientas, loop, memoria, contexto, sandbox, verificación, permisos, observabilidad, evals, skills, MCP, subagentes) marcada como funciona, conviene mejorar, incompleta, falla, revisión humana o no está, y los próximos pasos para arreglarla. Usala cuando alguien quiera ver su flujo de agente en historieta, entender qué parte de su prompt, agente o harness falla o está incompleta, revisar una ejecución o traza, o pida "pasá esto a la casa de GH".
 license: CC-BY-4.0
+metadata:
+  status: beta
 ---
 
-# La casa del Gran Harness: tu flujo en historieta
+# La casa del Gran Harness: tu flujo en historieta (beta)
+
+> Esta skill está en beta. El diagnóstico lo escribe un modelo a partir de la evidencia que tiene: puede equivocarse o pasar algo por alto. Decilo así en la página y en tu respuesta, y pedile a la persona que lo revise antes de actuar.
 
 Esta skill toma un pedido real (un prompt, una tarea, una sesión de agente) y lo cuenta como una historieta en la casa del Gran Harness. En la casa, la Genia es el modelo y cada habitante es una pieza del harness. Cada personaje lleva una marca con su estado, así la persona ve de un vistazo qué pieza funciona, cuál falla, cuál está incompleta y cuál necesita una decisión humana. Al final hay un diagnóstico por pieza y una lista priorizada de qué arreglar.
 

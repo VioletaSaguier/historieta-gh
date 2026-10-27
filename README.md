@@ -17,7 +17,10 @@ Los pisos de la casa también tienen significado: en el **altillo** está el mod
 - **La skill:** cómo usar la skill para ver tu propio pedido en historieta.
 - **Fuentes:** documentación oficial de Claude Code, la API de Claude, Anthropic Engineering, OpenAI, Codex, MCP, LangChain y LangGraph.
 
-## La skill
+## La skill (beta)
+
+La skill está en beta: el diagnóstico lo escribe un modelo y puede equivocarse. Revisalo antes de actuar.
+
 
 La carpeta [`skill/casa-del-gran-harness`](skill/casa-del-gran-harness) es una [Agent Skill](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) que convierte tu pedido (y, si la tenés, la traza de lo que hizo tu agente) en una historieta de la casa. Cada personaje lleva una marca con el estado de su pieza del harness:
 

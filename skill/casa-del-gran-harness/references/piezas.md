@@ -22,13 +22,13 @@ Las instrucciones fijas que el modelo recibe en cada llamada, antes del pedido: 
 
 ### `caja` · La Caja · tools
 Las herramientas que el harness le ofrece al modelo. El modelo pide una herramienta con sus datos (en la API de Claude, `tool_use`) y el harness la ejecuta y devuelve el resultado (`tool_result`).
-- Preguntas: ¿estaban las herramientas que el pedido necesitaba? ¿Sus nombres y descripciones dejan claro cuándo usarlas? ¿Los errores dicen qué pasó y cómo seguir? ¿Devuelven lo justo o una montaña de texto?
+- Preguntas: ¿estaban las herramientas que el pedido necesitaba? ¿Sus nombres y descripciones dejan claro cuándo usarlas? ¿Los errores dicen qué pasó y cómo seguir (es la primera mitad del manejo de errores)? ¿Devuelven lo justo o una montaña de texto?
 - `falla`: una herramienta devolvió un error confuso o un resultado equivocado y eso desvió el flujo. `incompleto`: faltaba una herramienta y el agente tuvo que improvisar. `ausente`: el pedido requería actuar y no había ninguna.
 
 ### `mensajero` · El Mensajero · loop
 El ciclo que llama al modelo una y otra vez con el resultado de la vuelta anterior, hasta terminar. Claude Code lo describe en tres fases: juntar contexto, actuar y verificar.
-- Preguntas: ¿cuántas vueltas dio? ¿Cuándo paró: cuando el modelo dijo "terminé" o cuando una verificación pasó? ¿Hay un tope de vueltas, tiempo o costo?
-- `falla`: se quedó dando vueltas en lo mismo o cortó antes de terminar. `mejorar`: para solo cuando el modelo dice "terminé" (conectalo con la `inspectora`). `ausente`: fue un único pedido y respuesta, sin loop.
+- Preguntas: ¿cuántas vueltas dio? ¿Cuándo paró: cuando el modelo dijo "terminé" o cuando una verificación pasó? Manejo de errores: cuando algo falló, ¿el error volvió al modelo como un dato para corregir y reintentar, o se frenó todo? ¿Hay un tope de vueltas, reintentos, tiempo o costo?
+- `falla`: se quedó dando vueltas en lo mismo, reintentó sin cambiar nada, o cortó antes de terminar. `mejorar`: para solo cuando el modelo dice "terminé" (conectalo con la `inspectora`). `ausente`: fue un único pedido y respuesta, sin loop.
 
 ### `cuaderno` · El Cuaderno · memoria (de la tarea)
 El estado de la tarea, guardado afuera del modelo y reenviado en cada llamada. La API de Claude no guarda estado: en cada pedido viaja la conversación completa. En tareas largas se suma un archivo de progreso o commits para que la sesión siguiente sepa por dónde seguir.
@@ -36,7 +36,7 @@ El estado de la tarea, guardado afuera del modelo y reenviado en cada llamada. L
 - `falla`: repitió trabajo o perdió el hilo. `incompleto`: tarea larga sin archivo de progreso.
 
 ### `biblio` · La Bibliotecaria · contexto
-Elige qué ve el modelo en cada llamada. La ventana de contexto tiene un máximo (en tokens) y más texto no es mejor. Buenas prácticas: dar un mapa primero y traer lo puntual cuando hace falta (progressive disclosure), resumir cuando se llena (compaction) y dejar lo que tiene que durar en un archivo persistente como `CLAUDE.md`.
+Arma lo que ve el modelo en cada llamada: un mapa primero, y después lo que el modelo pide o hace falta. La ventana de contexto tiene un máximo (en tokens) y más texto no es mejor. Buenas prácticas: dar un mapa primero y traer lo puntual cuando hace falta (progressive disclosure), resumir cuando se llena (compaction) y dejar lo que tiene que durar en un archivo persistente como `CLAUDE.md`.
 - Preguntas: ¿el modelo tuvo la información que necesitaba? ¿Recibió de más (ruido) o de menos? ¿Hubo compaction y se perdió algo importante? ¿El pedido daba el contexto necesario (para qué, para quién, restricciones)?
 - `falla`: le faltó un archivo o dato clave, o se saturó y se perdió información. `incompleto`: el pedido o el `CLAUDE.md` no dan el contexto del proyecto. `mejorar`: se carga mucho más de lo necesario.
 
@@ -51,8 +51,8 @@ Compara el resultado con criterios de aceptación y busca evidencia afuera del m
 - `ausente`: nadie verificó. `incompleto`: se verificó algo, pero no lo que el pedido pedía (por ejemplo, los tests pasan pero nunca se probó la función nueva). `revisar`: los criterios de calidad los tiene que definir la persona.
 
 ### `portero` · El Portero · permisos y guardrails
-Decide qué herramientas existen, cuáles corren solas y cuáles piden aprobación, y pone topes a los reintentos. En Claude Code, las reglas se evalúan en orden: deny, después ask, después allow. Los límites que importan viven en el sistema, no solo en instrucciones del prompt.
-- Preguntas: ¿qué acciones irreversibles o visibles para otros (borrar, publicar, mandar mails, pagar, tocar producción) pueden pasar sin aprobación? ¿Hay topes de reintentos, tiempo o costo? ¿Algún límite está solo escrito en el prompt?
+Decide qué herramientas existen, cuáles corren solas y cuáles piden aprobación, y pone topes a los reintentos. Criterio: cuanto más difícil de deshacer es una acción, más conviene que la apruebe una persona; borrar o publicar, siempre. También valida la entrada (los datos de cada pedido, como rutas o parámetros) y la salida (lo que vuelve antes de llegar al modelo o a alguien, como claves secretas). En Claude Code, los permisos se evalúan en orden deny, ask, allow, y la validación se puede hacer con hooks. Los límites que importan viven en el sistema, no solo en las instrucciones.
+- Preguntas: ¿qué acciones irreversibles o visibles para otros (borrar, publicar, mandar mails, pagar, tocar producción) pueden pasar sin aprobación? ¿Se validan los datos de cada pedido y lo que vuelve antes de mostrarlo o enviarlo? ¿Hay topes de reintentos, tiempo o costo? ¿Algún límite está solo escrito en el prompt?
 - `revisar` es el estado típico: el agente puede hacer algo delicado sin preguntar y la persona tiene que decidir si está bien. `falla`: se hizo algo que no debía. `ok`: viste las reglas y cubren lo delicado de este flujo.
 
 ### `camara` · La Cámara · observabilidad
