@@ -8,29 +8,166 @@
     "No había CLAUDE.md, ni configuración de permisos, ni traza: el diagnóstico es sobre lo que probablemente pase."
   ],
   "piezas": {
-    "caja": {"estado": "revisar", "tipo": "inferido", "nota": "Un agente de código suele tener lo necesario: buscar, leer, editar y correr comandos.", "accion": "Confirmar que el agente puede correr los tests del proyecto."},
-    "mensajero": {"estado": "mejorar", "tipo": "inferido", "nota": "Sin criterios, el loop va a parar cuando la Genia diga «terminé».", "accion": "Pedir en el prompt que no termine hasta que los criterios de aceptación pasen."},
-    "cuaderno": {"estado": "revisar", "tipo": "sin_evidencia", "nota": "Es una tarea corta: el historial de la conversación probablemente alcance."},
-    "biblio": {"estado": "incompleto", "tipo": "observado", "nota": "El pedido no dice dónde se guardan los me gusta ni qué componente es el post. La Genia va a tener que adivinar o buscar.", "evidencia": "El pedido tiene una sola oración y el proyecto no tiene CLAUDE.md.", "accion": "Agregar al pedido dónde vive el post y dónde se guardan las preferencias, o crear un CLAUDE.md con el mapa del proyecto."},
-    "arenero": {"estado": "revisar", "tipo": "sin_evidencia", "nota": "No se sabe si el agente corre en tu máquina o en un entorno aislado.", "accion": "Decidir dónde corre y activar el sandbox si trabaja en tu máquina."},
-    "inspectora": {"estado": "ausente", "tipo": "observado", "nota": "El pedido no dice cómo se sabe que está bien: si tiene que persistir al recargar, si cuenta, si se puede deshacer.", "evidencia": "No hay criterios de aceptación en el pedido.", "accion": "Sumar criterios: aparece en cada post, cambia al tocarlo, sigue marcado al recargar y los tests pasan."},
-    "portero": {"estado": "revisar", "tipo": "sin_evidencia", "nota": "No se revisaron los permisos: no se sabe si editar archivos o instalar paquetes pide aprobación.", "accion": "Decidir qué puede hacer solo (leer, buscar) y qué tiene que preguntarte (editar, instalar)."},
-    "camara": {"estado": "revisar", "tipo": "sin_evidencia", "nota": "Todavía no hay traza porque no se corrió. Guardala cuando lo corras, para poder repetir este diagnóstico con lo que pasó de verdad."},
-    "examinador": {"estado": "ausente", "tipo": "sin_evidencia", "nota": "Para una tarea única no hace falta todavía. Si vas a pedir cambios parecidos seguido, conviene armar casos de prueba."}
+    "reglamento": {
+      "estado": "incompleto",
+      "tipo": "observado",
+      "nota": "No hay instrucciones del proyecto: el agente no sabe cómo está organizado ni qué convenciones seguir.",
+      "evidencia": "El proyecto no tiene CLAUDE.md ni AGENTS.md.",
+      "accion": "Crear un CLAUDE.md corto con el mapa del proyecto y cómo correr los tests."
+    },
+    "caja": {
+      "estado": "revisar",
+      "tipo": "inferido",
+      "nota": "Un agente de código suele tener lo necesario: buscar, leer, editar y correr comandos.",
+      "accion": "Confirmar que el agente puede correr los tests del proyecto."
+    },
+    "mensajero": {
+      "estado": "mejorar",
+      "tipo": "inferido",
+      "nota": "Sin criterios, el loop va a parar cuando la Genia diga «terminé».",
+      "accion": "Pedir en el prompt que no termine hasta que los criterios de aceptación pasen."
+    },
+    "cuaderno": {
+      "estado": "revisar",
+      "tipo": "sin_evidencia",
+      "nota": "Es una tarea corta: el historial de la conversación probablemente alcance."
+    },
+    "biblio": {
+      "estado": "incompleto",
+      "tipo": "observado",
+      "nota": "El pedido no dice dónde se guardan los me gusta ni qué componente es el post. La Genia va a tener que adivinar o buscar.",
+      "evidencia": "El pedido tiene una sola oración y el proyecto no tiene CLAUDE.md.",
+      "accion": "Agregar al pedido dónde vive el post y dónde se guardan las preferencias, o crear un CLAUDE.md con el mapa del proyecto."
+    },
+    "arenero": {
+      "estado": "revisar",
+      "tipo": "sin_evidencia",
+      "nota": "No se sabe si el agente corre en tu máquina o en un entorno aislado.",
+      "accion": "Decidir dónde corre y activar el sandbox si trabaja en tu máquina."
+    },
+    "inspectora": {
+      "estado": "ausente",
+      "tipo": "observado",
+      "nota": "El pedido no dice cómo se sabe que está bien: si tiene que persistir al recargar, si cuenta, si se puede deshacer.",
+      "evidencia": "No hay criterios de aceptación en el pedido.",
+      "accion": "Sumar criterios: aparece en cada post, cambia al tocarlo, sigue marcado al recargar y los tests pasan."
+    },
+    "portero": {
+      "estado": "revisar",
+      "tipo": "sin_evidencia",
+      "nota": "No se revisaron los permisos: no se sabe si editar archivos o instalar paquetes pide aprobación.",
+      "accion": "Decidir qué puede hacer solo (leer, buscar) y qué tiene que preguntarte (editar, instalar)."
+    },
+    "camara": {
+      "estado": "revisar",
+      "tipo": "sin_evidencia",
+      "nota": "Todavía no hay traza porque no se corrió. Guardala cuando lo corras, para poder repetir este diagnóstico con lo que pasó de verdad."
+    },
+    "examinador": {
+      "estado": "ausente",
+      "tipo": "sin_evidencia",
+      "nota": "Para una tarea única no hace falta todavía. Si vas a pedir cambios parecidos seguido, conviene armar casos de prueba."
+    }
   },
   "vinietas": [
-    {"a": "vos", "b": "mente", "habla": "a", "dice": "¡Tengo un pedido para vos!", "nota": "Agregá un botón de me gusta a los posts.", "narrador": "Esto es una simulación: todavía no se corrió nada. Vamos a ver qué pasaría con este pedido tal como está escrito."},
-    {"a": "mente", "b": "caja", "habla": "a", "dice": "No sé dónde están los posts. Lo más probable es que empiece buscando.", "nota": "buscar_codigo(\"post\")", "mono": true, "animo_a": "think", "narrador": "Lo más probable es que la Genia pida buscar en el código. Con herramientas, puede encontrarlo sola, pero gasta vueltas."},
-    {"a": "biblio", "b": "mente", "habla": "a", "dice": "No tengo mapa del proyecto. No sé qué traerte sobre dónde se guardan los me gusta.", "reaccion": "Entonces voy a tener que adivinar.", "animo_a": "worried", "animo_b": "confused", "pieza": "biblio", "estado": "incompleto", "alerta": "Al pedido le falta contexto: qué componente es el post y dónde se guardan las preferencias. Sin eso, puede editar el archivo equivocado.", "narrador": "El contexto no es solo lo que se carga: también es lo que dice el pedido."},
-    {"a": "mente", "b": "portero", "habla": "a", "dice": "Voy a editar el componente del post.", "nota": "editar_archivo(\"Post.tsx\", …)", "mono": true, "reaccion": "No sé si te dejo o te pregunto: nadie me dio reglas.", "animo_b": "confused", "pieza": "portero", "estado": "revisar", "alerta": "Decidí qué puede hacer solo y qué tiene que preguntarte antes de que corra.", "narrador": "Lo que pase acá depende de la configuración de permisos, que no se revisó."},
-    {"a": "mente", "b": "mensajero", "habla": "a", "dice": "¡Terminé! Ya está el botón.", "reaccion": "Entonces paro.", "animo_a": "happy", "pieza": "inspectora", "estado": "ausente", "alerta": "Sin criterios de aceptación, «terminé» significa «la Genia cree que terminó». Nadie va a probar que persista al recargar.", "narrador": "Lo más probable es que el loop pare cuando la Genia lo diga, aunque el botón no guarde nada."},
-    {"a": "vos", "b": "mente", "habla": "a", "dice": "Lo reescribo: el post está en Post.tsx, los me gusta se guardan con useUserData, y tiene que seguir marcado al recargar.", "reaccion": "¡Así sé adónde ir y cómo saber que terminé!", "animo_a": "happy", "animo_b": "happy", "narrador": "Con dos líneas más de contexto y criterios claros, la misma Genia hace un trabajo mucho mejor. El modelo es el mismo: cambió lo que le llega."}
+    {
+      "a": "vos",
+      "b": "mente",
+      "habla": "a",
+      "dice": "¡Tengo un pedido para vos!",
+      "nota": "Agregá un botón de me gusta a los posts.",
+      "narrador": "Esto es una simulación: todavía no se corrió nada. Vamos a ver qué pasaría con este pedido tal como está escrito."
+    },
+    {
+      "a": "mente",
+      "b": "caja",
+      "habla": "a",
+      "dice": "No sé dónde están los posts. Lo más probable es que empiece buscando.",
+      "nota": "buscar_codigo(\"post\")",
+      "mono": true,
+      "animo_a": "think",
+      "narrador": "Lo más probable es que la Genia pida buscar en el código. Con herramientas, puede encontrarlo sola, pero gasta vueltas."
+    },
+    {
+      "a": "biblio",
+      "b": "mente",
+      "habla": "a",
+      "dice": "No tengo mapa del proyecto. No sé qué traerte sobre dónde se guardan los me gusta.",
+      "reaccion": "Entonces voy a tener que adivinar.",
+      "animo_a": "worried",
+      "animo_b": "confused",
+      "pieza": "biblio",
+      "estado": "incompleto",
+      "alerta": "Al pedido le falta contexto: qué componente es el post y dónde se guardan las preferencias. Sin eso, puede editar el archivo equivocado.",
+      "narrador": "El contexto no es solo lo que se carga: también es lo que dice el pedido."
+    },
+    {
+      "a": "mente",
+      "b": "portero",
+      "habla": "a",
+      "dice": "Voy a editar el componente del post.",
+      "nota": "editar_archivo(\"Post.tsx\", …)",
+      "mono": true,
+      "reaccion": "No sé si te dejo o te pregunto: nadie me dio reglas.",
+      "animo_b": "confused",
+      "pieza": "portero",
+      "estado": "revisar",
+      "alerta": "Decidí qué puede hacer solo y qué tiene que preguntarte antes de que corra.",
+      "narrador": "Lo que pase acá depende de la configuración de permisos, que no se revisó."
+    },
+    {
+      "a": "mente",
+      "b": "mensajero",
+      "habla": "a",
+      "dice": "¡Terminé! Ya está el botón.",
+      "reaccion": "Entonces paro.",
+      "animo_a": "happy",
+      "pieza": "inspectora",
+      "estado": "ausente",
+      "alerta": "Sin criterios de aceptación, «terminé» significa «la Genia cree que terminó». Nadie va a probar que persista al recargar.",
+      "narrador": "Lo más probable es que el loop pare cuando la Genia lo diga, aunque el botón no guarde nada."
+    },
+    {
+      "a": "vos",
+      "b": "mente",
+      "habla": "a",
+      "dice": "Lo reescribo: el post está en Post.tsx, los me gusta se guardan con useUserData, y tiene que seguir marcado al recargar.",
+      "reaccion": "¡Así sé adónde ir y cómo saber que terminé!",
+      "animo_a": "happy",
+      "animo_b": "happy",
+      "narrador": "Con dos líneas más de contexto y criterios claros, la misma Genia hace un trabajo mucho mejor. El modelo es el mismo: cambió lo que le llega."
+    }
   ],
   "proximos_pasos": [
-    {"pieza": "inspectora", "accion": "Agregar al pedido los criterios de aceptación: aparece en cada post, cambia al tocarlo, sigue marcado al recargar y los tests pasan.", "prioridad": "alta", "quien": "humano"},
-    {"pieza": "biblio", "accion": "Agregar al pedido dónde está el post y dónde se guardan las preferencias, o crear un CLAUDE.md con el mapa del proyecto.", "prioridad": "alta", "quien": "agente"},
-    {"pieza": "portero", "accion": "Configurar qué corre solo (leer, buscar) y qué pide aprobación (editar, instalar).", "prioridad": "media", "quien": "humano"},
-    {"pieza": "mensajero", "accion": "Pedir que no termine hasta haber corrido los tests y probado el botón.", "prioridad": "media", "quien": "agente"},
-    {"pieza": "camara", "accion": "Guardar la traza cuando lo corras y volver a correr esta skill en modo traza.", "prioridad": "baja", "quien": "humano"}
+    {
+      "pieza": "inspectora",
+      "accion": "Agregar al pedido los criterios de aceptación: aparece en cada post, cambia al tocarlo, sigue marcado al recargar y los tests pasan.",
+      "prioridad": "alta",
+      "quien": "humano"
+    },
+    {
+      "pieza": "biblio",
+      "accion": "Agregar al pedido dónde está el post y dónde se guardan las preferencias, o crear un CLAUDE.md con el mapa del proyecto.",
+      "prioridad": "alta",
+      "quien": "agente"
+    },
+    {
+      "pieza": "portero",
+      "accion": "Configurar qué corre solo (leer, buscar) y qué pide aprobación (editar, instalar).",
+      "prioridad": "media",
+      "quien": "humano"
+    },
+    {
+      "pieza": "mensajero",
+      "accion": "Pedir que no termine hasta haber corrido los tests y probado el botón.",
+      "prioridad": "media",
+      "quien": "agente"
+    },
+    {
+      "pieza": "camara",
+      "accion": "Guardar la traza cuando lo corras y volver a correr esta skill en modo traza.",
+      "prioridad": "baja",
+      "quien": "humano"
+    }
   ]
 }

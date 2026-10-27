@@ -49,6 +49,7 @@ Podés usar el id o cualquiera de sus alias.
 |---|---|---|---|
 | `vos` | usuario, usuaria | Vos | quien pide (no se diagnostica) |
 | `mente` | genia, modelo | La Genia | modelo (no se diagnostica) |
+| `reglamento` | instrucciones, system_prompt, reglas | El Reglamento | instrucciones (system prompt) |
 | `caja` | tools, herramientas | La Caja | tools |
 | `mensajero` | loop | El Mensajero | loop |
 | `cuaderno` | memoria | El Cuaderno | memoria de la tarea |

@@ -283,11 +283,12 @@ const DRAW={
   mcp:m=>`<rect x="58" y="34" width="9" height="32" rx="2" fill="#A0A9B5"/><rect x="93" y="34" width="9" height="32" rx="2" fill="#A0A9B5"/><rect x="42" y="62" width="76" height="86" rx="18" fill="#F2C94C"/><path d="M80 148 Q80 176 120 172" stroke="#4A5160" stroke-width="7" fill="none" stroke-linecap="round"/>${face(80,104,m)}`,
   sub:m=>`${lamp(46,168,.55)}${lamp(116,168,.6)}<path d="M56 154 Q40 140 46 128" fill="none" stroke="#B8A6FF" stroke-width="8" stroke-linecap="round"/><path d="M128 152 Q142 138 118 124" fill="none" stroke="#B8A6FF" stroke-width="9" stroke-linecap="round"/><circle cx="46" cy="104" r="24" fill="#C9B8FF"/><path d="M24 104 Q24 78 46 78 Q68 78 68 104 Q60 90 46 90 Q32 90 24 104Z" fill="#3B2A72"/><circle cx="116" cy="96" r="26" fill="#C9B8FF"/><path d="M92 96 Q92 68 116 68 Q140 68 140 96 Q130 82 116 82 Q102 82 92 96Z" fill="#3B2A72"/>${face(46,106,m,INK,.7)}${face(116,98,m,INK,.75)}`,
   grafo:m=>`<rect x="26" y="50" width="108" height="118" rx="8" fill="#2D5F9E"/><path d="M26 74 H134 M26 98 H134 M26 122 H134 M26 146 H134 M50 50 V168 M74 50 V168 M98 50 V168 M122 50 V168" stroke="#FFFFFF" stroke-opacity=".15"/><path d="M48 70 L80 70 L112 70 M112 70 Q124 86 80 86 Q50 86 48 76" stroke="#FFFFFF" stroke-width="2.5" fill="none"/><circle cx="48" cy="70" r="6" fill="#F2C94C"/><circle cx="80" cy="70" r="6" fill="#F2C94C"/><circle cx="112" cy="70" r="6" fill="#F2C94C"/>${face(80,128,m,"#FFFFFF")}`,
+  reglamento:m=>`<circle cx="80" cy="20" r="6" fill="#59606B"/><path d="M80 20 L42 56 M80 20 L118 56" stroke="#59606B" stroke-width="3"/><rect x="24" y="52" width="112" height="118" rx="8" fill="#2E7D6B"/><rect x="32" y="60" width="96" height="102" rx="5" fill="#FFFDF6"/><rect x="44" y="68" width="72" height="10" rx="3" fill="#2E7D6B"/><path d="M46 90 H114 M46 102 H106 M46 114 H110" stroke="#9AA6B8" stroke-width="4" stroke-linecap="round"/>${face(80,138,m,INK,.8)}`,
   memlarga:m=>`<rect x="34" y="86" width="92" height="80" rx="6" fill="#B98A5A"/><rect x="28" y="74" width="104" height="20" rx="5" fill="#9C6F42"/><rect x="62" y="100" width="36" height="12" rx="2" fill="#FFFDF6"/>${face(80,136,m)}`
 };
 
 const ST={
-  vos:["Vos","usuario"],mente:["La Genia","modelo"],caja:["La Caja","tools"],mensajero:["El Mensajero","loop"],
+  vos:["Vos","usuario"],mente:["La Genia","modelo"],reglamento:["El Reglamento","instrucciones"],caja:["La Caja","tools"],mensajero:["El Mensajero","loop"],
   cuaderno:["El Cuaderno","memoria"],biblio:["La Bibliotecaria","contexto"],arenero:["El Patio cercado","sandbox"],
   inspectora:["La Inspectora","verificación"],portero:["El Portero","permisos"],camara:["La Cámara","observabilidad"],
   examinador:["La Examinadora","evals"],skills:["El Recetario","skills"],mcp:["El Enchufe","MCP"],sub:["Las otras genias","subagentes"],
@@ -322,12 +323,12 @@ function renderSum(){const cnt={};Object.keys(P).forEach(id=>{const e=P[id].esta
 
 /* ---------- la casa ---------- */
 const FLOOR={alt:176,tal:330,baj:480};
-const POS={mente:[470,FLOOR.alt,1],sub:[650,FLOOR.alt,.7],portero:[215,FLOOR.alt,.7],camara:[178,262,.45],
+const POS={mente:[470,FLOOR.alt,1],reglamento:[345,FLOOR.alt-8,.48],sub:[650,FLOOR.alt,.7],portero:[215,FLOOR.alt,.7],camara:[178,262,.45],
   mensajero:[96,312,.7],
   caja:[265,FLOOR.tal,.78],cuaderno:[375,FLOOR.tal,.78],biblio:[485,FLOOR.tal,.78],arenero:[600,FLOOR.tal,.78],inspectora:[715,FLOOR.tal,.78],
   mcp:[320,274,.45],grafo:[430,274,.45],skills:[545,274,.45],
   vos:[842,FLOOR.baj+22,.72],examinador:[485,FLOOR.baj,.75],memlarga:[680,FLOOR.baj,.75]};
-const HEAD={vos:.22,mensajero:.23,biblio:.14,inspectora:.22,portero:.2,examinador:.19,mente:.06,caja:.17,cuaderno:.26,arenero:.33,camara:.32,skills:.16,mcp:.19,sub:.31,grafo:.28,memlarga:.41};
+const HEAD={reglamento:.12,vos:.22,mensajero:.23,biblio:.14,inspectora:.22,portero:.2,examinador:.19,mente:.06,caja:.17,cuaderno:.26,arenero:.33,camara:.32,skills:.16,mcp:.19,sub:.31,grafo:.28,memlarga:.41};
 const W=80,H=90;
 function floorOf(id){if(id==="vos")return"out";const y=POS[id][1];return y<=FLOOR.alt?"alt":y<=FLOOR.tal+2?"tal":"baj"}
 const DOOR=[772,FLOOR.baj-44];

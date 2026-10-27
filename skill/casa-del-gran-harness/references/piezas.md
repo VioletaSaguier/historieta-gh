@@ -15,6 +15,11 @@ Si algo salió mal, no lo atribuyas al modelo sin antes descartar las piezas del
 
 ## Piezas centrales (incluilas siempre)
 
+### `reglamento` · El Reglamento · instrucciones
+Las instrucciones fijas que el modelo recibe en cada llamada, antes del pedido: su rol, qué tiene que resolver y qué reglas seguir. En la API de Claude van en el parámetro `system` (system prompt); en Claude Code, además, `CLAUDE.md` suma las reglas del proyecto. Guían, pero no obligan: lo que nunca se puede romper tiene que estar en permisos o hooks.
+- Preguntas: ¿el agente sabe para quién trabaja y qué se espera? ¿Las reglas son claras y no se contradicen? ¿Hay reglas críticas escritas solo como texto que deberían ser un permiso o un hook?
+- `incompleto`: no hay instrucciones del proyecto, o no dicen lo que este pedido necesita. `falla`: el agente rompió una regla escrita, o dos reglas se contradicen. `mejorar`: una regla importante está solo en el prompt y debería hacerse cumplir en el sistema.
+
 ### `caja` · La Caja · tools
 Las herramientas que el harness le ofrece al modelo. El modelo pide una herramienta con sus datos (en la API de Claude, `tool_use`) y el harness la ejecuta y devuelve el resultado (`tool_result`).
 - Preguntas: ¿estaban las herramientas que el pedido necesitaba? ¿Sus nombres y descripciones dejan claro cuándo usarlas? ¿Los errores dicen qué pasó y cómo seguir? ¿Devuelven lo justo o una montaña de texto?

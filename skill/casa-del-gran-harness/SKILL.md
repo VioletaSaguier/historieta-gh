@@ -49,7 +49,7 @@ Reglas que no se negocian:
 
 1. **Nunca marques `ok` sin evidencia observada** (`"tipo": "observado"`). El script rechaza un `ok` sin ella. Si no podés comprobarlo, usá `revisar`.
 2. Separá lo **observado** (está en la traza, en la configuración o en un resultado) de lo **inferido** (tu lectura). Ponelo en `tipo`.
-3. Incluí siempre las nueve piezas centrales (la Examinadora no es parte del harness del agente sino el harness de evaluación, pero se diagnostica igual porque sin evals no se puede medir si un cambio mejora): `caja`, `mensajero`, `cuaderno`, `biblio`, `arenero`, `inspectora`, `portero`, `camara`, `examinador`. Sumá `skills`, `mcp`, `sub`, `grafo` o `memlarga` solo si aparecen en el flujo o si su falta explica un problema.
+3. Incluí siempre las diez piezas centrales (la Examinadora no es parte del harness del agente sino el harness de evaluación, pero se diagnostica igual porque sin evals no se puede medir si un cambio mejora): `reglamento`, `caja`, `mensajero`, `cuaderno`, `biblio`, `arenero`, `inspectora`, `portero`, `camara`, `examinador`. Sumá `skills`, `mcp`, `sub`, `grafo` o `memlarga` solo si aparecen en el flujo o si su falta explica un problema.
 4. Si el problema es del pedido mismo (ambiguo, sin criterios de éxito), no culpes al modelo: casi siempre es `inspectora` (faltan criterios de aceptación) o `biblio` (falta contexto). Decilo en la nota.
 5. Cada pieza en `falla`, `incompleto` o `mejorar` lleva una `accion` concreta: qué cambiar, dónde y cómo se nota que funcionó.
 6. No inventes datos. Si un número, un archivo o un resultado no está en el material, no lo pongas. En el ejemplo del repo los datos son inventados y lo dice en `fuentes`; en un diagnóstico real, no.

@@ -2,7 +2,7 @@
 
 Una historieta interactiva para entender qué es un **harness** y cómo un modelo se convierte en un agente.
 
-Bienvenidos a la casa de GH. En una lámpara del altillo vive la Genia, que representa al modelo: piensa muy bien, pero no tiene cuerpo: no puede tocar nada. Solo puede leer las notitas que le acercan y dictar su respuesta, que aparece escrita en una notita nueva. Los demás habitantes de la casa (la Caja, el Mensajero, el Cuaderno, la Bibliotecaria, el Patio cercado, la Inspectora, el Portero y la Cámara) representan las piezas del harness. La Examinadora es la excepción: representa las evals, que no son parte del agente sino lo que lo pone a prueba (Anthropic lo llama harness de evaluación). La Genia junto con la casa forman el agente. Mientras avanza la historia, se construye un botón de me gusta en una app de ejemplo.
+Bienvenidos a la casa de GH. En una lámpara del altillo vive la Genia, que representa al modelo: piensa muy bien, pero no tiene cuerpo: no puede tocar nada. Solo puede leer las notitas que le acercan y dictar su respuesta, que aparece escrita en una notita nueva. Los demás habitantes de la casa (el Reglamento, la Caja, el Mensajero, el Cuaderno, la Bibliotecaria, el Patio cercado, la Inspectora, el Portero y la Cámara) representan las piezas del harness. La Examinadora es la excepción: representa las evals, que no son parte del agente sino lo que lo pone a prueba (Anthropic lo llama harness de evaluación). La Genia junto con la casa forman el agente. Mientras avanza la historia, se construye un botón de me gusta en una app de ejemplo.
 
 Los pisos de la casa también tienen significado: en el **altillo** está el modelo; en el **taller**, el harness en acción (lo que pasa mientras se resuelve una tarea); en la **planta baja**, lo que se usa entre tareas: la memoria de largo plazo, que sí es parte del harness, y las evals, que lo ponen a prueba. **Afuera** de la casa está la usuaria que hace el pedido: no es parte del agente.
 
@@ -10,10 +10,10 @@ Los pisos de la casa también tienen significado: en el **altillo** está el mod
 
 ## Secciones
 
-- **Historieta:** 10 capítulos más un capítulo bonus, viñeta por viñeta. Podés saltar a cualquier capítulo.
+- **Historieta:** 11 capítulos más un capítulo bonus, viñeta por viñeta. Podés saltar a cualquier capítulo.
 - **Personajes:** quién es quién y qué pieza del harness representa.
 - **Sacá una pieza:** una prueba de ablación. Quitá un personaje y mirá qué deja de funcionar.
-- **Test de conocimiento:** 16 preguntas con explicación y fuente oficial.
+- **Test de conocimiento:** 17 preguntas con explicación y fuente oficial.
 - **La skill:** cómo usar la skill para ver tu propio pedido en historieta.
 - **Fuentes:** documentación oficial de Claude Code, la API de Claude, Anthropic Engineering, OpenAI, Codex, MCP, LangChain y LangGraph.
 

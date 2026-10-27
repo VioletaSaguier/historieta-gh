@@ -13,13 +13,14 @@ import sys
 from pathlib import Path
 
 PIEZAS = {
-    "vos", "mente", "caja", "mensajero", "cuaderno", "biblio", "arenero",
+    "vos", "mente", "reglamento", "caja", "mensajero", "cuaderno", "biblio", "arenero",
     "inspectora", "portero", "camara", "examinador", "skills", "mcp", "sub",
     "grafo", "memlarga",
 }
 # Alias en castellano para que el JSON sea fácil de escribir.
 ALIAS = {
     "usuario": "vos", "usuaria": "vos", "genia": "mente", "modelo": "mente",
+    "instrucciones": "reglamento", "system_prompt": "reglamento", "reglas": "reglamento",
     "tools": "caja", "herramientas": "caja", "loop": "mensajero",
     "memoria": "cuaderno", "bibliotecaria": "biblio", "contexto": "biblio",
     "patio": "arenero", "sandbox": "arenero", "verificacion": "inspectora",
