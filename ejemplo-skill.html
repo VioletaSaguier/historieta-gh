@@ -402,7 +402,7 @@ function renderHouse(b){
     vb=w>=640?"0 0 900 520":`${Math.round(vx)} ${Math.round(vy)} ${Math.round(w)} ${Math.round(w/1.7)}`;
   }
   const fl=new Set(act.map(floorOf));
-  const legend=`<div class="floors">${[["alt","fl1","Altillo","el modelo"],["tal","wall2","Taller","el harness en acción"],["baj","wall3","Planta baja","entre tareas: recordar y medir"],["out","sky","Afuera","quien pide"]].map(([k,c,n,d])=>`<span class="${fl.has(k)?"on":""}"><i style="background:var(--${c});border:2px solid var(--${({fl1:"fl1b",wall2:"fl2b",wall3:"fl3b",sky:"skyb"})[c]})"></i><b>${n}</b> <span class="l">${d}</span></span>`).join("")}</div>`;
+  const legend=`<div class="floors">${[["alt","fl1","Altillo","el modelo"],["tal","wall2","Taller","el harness en acción"],["baj","wall3","Planta baja","memoria entre tareas y evals"],["out","sky","Afuera","quien pide"]].map(([k,c,n,d])=>`<span class="${fl.has(k)?"on":""}"><i style="background:var(--${c});border:2px solid var(--${({fl1:"fl1b",wall2:"fl2b",wall3:"fl3b",sky:"skyb"})[c]})"></i><b>${n}</b> <span class="l">${d}</span></span>`).join("")}</div>`;
   $("house").innerHTML=`<svg class="house" viewBox="${vb}" role="img" aria-label="Corte de la casa con las piezas del harness de este flujo y su estado">${houseBase()}${figs}${focus}${route}${badges}${pills}</svg>`+legend}
 
 /* ---------- diálogo ---------- */
