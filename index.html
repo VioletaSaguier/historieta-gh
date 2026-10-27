@@ -59,17 +59,20 @@ h2{font-size:clamp(24px,3.6vw,30px);font-weight:700}
 a{color:var(--accent)}
 button:focus-visible{outline:3px solid var(--note);outline-offset:2px}
 
-.hero{display:flex;flex-direction:column;gap:16px;max-width:760px}
+.hero{display:flex;flex-direction:column;gap:18px}
 .hero h1{margin-bottom:2px}
-.hero .lede{margin:0;max-width:60ch;color:var(--ink);opacity:.82}
-.why-it{margin:0;max-width:60ch;font-size:14px;color:var(--muted)}
+.hero-cols{display:grid;grid-template-columns:minmax(0,1fr);gap:18px 56px;align-items:start}
+@media (min-width:900px){.hero-cols{grid-template-columns:minmax(0,1.45fr) minmax(0,1fr)}.hero-r{border-left:1.5px solid var(--line);padding-left:28px}}
+.hero .lede{margin:0;font-size:clamp(17px,1.6vw,19px);line-height:1.6;color:var(--ink);opacity:.85}
+.hero-r{display:flex;flex-direction:column;gap:14px;min-width:0}
+.why-it{margin:0;font-size:14px;color:var(--muted)}
 .why-it b{color:var(--ink);font-weight:600}
-.key{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 22px}
-.key li{display:flex;align-items:center;gap:7px;font-size:15px}
+.key{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.key li{display:flex;align-items:center;gap:8px;font-size:15px}
 .key i{width:12px;height:12px;border-radius:3px;background:var(--fc);flex:0 0 auto}
 .key b{font-family:var(--f-display);font-weight:600;color:var(--ink)}
 .key span{color:var(--muted)}
-@media (max-width:640px){.key{flex-direction:column;gap:5px}.key li{font-size:14px}.story .mission{align-items:flex-start;font-size:15px}.story .mission .ic{margin-top:1px}}
+@media (max-width:640px){.key li{font-size:14px}.story .mission{align-items:flex-start;font-size:15px}.story .mission .ic{margin-top:1px}}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px}
 .chip{flex:0 0 auto;font:inherit;font-size:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 12px 4px 4px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .chip svg{width:28px;height:28px;border-radius:50%;background:var(--wall)}
@@ -342,15 +345,19 @@ html{scroll-behavior:smooth}
 <div class="wrap">
   <header class="hero">
     <h1>La casa del <em>Gran Harness</em></h1>
-    <p class="lede">Harness engineering es diseñar, medir y mejorar todo lo que rodea al modelo. Acá lo contamos en historieta. La Genia representa al modelo: piensa muy bien, pero no puede tocar nada. Todo lo demás lo hacen los otros habitantes de la casa: eso es el harness. Y la Genia junto con la casa es el agente.</p>
-    <ul class="key" aria-label="Qué representa cada piso de la casa">
+    <div class="hero-cols">
+      <p class="lede">Harness engineering es diseñar, medir y mejorar todo lo que rodea al modelo. Acá lo contamos en historieta. La Genia representa al modelo: piensa muy bien, pero no puede tocar nada. Todo lo demás lo hacen los otros habitantes de la casa: eso es el harness. Y la Genia junto con la casa es el agente.</p>
+      <div class="hero-r">
+        <ul class="key" aria-label="Qué representa cada piso de la casa">
       <li style="--fc:var(--fl1b)"><i></i><b>Altillo</b><span>el modelo</span></li>
       <li style="--fc:var(--fl2b)"><i></i><b>Taller</b><span>el harness en acción</span></li>
       <li style="--fc:var(--fl3b)"><i></i><b>Planta baja</b><span>memoria entre tareas y evals</span></li>
       <li style="--fc:var(--skyb)"><i></i><b>Afuera</b><span>vos</span></li>
     </ul>
-    <p class="why-it"><b>¿Por qué importa?</b> LangChain llevó su agente del top 30 al top 5 de un ranking de agentes de programación (Terminal Bench 2.0) <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank" rel="noopener">cambiando solo el harness</a>, sin tocar el modelo.</p>
-    <p class="why-it">Inspirada en el artículo <a href="https://x.com/santtiagom_/article/2098782814837543075" target="_blank" rel="noopener">«Harness Engineering: explicado desde cero»</a> de santi (@santtiagom_).</p>
+        <p class="why-it"><b>¿Por qué importa?</b> LangChain llevó su agente del top 30 al top 5 de un ranking de agentes de programación (Terminal Bench 2.0) <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank" rel="noopener">cambiando solo el harness</a>, sin tocar el modelo.</p>
+        <p class="why-it">Inspirada en el artículo <a href="https://x.com/santtiagom_/article/2098782814837543075" target="_blank" rel="noopener">«Harness Engineering: explicado desde cero»</a> de santi (@santtiagom_).</p>
+      </div>
+    </div>
   </header>
 
   <section class="story" id="historieta" aria-label="Historieta">
